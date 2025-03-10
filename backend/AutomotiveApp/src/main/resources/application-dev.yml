@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/testdb
-    username: postgres
-    password: user
+    url: jdbc:postgresql://localhost:5432/passion-hub?autoReconnect=true&createDatabaseIfNotExist=true
+    username: root
+    password: password
   liquibase:
     contexts: dev
     change-log: classpath:/db/changelog/master.xml

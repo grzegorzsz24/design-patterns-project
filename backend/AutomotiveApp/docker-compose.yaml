@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:17.0
+    container_name: postgres-passion-hub
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: passion-hub
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
