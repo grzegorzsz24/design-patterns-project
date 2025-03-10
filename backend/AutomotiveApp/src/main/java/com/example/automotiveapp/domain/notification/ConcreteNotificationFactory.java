@@ -12,7 +12,7 @@ public class ConcreteNotificationFactory extends NotificationFactory {
     }
 
     @Override
-    protected ConcreteNotification createNotification(NotificationType type, User userTriggered, User receiver, Long entityId, String content) {
+    protected Notification createNotification(NotificationType type, User userTriggered, User receiver, Long entityId, String content) {
         ConcreteNotification notification = new ConcreteNotification();
         notification.setType(type);
         notification.setUserTriggered(userTriggered);

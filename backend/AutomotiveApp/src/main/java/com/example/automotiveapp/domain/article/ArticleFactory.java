@@ -4,9 +4,9 @@ import com.example.automotiveapp.domain.User.User;
 
 import java.time.LocalDateTime;
 
-public class ArticleFactory {
+public abstract class ArticleFactory {
 
-    public static Article createArticle(
+    public Article create(
             Long id,
             String title,
             String content,
@@ -16,10 +16,19 @@ public class ArticleFactory {
             User user,
             boolean approved
     ) {
-        if (approved) {
-            return new ApprovedArticle(id, title, content, publishedAt, isLiked, likesNumber, user);
-        } else {
-            return new PendingArticle(id, title, content, publishedAt, isLiked, likesNumber, user);
-        }
+        Article article = createArticle(id, title, content, publishedAt, isLiked, likesNumber, user, approved);
+        System.out.println(article);
+        return article;
     }
+
+    public abstract Article createArticle(
+            Long id,
+            String title,
+            String content,
+            LocalDateTime publishedAt,
+            boolean isLiked,
+            int likesNumber,
+            User user,
+            boolean approved
+    );
 }

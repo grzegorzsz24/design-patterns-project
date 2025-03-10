@@ -1,6 +1,6 @@
 package com.example.automotiveapp.service;
 
-import com.example.automotiveapp.domain.message.Message;
+import com.example.automotiveapp.domain.message.ConcreteMessage;
 import com.example.automotiveapp.dto.MessageDto;
 import com.example.automotiveapp.mapper.MessageDtoMapper;
 import com.example.automotiveapp.repository.MessageRepository;
@@ -17,7 +17,7 @@ public class MessageService {
         this.messageRepository = messageRepository;
     }
 
-    public Message saveMessage(Message message) {
+    public ConcreteMessage saveMessage(ConcreteMessage message) {
         return messageRepository.save(message);
     }
 

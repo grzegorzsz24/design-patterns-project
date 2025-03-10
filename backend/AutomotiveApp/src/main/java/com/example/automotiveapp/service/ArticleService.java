@@ -2,7 +2,7 @@ package com.example.automotiveapp.service;
 
 import com.example.automotiveapp.domain.article.Article;
 import com.example.automotiveapp.domain.User.User;
-import com.example.automotiveapp.domain.article.ArticleFactory;
+import com.example.automotiveapp.domain.article.ArticleFactoryProvider;
 import com.example.automotiveapp.dto.ArticleDto;
 import com.example.automotiveapp.exception.BadRequestException;
 import com.example.automotiveapp.exception.ResourceNotFoundException;
@@ -31,6 +31,7 @@ public class ArticleService {
     private final LikeRepository likeRepository;
     private final SavedArticleRepository savedArticleRepository;
     private final UserRepository userRepository;
+    private final ArticleFactoryProvider articleFactoryProvider;
 
     public ArticleDto saveArticle(ArticleDto articleDto) {
         if (articleRepository.findByTitle(articleDto.getTitle()).isPresent()) {
@@ -40,7 +41,7 @@ public class ArticleService {
         User user = userRepository.findByEmail(SecurityUtils.getCurrentUserEmail())
                 .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono użytkownika"));
 
-        Article article = ArticleFactory.createArticle(
+        Article article = articleFactoryProvider.provide(false).create(
                 null,
                 articleDto.getTitle(),
                 articleDto.getContent(),
@@ -62,7 +63,7 @@ public class ArticleService {
 
         boolean wantApproved = existingArticle.isApproved();
 
-        Article updated = ArticleFactory.createArticle(
+        Article updated = articleFactoryProvider.provide(wantApproved).create(
                 existingArticle.getId(),
                 articleToUpdate.getTitle(),
                 articleToUpdate.getContent(),
@@ -125,7 +126,7 @@ public class ArticleService {
     public void setArticleApproved(Long articleId) {
         Article article = articleRepository.findById(articleId)
                 .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono artykułu"));
-        Article approved = ArticleFactory.createArticle(
+        Article approved = articleFactoryProvider.provide(true).create(
                 article.getId(),
                 article.getTitle(),
                 article.getContent(),

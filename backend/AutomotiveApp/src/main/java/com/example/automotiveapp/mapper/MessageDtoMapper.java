@@ -1,7 +1,7 @@
 package com.example.automotiveapp.mapper;
 
-import com.example.automotiveapp.domain.message.Message;
 import com.example.automotiveapp.domain.User.User;
+import com.example.automotiveapp.domain.message.ConcreteMessage;
 import com.example.automotiveapp.domain.message.MessageFactory;
 import com.example.automotiveapp.dto.MessageDto;
 import com.example.automotiveapp.exception.ResourceNotFoundException;
@@ -21,8 +21,9 @@ public class MessageDtoMapper {
     private final UserRepository userRepository;
     private final ChannelService channelService;
     private final ChannelRepository channelRepository;
+    private final MessageFactory messageFactory;
 
-    public static MessageDto map(Message message) {
+    public static MessageDto map(ConcreteMessage message) {
         MessageDto messageDto = new MessageDto();
         BeanUtils.copyProperties(message, messageDto);
         messageDto.setSenderId(message.getSender().getId());
@@ -31,7 +32,7 @@ public class MessageDtoMapper {
         return messageDto;
     }
 
-    public Message map(MessageDto messageDto) {
+    public ConcreteMessage map(MessageDto messageDto) {
 
         User sender = userRepository.findById(messageDto.getSenderId())
                 .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono użytkownika"));
@@ -39,7 +40,7 @@ public class MessageDtoMapper {
                 .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono użytkownika"));
 
         Long channelId = channelService.getChannelId(sender.getId(), receiver.getId());
-        return MessageFactory.createTextMessage(channelRepository.findById(channelId).get(), sender,
+        return (ConcreteMessage) messageFactory.create(channelRepository.findById(channelId).get(), sender,
                 messageDto.getMessage(), receiver, LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
     }
 }

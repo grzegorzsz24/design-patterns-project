@@ -1,6 +1,6 @@
 package com.example.automotiveapp.controller;
 
-import com.example.automotiveapp.domain.message.Message;
+import com.example.automotiveapp.domain.message.ConcreteMessage;
 import com.example.automotiveapp.dto.ChannelDto;
 import com.example.automotiveapp.dto.MessageDto;
 import com.example.automotiveapp.mapper.MessageDtoMapper;
@@ -36,7 +36,7 @@ public class ChatController {
 
     @MessageMapping("/chat")
     public void submitMessage(@Payload MessageDto messageDto) {
-        Message message = messageService.saveMessage(messageDtoMapper.map(messageDto));
+        ConcreteMessage message = messageService.saveMessage(messageDtoMapper.map(messageDto));
         messagingTemplate.convertAndSendToUser(
                 String.valueOf(messageDto.getReceiverId()),
                 "/queue/messages", MessageDtoMapper.map(message)
