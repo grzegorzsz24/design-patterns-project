@@ -1,6 +1,6 @@
 package com.example.automotiveapp.service;
 
-import com.example.automotiveapp.domain.notification.Notification;
+import com.example.automotiveapp.domain.notification.ConcreteNotification;
 import com.example.automotiveapp.dto.NotificationDto;
 import com.example.automotiveapp.exception.ResourceNotFoundException;
 import com.example.automotiveapp.mapper.NotificationDtoMapper;
@@ -26,7 +26,7 @@ public enum NotificationService {
     }
 
     public NotificationDto saveNotification(NotificationDto notificationDto) {
-        Notification notification = notificationRepository.save(notificationDtoMapper.map(notificationDto));
+        ConcreteNotification notification = notificationRepository.save(notificationDtoMapper.map(notificationDto));
         return NotificationDtoMapper.map(notification);
     }
 
@@ -38,7 +38,7 @@ public enum NotificationService {
     }
 
     public NotificationDto setNotificationAsRead(Long notificationId) {
-        Notification notification = notificationRepository.findById(notificationId)
+        ConcreteNotification notification = notificationRepository.findById(notificationId)
                 .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono powiadomienia"));
         notification.setRead(true);
         notificationRepository.save(notification);

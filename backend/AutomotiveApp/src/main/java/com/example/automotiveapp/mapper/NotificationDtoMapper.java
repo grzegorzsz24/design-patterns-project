@@ -1,10 +1,10 @@
 package com.example.automotiveapp.mapper;
 
-import com.example.automotiveapp.domain.notification.Notification;
-import com.example.automotiveapp.domain.notification.NotificationFactory;
-import com.example.automotiveapp.dto.NotificationDto;
-import com.example.automotiveapp.domain.notification.NotificationType;
 import com.example.automotiveapp.domain.User.User;
+import com.example.automotiveapp.domain.notification.ConcreteNotification;
+import com.example.automotiveapp.domain.notification.NotificationFactory;
+import com.example.automotiveapp.domain.notification.NotificationType;
+import com.example.automotiveapp.dto.NotificationDto;
 import com.example.automotiveapp.exception.ResourceNotFoundException;
 import com.example.automotiveapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +15,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class NotificationDtoMapper {
     private final UserRepository userRepository;
+    private final NotificationFactory notificationFactory;
 
-    public static NotificationDto map(Notification notification) {
+    public static NotificationDto map(ConcreteNotification notification) {
         NotificationDto notificationDto = new NotificationDto();
         BeanUtils.copyProperties(notification, notificationDto);
         notificationDto.setUserTriggeredId(notification.getUserTriggered().getId());
@@ -26,7 +27,7 @@ public class NotificationDtoMapper {
         return notificationDto;
     }
 
-    public Notification map(NotificationDto notificationDto) {
+    public ConcreteNotification map(NotificationDto notificationDto) {
         User userTriggered = userRepository.findById(notificationDto.getUserTriggeredId())
                 .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono użytkownika"));
         User receiver = userRepository.findById(notificationDto.getReceiverId())
@@ -35,6 +36,6 @@ public class NotificationDtoMapper {
         Long entityId = notificationDto.getEntityId();
         String content = notificationDto.getContent();
 
-        return NotificationFactory.createNotification(notificationType, userTriggered, receiver, entityId, content);
+        return (ConcreteNotification) notificationFactory.create(notificationType, userTriggered, receiver, entityId, content);
     }
 }
