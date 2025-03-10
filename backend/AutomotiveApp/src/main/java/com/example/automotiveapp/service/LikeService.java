@@ -1,6 +1,6 @@
 package com.example.automotiveapp.service;
 
-import com.example.automotiveapp.domain.Article;
+import com.example.automotiveapp.domain.article.Article;
 import com.example.automotiveapp.domain.Like;
 import com.example.automotiveapp.dto.ArticleDto;
 import com.example.automotiveapp.dto.LikeDto;

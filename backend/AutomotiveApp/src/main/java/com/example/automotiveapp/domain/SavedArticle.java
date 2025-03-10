@@ -1,6 +1,7 @@
 package com.example.automotiveapp.domain;
 
 import com.example.automotiveapp.domain.User.User;
+import com.example.automotiveapp.domain.article.Article;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

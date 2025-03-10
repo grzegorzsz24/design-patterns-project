@@ -1,6 +1,41 @@
-insert into
-    article (title, content, published_at, is_liked, likes_number, user_id, approved)
-values
-    ('Nowoczesne technologie w motoryzacji: Przyszłość na kołach', 'Czy motoryzacja może być jeszcze bardziej innowacyjna? Odkryj najnowsze technologie, które kształtują przyszłość pojazdów na naszych drogach. Od autonomicznych samochodów po zaawansowane systemy bezpieczeństwa - poznaj, jak nowoczesne rozwiązania wpływają na nasze doświadczenia za kierownicą.', '2023-11-06 12:00:12', false, 0, 1, false),
-    ('Historia legend motoryzacji: Klasyczne samochody, które zawsze są w modzie', 'Przeżyj podróż przez czas, odkrywając klasyczne samochody, które zawsze pozostaną w modzie. Od eleganckich limuzyn po sportowe kabriolety, zapoznaj się z historią i designem pojazdów, które na zawsze zapisują się w pamięci miłośników motoryzacji.', '2023-11-06 12:00:12', false, 0, 2, false),
-    ('Elektryczne rewolucje: Przyszłość pojazdów elektrycznych', 'Wejdź z nami w erę pojazdów elektrycznych. Od samochodów osobowych po ciężki transport - dowiedz się, jak elektryczne rewolucje zmieniają krajobraz motoryzacyjny. Zbadaj najnowsze modele, technologie ładowania i korzyści ekologiczne, które kształtują przyszłość mobilności.', '2023-11-06 12:00:12', false, 0, 3, true);
+INSERT INTO article
+(title,
+ content,
+ published_at,
+ is_liked,
+ likes_number,
+ user_id,
+ approved,
+ article_type
+)
+VALUES
+    (
+        'Nowoczesne technologie w motoryzacji: Przyszłość na kołach',
+        'Czy motoryzacja może być jeszcze bardziej innowacyjna? ...',
+        '2023-11-06 12:00:12',
+        FALSE,
+        0,
+        1,
+        FALSE,
+        'PENDING'
+    ),
+    (
+        'Historia legend motoryzacji: Klasyczne samochody, które zawsze są w modzie',
+        'Przeżyj podróż przez czas, odkrywając klasyczne samochody...',
+        '2023-11-06 12:00:12',
+        FALSE,
+        0,
+        2,
+        FALSE,
+        'PENDING'
+    ),
+    (
+        'Elektryczne rewolucje: Przyszłość pojazdów elektrycznych',
+        'Wejdź z nami w erę pojazdów elektrycznych...',
+        '2023-11-06 12:00:12',
+        FALSE,
+        0,
+        3,
+        TRUE,
+        'APPROVED'
+    );

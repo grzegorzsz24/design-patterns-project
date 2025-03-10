@@ -1,7 +1,9 @@
 package com.example.automotiveapp.mapper;
 
-import com.example.automotiveapp.domain.Article;
+import com.example.automotiveapp.domain.article.Article;
 import com.example.automotiveapp.domain.User.User;
+import com.example.automotiveapp.domain.article.ApprovedArticle;
+import com.example.automotiveapp.domain.article.PendingArticle;
 import com.example.automotiveapp.dto.ArticleDto;
 import com.example.automotiveapp.repository.UserRepository;
 import com.example.automotiveapp.service.utils.SecurityUtils;
@@ -28,10 +30,18 @@ public class ArticleDtoMapper {
     }
 
     public Article map(ArticleDto articleDto) {
-        Article article = new Article();
+        Article article;
+        if (articleDto.isApproved()) {
+            article = new ApprovedArticle();
+        } else {
+            article = new PendingArticle();
+        }
+
         BeanUtils.copyProperties(articleDto, article);
+
         Optional<User> user = userRepository.findByEmail(SecurityUtils.getCurrentUserEmail());
         user.ifPresent(article::setUser);
+
         return article;
     }
 }

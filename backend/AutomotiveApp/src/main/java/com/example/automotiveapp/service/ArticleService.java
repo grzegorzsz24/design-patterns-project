@@ -1,6 +1,8 @@
 package com.example.automotiveapp.service;
 
-import com.example.automotiveapp.domain.Article;
+import com.example.automotiveapp.domain.article.Article;
+import com.example.automotiveapp.domain.User.User;
+import com.example.automotiveapp.domain.article.ArticleFactory;
 import com.example.automotiveapp.dto.ArticleDto;
 import com.example.automotiveapp.exception.BadRequestException;
 import com.example.automotiveapp.exception.ResourceNotFoundException;
@@ -9,6 +11,7 @@ import com.example.automotiveapp.reponse.ArticleResponse;
 import com.example.automotiveapp.repository.ArticleRepository;
 import com.example.automotiveapp.repository.LikeRepository;
 import com.example.automotiveapp.repository.SavedArticleRepository;
+import com.example.automotiveapp.repository.UserRepository;
 import com.example.automotiveapp.service.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -27,20 +30,50 @@ public class ArticleService {
     private final ArticleDtoMapper articleDtoMapper;
     private final LikeRepository likeRepository;
     private final SavedArticleRepository savedArticleRepository;
+    private final UserRepository userRepository;
 
     public ArticleDto saveArticle(ArticleDto articleDto) {
         if (articleRepository.findByTitle(articleDto.getTitle()).isPresent()) {
             throw new BadRequestException("Artykuł o podanym tytule już istnieje!");
         }
-        Article article = articleDtoMapper.map(articleDto);
-        article.setPublishedAt(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
+
+        User user = userRepository.findByEmail(SecurityUtils.getCurrentUserEmail())
+                .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono użytkownika"));
+
+        Article article = ArticleFactory.createArticle(
+                null,
+                articleDto.getTitle(),
+                articleDto.getContent(),
+                LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS),
+                false,
+                0,
+                user,
+                false
+        );
+
         Article savedArticle = articleRepository.save(article);
+
         return ArticleDtoMapper.map(savedArticle);
     }
 
     public void updateArticle(ArticleDto articleToUpdate) {
-        Article article = articleDtoMapper.map(articleToUpdate);
-        articleRepository.save(article);
+        Article existingArticle = articleRepository.findById(articleToUpdate.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono artykułu"));
+
+        boolean wantApproved = existingArticle.isApproved();
+
+        Article updated = ArticleFactory.createArticle(
+                existingArticle.getId(),
+                articleToUpdate.getTitle(),
+                articleToUpdate.getContent(),
+                existingArticle.getPublishedAt(),
+                existingArticle.isLiked(),
+                existingArticle.getLikesNumber(),
+                existingArticle.getUser(),
+                wantApproved
+        );
+
+        articleRepository.save(updated);
     }
 
     public ArticleDto findArticleById(Long id) {
@@ -92,8 +125,18 @@ public class ArticleService {
     public void setArticleApproved(Long articleId) {
         Article article = articleRepository.findById(articleId)
                 .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono artykułu"));
-        article.setApproved(true);
-        articleRepository.save(article);
+        Article approved = ArticleFactory.createArticle(
+                article.getId(),
+                article.getTitle(),
+                article.getContent(),
+                article.getPublishedAt(),
+                article.isLiked(),
+                article.getLikesNumber(),
+                article.getUser(),
+                true
+        );
+
+        articleRepository.save(approved);
     }
 
     public void deleteArticleById(Long articleId) {

@@ -1,6 +1,6 @@
 package com.example.automotiveapp.mapper;
 
-import com.example.automotiveapp.domain.Article;
+import com.example.automotiveapp.domain.article.Article;
 import com.example.automotiveapp.domain.Like;
 import com.example.automotiveapp.domain.Post;
 import com.example.automotiveapp.domain.User.User;
