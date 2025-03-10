@@ -1,7 +1,7 @@
 package com.example.automotiveapp.mapper;
 
-import com.example.automotiveapp.domain.Friendship;
-import com.example.automotiveapp.domain.User;
+import com.example.automotiveapp.domain.friendship.Friendship;
+import com.example.automotiveapp.domain.User.User;
 import com.example.automotiveapp.dto.FriendshipDto;
 import com.example.automotiveapp.repository.FriendshipRepository;
 import com.example.automotiveapp.repository.UserRepository;

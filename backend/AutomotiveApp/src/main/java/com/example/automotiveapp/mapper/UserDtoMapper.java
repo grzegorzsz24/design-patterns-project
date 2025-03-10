@@ -1,7 +1,7 @@
 package com.example.automotiveapp.mapper;
 
 import com.example.automotiveapp.domain.Role;
-import com.example.automotiveapp.domain.User;
+import com.example.automotiveapp.domain.User.User;
 import com.example.automotiveapp.dto.UserDto;
 import com.example.automotiveapp.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;

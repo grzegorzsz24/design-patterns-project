@@ -1,6 +1,11 @@
 package com.example.automotiveapp.service;
 
 import com.example.automotiveapp.domain.*;
+import com.example.automotiveapp.domain.User.User;
+import com.example.automotiveapp.domain.friendship.Friendship;
+import com.example.automotiveapp.domain.friendship.FriendshipBuilder;
+import com.example.automotiveapp.domain.invitation.Invitation;
+import com.example.automotiveapp.domain.invitation.InvitationBuilder;
 import com.example.automotiveapp.dto.InvitationDto;
 import com.example.automotiveapp.exception.ResourceNotFoundException;
 import com.example.automotiveapp.mapper.InvitationDtoMapper;
@@ -35,15 +40,16 @@ public class InvitationService {
     }
 
     public void sendInvitation(Long receiverId) {
-        Invitation invitation = new Invitation();
         Optional<User> sender = userRepository.findByEmail(SecurityUtils.getCurrentUserEmail());
         Optional<User> receiver = userRepository.findById(receiverId);
         if (sender.isEmpty() || receiver.isEmpty()) {
             throw new ResourceNotFoundException("Nie znaleziono użytkownika");
         }
-        invitation.setSender(sender.get());
-        invitation.setReceiver(receiver.get());
-        invitation.setStatus(InvitationStatus.PENDING);
+        Invitation invitation = new InvitationBuilder()
+                .sender(sender.get())
+                .receiver(receiver.get())
+                .status(InvitationStatus.PENDING)
+                .build();
         invitationRepository.save(invitation);
     }
 
@@ -54,9 +60,10 @@ public class InvitationService {
 
         invitation.setStatus(InvitationStatus.ACCEPTED);
         invitationRepository.save(invitation);
-        Friendship friendship = new Friendship();
-        friendship.setUser1(invitation.getSender());
-        friendship.setUser2(invitation.getReceiver());
+        Friendship friendship = new FriendshipBuilder()
+                .user1(invitation.getSender())
+                .user2(invitation.getReceiver())
+                .build();
         friendshipRepository.save(friendship);
         Channel channel = new Channel();
         channel.setSender(invitation.getReceiver());

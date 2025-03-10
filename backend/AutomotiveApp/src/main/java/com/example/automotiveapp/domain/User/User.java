@@ -1,5 +1,6 @@
-package com.example.automotiveapp.domain;
+package com.example.automotiveapp.domain.User;
 
+import com.example.automotiveapp.domain.*;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,7 +16,6 @@ import java.util.stream.Collectors;
 @Table(name = "users")
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class User implements UserDetails {

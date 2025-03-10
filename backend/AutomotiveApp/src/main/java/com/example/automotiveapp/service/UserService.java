@@ -2,6 +2,9 @@ package com.example.automotiveapp.service;
 
 import com.example.automotiveapp.config.jwt.JwtService;
 import com.example.automotiveapp.domain.*;
+import com.example.automotiveapp.domain.User.User;
+import com.example.automotiveapp.domain.friendship.Friendship;
+import com.example.automotiveapp.domain.invitation.Invitation;
 import com.example.automotiveapp.dto.UserDto;
 import com.example.automotiveapp.dto.UserProfileDto;
 import com.example.automotiveapp.exception.BadRequestException;

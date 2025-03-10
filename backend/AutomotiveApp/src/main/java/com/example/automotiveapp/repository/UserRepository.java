@@ -1,6 +1,6 @@
 package com.example.automotiveapp.repository;
 
-import com.example.automotiveapp.domain.User;
+import com.example.automotiveapp.domain.User.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

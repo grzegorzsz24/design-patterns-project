@@ -1,5 +1,7 @@
-package com.example.automotiveapp.domain;
+package com.example.automotiveapp.domain.invitation;
 
+import com.example.automotiveapp.domain.InvitationStatus;
+import com.example.automotiveapp.domain.User.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,7 +1,7 @@
 package com.example.automotiveapp.service;
 
 import com.example.automotiveapp.domain.Channel;
-import com.example.automotiveapp.domain.User;
+import com.example.automotiveapp.domain.User.User;
 import com.example.automotiveapp.dto.ChannelDto;
 import com.example.automotiveapp.exception.ResourceNotFoundException;
 import com.example.automotiveapp.mapper.ChannelDtoMapper;

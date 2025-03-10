@@ -1,7 +1,7 @@
 package com.example.automotiveapp.repository;
 
-import com.example.automotiveapp.domain.Friendship;
-import com.example.automotiveapp.domain.User;
+import com.example.automotiveapp.domain.friendship.Friendship;
+import com.example.automotiveapp.domain.User.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

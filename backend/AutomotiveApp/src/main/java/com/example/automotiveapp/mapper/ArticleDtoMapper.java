@@ -1,7 +1,7 @@
 package com.example.automotiveapp.mapper;
 
 import com.example.automotiveapp.domain.Article;
-import com.example.automotiveapp.domain.User;
+import com.example.automotiveapp.domain.User.User;
 import com.example.automotiveapp.dto.ArticleDto;
 import com.example.automotiveapp.repository.UserRepository;
 import com.example.automotiveapp.service.utils.SecurityUtils;

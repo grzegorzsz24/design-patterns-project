@@ -3,7 +3,8 @@ package com.example.automotiveapp.auth;
 import com.example.automotiveapp.config.jwt.JwtService;
 import com.example.automotiveapp.domain.File;
 import com.example.automotiveapp.domain.Role;
-import com.example.automotiveapp.domain.User;
+import com.example.automotiveapp.domain.User.User;
+import com.example.automotiveapp.domain.User.UserBuilder;
 import com.example.automotiveapp.repository.FileRepository;
 import com.example.automotiveapp.repository.RoleRepository;
 import com.example.automotiveapp.repository.UserRepository;
@@ -37,7 +38,7 @@ public class AuthenticationService {
             return roleRepository.save(newUserRole);
         });
 
-        var user = User.builder()
+        var user = new UserBuilder()
                 .firstName(registerRequest.getFirstName())
                 .lastName(registerRequest.getLastName())
                 .nickname(registerRequest.getNickname())

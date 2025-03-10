@@ -1,7 +1,7 @@
 package com.example.automotiveapp.mapper;
 
 import com.example.automotiveapp.domain.Forum;
-import com.example.automotiveapp.domain.User;
+import com.example.automotiveapp.domain.User.User;
 import com.example.automotiveapp.dto.ForumDto;
 import com.example.automotiveapp.exception.ResourceNotFoundException;
 import com.example.automotiveapp.repository.CarRepository;

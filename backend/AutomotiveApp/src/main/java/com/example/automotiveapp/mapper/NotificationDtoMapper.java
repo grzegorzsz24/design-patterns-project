@@ -3,7 +3,7 @@ package com.example.automotiveapp.mapper;
 import com.example.automotiveapp.domain.Notification;
 import com.example.automotiveapp.dto.NotificationDto;
 import com.example.automotiveapp.domain.NotificationType;
-import com.example.automotiveapp.domain.User;
+import com.example.automotiveapp.domain.User.User;
 import com.example.automotiveapp.exception.ResourceNotFoundException;
 import com.example.automotiveapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

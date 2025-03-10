@@ -1,7 +1,7 @@
 package com.example.automotiveapp.mapper;
 
-import com.example.automotiveapp.domain.Invitation;
-import com.example.automotiveapp.domain.User;
+import com.example.automotiveapp.domain.invitation.Invitation;
+import com.example.automotiveapp.domain.User.User;
 import com.example.automotiveapp.dto.InvitationDto;
 import com.example.automotiveapp.repository.InvitationRepository;
 import com.example.automotiveapp.repository.UserRepository;
