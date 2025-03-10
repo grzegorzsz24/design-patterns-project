@@ -1,0 +1,94 @@
+package com.example.automotiveapp.service;
+
+import com.example.automotiveapp.domain.Forum;
+import com.example.automotiveapp.domain.Report;
+import com.example.automotiveapp.domain.ReportType;
+import com.example.automotiveapp.dto.ForumDto;
+import com.example.automotiveapp.dto.ReportDto;
+import com.example.automotiveapp.exception.BadRequestException;
+import com.example.automotiveapp.exception.ResourceNotFoundException;
+import com.example.automotiveapp.mapper.ForumDtoMapper;
+import com.example.automotiveapp.mapper.ReportDtoMapper;
+import com.example.automotiveapp.reponse.ForumResponse;
+import com.example.automotiveapp.repository.ForumRepository;
+import com.example.automotiveapp.repository.ReportRepository;
+import com.example.automotiveapp.repository.SavedForumRepository;
+import com.example.automotiveapp.repository.UserRepository;
+import com.example.automotiveapp.service.utils.SecurityUtils;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+@RequiredArgsConstructor
+public class ForumService {
+    private final ForumRepository forumRepository;
+    private final ForumDtoMapper forumDtoMapper;
+    private final UserRepository userRepository;
+    private final SavedForumRepository savedForumRepository;
+    private final ReportRepository reportRepository;
+    private final ReportDtoMapper reportDtoMapper;
+
+    public ForumDto saveForum(ForumDto forumDto) {
+        Forum forum = forumDtoMapper.map(forumDto);
+        Forum savedForum = forumRepository.save(forum);
+        return ForumDtoMapper.map(savedForum);
+    }
+
+    public List<ForumDto> findForumsByUserNickname(String nickname) {
+        userRepository.findByNicknameIgnoreCase(nickname)
+                .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono użytkownika"));
+
+        List<Forum> forums = forumRepository.findAllByUser_NicknameIgnoreCaseOrderByCreatedAtDesc(nickname);
+        List<ForumDto> forumDtos = new ArrayList<>();
+        setForumSavedStatus(forums, forumDtos);
+        return forumDtos;
+    }
+
+    public ForumResponse findAllByFilters(String title, String carBrand, String carModel, int page, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Long totalResults = forumRepository.countByTitleAndCarBrandAndCarModel(title, carBrand, carModel);
+        List<Forum> forumList = forumRepository.findAllByTitleAndCarBrandAndCarModelOrderByCreatedAtDesc(title, carBrand, carModel, pageable);
+        List<ForumDto> forumDtos = new ArrayList<>();
+        setForumSavedStatus(forumList, forumDtos);
+        return new ForumResponse(forumDtos, totalResults);
+    }
+
+    public ForumDto findForumById(Long forumId) {
+        Forum forum = forumRepository.findById(forumId)
+                .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono forum"));
+        ForumDto forumDto = ForumDtoMapper.map(forum);
+        forumDto.setSaved(savedForumRepository.findByUserEmailAndForum_Id(SecurityUtils.getCurrentUserEmail(), forum.getId()).isPresent());
+        return forumDto;
+    }
+
+    private void setForumSavedStatus(List<Forum> forums, List<ForumDto> forumDtos) {
+        for (Forum forum : forums) {
+            ForumDto forumDto = ForumDtoMapper.map(forum);
+            forumDto.setSaved(savedForumRepository.findByUserEmailAndForum_Id(SecurityUtils.getCurrentUserEmail(), forum.getId()).isPresent());
+            forumDtos.add(0, forumDto);
+        }
+    }
+
+    public ReportDto reportForum(ReportDto reportDto) {
+        if (forumRepository.findById(reportDto.getReportTypeId()).isEmpty()) {
+            throw new ResourceNotFoundException("Nie znaleziono forum");
+        }
+        Optional<Report> report = reportRepository
+                .findByReportTypeIdAndReportType(reportDto.getReportTypeId(), ReportType.FORUM_REPORT);
+        if (report.isPresent()) {
+            throw new BadRequestException("Forum już zostało zgłoszone");
+        }
+
+        return ReportDtoMapper.map(reportRepository.save(reportDtoMapper.map(reportDto)));
+    }
+
+    public void deleteForumById(Long forumId) {
+        forumRepository.deleteById(forumId);
+    }
+}
