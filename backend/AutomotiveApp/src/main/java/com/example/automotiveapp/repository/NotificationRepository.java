@@ -1,6 +1,6 @@
 package com.example.automotiveapp.repository;
 
-import com.example.automotiveapp.domain.Notification;
+import com.example.automotiveapp.domain.notification.Notification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

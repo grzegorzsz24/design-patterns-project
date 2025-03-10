@@ -1,5 +1,6 @@
-package com.example.automotiveapp.domain;
+package com.example.automotiveapp.domain.message;
 
+import com.example.automotiveapp.domain.Channel;
 import com.example.automotiveapp.domain.User.User;
 import jakarta.persistence.*;
 import lombok.Getter;

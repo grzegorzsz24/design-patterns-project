@@ -1,4 +1,4 @@
-package com.example.automotiveapp.domain;
+package com.example.automotiveapp.domain.notification;
 
 public enum NotificationType {
     POST_COMMENT,

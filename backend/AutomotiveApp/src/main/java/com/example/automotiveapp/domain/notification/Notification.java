@@ -1,4 +1,4 @@
-package com.example.automotiveapp.domain;
+package com.example.automotiveapp.domain.notification;
 
 import com.example.automotiveapp.domain.User.User;
 import jakarta.persistence.*;

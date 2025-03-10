@@ -1,6 +1,6 @@
 package com.example.automotiveapp.controller;
 
-import com.example.automotiveapp.domain.Message;
+import com.example.automotiveapp.domain.message.Message;
 import com.example.automotiveapp.dto.ChannelDto;
 import com.example.automotiveapp.dto.MessageDto;
 import com.example.automotiveapp.mapper.MessageDtoMapper;

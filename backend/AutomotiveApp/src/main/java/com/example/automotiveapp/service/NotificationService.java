@@ -1,6 +1,6 @@
 package com.example.automotiveapp.service;
 
-import com.example.automotiveapp.domain.Notification;
+import com.example.automotiveapp.domain.notification.Notification;
 import com.example.automotiveapp.dto.NotificationDto;
 import com.example.automotiveapp.exception.ResourceNotFoundException;
 import com.example.automotiveapp.mapper.NotificationDtoMapper;

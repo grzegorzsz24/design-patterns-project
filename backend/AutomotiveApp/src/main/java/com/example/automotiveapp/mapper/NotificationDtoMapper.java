@@ -1,17 +1,15 @@
 package com.example.automotiveapp.mapper;
 
-import com.example.automotiveapp.domain.Notification;
+import com.example.automotiveapp.domain.notification.Notification;
+import com.example.automotiveapp.domain.notification.NotificationFactory;
 import com.example.automotiveapp.dto.NotificationDto;
-import com.example.automotiveapp.domain.NotificationType;
+import com.example.automotiveapp.domain.notification.NotificationType;
 import com.example.automotiveapp.domain.User.User;
 import com.example.automotiveapp.exception.ResourceNotFoundException;
 import com.example.automotiveapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -29,17 +27,14 @@ public class NotificationDtoMapper {
     }
 
     public Notification map(NotificationDto notificationDto) {
-        Notification notification = new Notification();
-        BeanUtils.copyProperties(notificationDto, notification);
         User userTriggered = userRepository.findById(notificationDto.getUserTriggeredId())
                 .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono użytkownika"));
         User receiver = userRepository.findById(notificationDto.getReceiverId())
                 .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono użytkownika"));
-        notification.setUserTriggered(userTriggered);
-        notification.setRecevier(receiver);
-        notification.setCreatedAt(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
         NotificationType notificationType = NotificationType.valueOf(notificationDto.getType());
-        notification.setType(notificationType);
-        return notification;
+        Long entityId = notificationDto.getEntityId();
+        String content = notificationDto.getContent();
+
+        return NotificationFactory.createNotification(notificationType, userTriggered, receiver, entityId, content);
     }
 }
