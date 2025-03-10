@@ -4,8 +4,10 @@ import com.example.automotiveapp.domain.Message;
 import com.example.automotiveapp.dto.ChannelDto;
 import com.example.automotiveapp.dto.MessageDto;
 import com.example.automotiveapp.mapper.MessageDtoMapper;
+import com.example.automotiveapp.repository.MessageRepository;
 import com.example.automotiveapp.service.ChannelService;
 import com.example.automotiveapp.service.MessageService;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -20,10 +22,17 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 public class ChatController {
-    private final MessageService messageService;
     private final ChannelService channelService;
     private final SimpMessagingTemplate messagingTemplate;
     private final MessageDtoMapper messageDtoMapper;
+    private final MessageRepository messageRepository;
+
+    private MessageService messageService;
+
+    @PostConstruct
+    public void init() {
+        this.messageService = MessageService.getInstance(messageRepository);
+    }
 
     @MessageMapping("/chat")
     public void submitMessage(@Payload MessageDto messageDto) {

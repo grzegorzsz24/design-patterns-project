@@ -4,19 +4,32 @@ import com.example.automotiveapp.domain.Message;
 import com.example.automotiveapp.dto.MessageDto;
 import com.example.automotiveapp.mapper.MessageDtoMapper;
 import com.example.automotiveapp.repository.MessageRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-@RequiredArgsConstructor
 public class MessageService {
+
+    private static volatile MessageService instance;
+
     private final MessageRepository messageRepository;
-    private final ChannelService channelService;
+
+    private MessageService(MessageRepository messageRepository) {
+        this.messageRepository = messageRepository;
+    }
 
     public Message saveMessage(Message message) {
         return messageRepository.save(message);
+    }
+
+    public static MessageService getInstance(MessageRepository messageRepository) {
+        if (instance == null) {
+            synchronized (MessageService.class) {
+                if (instance == null) {
+                    instance = new MessageService(messageRepository);
+                }
+            }
+        }
+        return instance;
     }
 
 //    public List<Message> findMessages(Long senderId, Long receiverId) {

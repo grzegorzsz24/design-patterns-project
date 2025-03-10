@@ -6,16 +6,24 @@ import com.example.automotiveapp.exception.ResourceNotFoundException;
 import com.example.automotiveapp.mapper.NotificationDtoMapper;
 import com.example.automotiveapp.repository.NotificationRepository;
 import com.example.automotiveapp.service.utils.SecurityUtils;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-@RequiredArgsConstructor
-public class NotificationService {
-    private final NotificationRepository notificationRepository;
-    private final NotificationDtoMapper notificationDtoMapper;
+public enum NotificationService {
+
+    INSTANCE;
+
+    private NotificationRepository notificationRepository;
+    private NotificationDtoMapper notificationDtoMapper;
+
+    public void init(NotificationRepository repo, NotificationDtoMapper mapper) {
+        if (this.notificationRepository == null) {
+            this.notificationRepository = repo;
+        }
+        if (this.notificationDtoMapper == null) {
+            this.notificationDtoMapper = mapper;
+        }
+    }
 
     public NotificationDto saveNotification(NotificationDto notificationDto) {
         Notification notification = notificationRepository.save(notificationDtoMapper.map(notificationDto));

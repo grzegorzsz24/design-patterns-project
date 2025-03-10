@@ -24,9 +24,10 @@ import java.util.Optional;
 @Slf4j
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
-    private final ValidationService validationService;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+
+    ValidationService validationService = ValidationService.getInstance();
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest registerRequest, BindingResult result) {
