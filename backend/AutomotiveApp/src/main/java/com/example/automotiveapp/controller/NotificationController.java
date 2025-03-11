@@ -4,6 +4,8 @@ import com.example.automotiveapp.dto.NotificationDto;
 import com.example.automotiveapp.dto.UserDto;
 import com.example.automotiveapp.mapper.NotificationDtoMapper;
 import com.example.automotiveapp.repository.NotificationRepository;
+import com.example.automotiveapp.request.NotificationRequest;
+import com.example.automotiveapp.request.adapter.NotificationRequestAdapter;
 import com.example.automotiveapp.service.NotificationService;
 import com.example.automotiveapp.service.UserService;
 import jakarta.annotation.PostConstruct;
@@ -34,8 +36,8 @@ public class NotificationController {
     }
 
     @MessageMapping("/notification")
-    public void sendNotification(@Payload NotificationDto notificationRequest) {
-        NotificationDto notificationDto = NotificationService.INSTANCE.saveNotification(notificationRequest);
+    public void sendNotification(@Payload NotificationRequest notificationRequest) {
+        NotificationDto notificationDto = NotificationService.INSTANCE.saveNotification(new NotificationRequestAdapter(notificationRequest));
         simpMessagingTemplate.convertAndSendToUser(
                 String.valueOf(notificationRequest.getReceiverId()),
                 "/queue/notifications", notificationDto

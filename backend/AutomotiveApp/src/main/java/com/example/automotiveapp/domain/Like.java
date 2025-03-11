@@ -3,13 +3,15 @@ package com.example.automotiveapp.domain;
 import com.example.automotiveapp.domain.User.User;
 import com.example.automotiveapp.domain.article.Article;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table(name = "likes")
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Like {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

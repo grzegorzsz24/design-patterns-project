@@ -2,7 +2,7 @@ package com.example.automotiveapp.service;
 
 import com.example.automotiveapp.domain.*;
 import com.example.automotiveapp.domain.User.User;
-import com.example.automotiveapp.domain.request.PostSaveRequest;
+import com.example.automotiveapp.request.PostSaveRequest;
 import com.example.automotiveapp.dto.PostDto;
 import com.example.automotiveapp.dto.ReportDto;
 import com.example.automotiveapp.exception.BadRequestException;

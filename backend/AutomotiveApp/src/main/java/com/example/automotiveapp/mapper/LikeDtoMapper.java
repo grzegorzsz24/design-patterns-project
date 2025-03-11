@@ -40,7 +40,8 @@ public class LikeDtoMapper {
             throw new IllegalArgumentException("Musi być podany artykuł lub post");
         }
         Like like = new Like();
-        BeanUtils.copyProperties(likeDto, like);
+        like.setId(likeDto.getId());
+
         Optional<User> user = userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         user.ifPresent(like::setUser);
         if (likeDto.getPost() != null) {

@@ -3,7 +3,7 @@ package com.example.automotiveapp;
 import com.example.automotiveapp.domain.File;
 import com.example.automotiveapp.domain.Post;
 import com.example.automotiveapp.domain.User.User;
-import com.example.automotiveapp.domain.request.PostSaveRequest;
+import com.example.automotiveapp.request.PostSaveRequest;
 import com.example.automotiveapp.dto.PostDto;
 import com.example.automotiveapp.exception.BadRequestException;
 import com.example.automotiveapp.exception.ResourceNotFoundException;

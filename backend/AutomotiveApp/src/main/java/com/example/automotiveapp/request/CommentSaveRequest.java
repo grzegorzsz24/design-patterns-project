@@ -1,4 +1,4 @@
-package com.example.automotiveapp.domain.request;
+package com.example.automotiveapp.request;
 
 import lombok.Getter;
 import lombok.Setter;

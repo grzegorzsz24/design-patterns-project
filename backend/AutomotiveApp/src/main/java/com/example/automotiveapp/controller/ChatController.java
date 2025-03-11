@@ -5,6 +5,8 @@ import com.example.automotiveapp.dto.ChannelDto;
 import com.example.automotiveapp.dto.MessageDto;
 import com.example.automotiveapp.mapper.MessageDtoMapper;
 import com.example.automotiveapp.repository.MessageRepository;
+import com.example.automotiveapp.request.MessageRequest;
+import com.example.automotiveapp.request.adapter.MessageRequestAdapter;
 import com.example.automotiveapp.service.ChannelService;
 import com.example.automotiveapp.service.MessageService;
 import jakarta.annotation.PostConstruct;
@@ -36,8 +38,8 @@ public class ChatController {
     }
 
     @MessageMapping("/chat")
-    public void submitMessage(@Payload MessageDto messageDto) {
-        ConcreteMessage message = messageService.saveMessage(messageDtoMapper.map(messageDto));
+    public void submitMessage(@Payload MessageRequest messageDto) {
+        ConcreteMessage message = messageService.saveMessage(messageDtoMapper.map(new MessageRequestAdapter(messageDto)));
         messagingTemplate.convertAndSendToUser(
                 String.valueOf(messageDto.getReceiverId()),
                 "/queue/messages", MessageDtoMapper.map(message)

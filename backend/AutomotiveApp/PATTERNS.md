@@ -20,7 +20,10 @@ Prototype:
     - RoleName
 
 ## Structural Patterns
-Adapter
+Adapter:
+    - LikeRequestAdapter
+    - MessageRequestAdapter
+    - NotificationRequestAdapter
 Composite
 Brigde
 Decorator

@@ -1,6 +1,6 @@
 package com.example.automotiveapp.controller;
 
-import com.example.automotiveapp.domain.request.PostSaveRequest;
+import com.example.automotiveapp.request.PostSaveRequest;
 import com.example.automotiveapp.dto.PostDto;
 import com.example.automotiveapp.dto.ReportDto;
 import com.example.automotiveapp.reponse.PostResponse;

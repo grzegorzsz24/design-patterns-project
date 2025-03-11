@@ -1,6 +1,8 @@
 package com.example.automotiveapp.controller;
 
 import com.example.automotiveapp.dto.LikeDto;
+import com.example.automotiveapp.request.LikeRequest;
+import com.example.automotiveapp.request.adapter.LikeRequestAdapter;
 import com.example.automotiveapp.service.LikeService;
 import com.example.automotiveapp.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +21,8 @@ public class LikeController {
     private final PostService postService;
 
     @PostMapping
-    public ResponseEntity<LikeDto> addLike(@RequestBody LikeDto like) {
-        LikeDto savedLike = likeService.saveLike(like);
+    public ResponseEntity<LikeDto> addLike(@RequestBody LikeRequest like) {
+        LikeDto savedLike = likeService.saveLike(new LikeRequestAdapter(like));
         URI savedLikeURI = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(savedLike.getId())
