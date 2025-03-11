@@ -1,7 +1,7 @@
 package com.example.automotiveapp.controller;
 
 import com.example.automotiveapp.dto.SearchResultsDto;
-import com.example.automotiveapp.service.SearchService;
+import com.example.automotiveapp.service.search.SearchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

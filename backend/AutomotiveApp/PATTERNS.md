@@ -25,7 +25,10 @@ Adapter:
     - MessageRequestAdapter
     - NotificationRequestAdapter
 Composite
-Brigde
+Brigde:
+    - CarService/CarRepository
+    - ReportService/ReportRepository
+    - SearchService/*Repository
 Decorator
 Facade
 Proxy

@@ -1,6 +1,6 @@
 package com.example.automotiveapp.controller;
 
-import com.example.automotiveapp.service.CarService;
+import com.example.automotiveapp.service.car.CarService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,16 +1,30 @@
-package com.example.automotiveapp.service;
+package com.example.automotiveapp.service.search;
 
-import com.example.automotiveapp.dto.*;
-import com.example.automotiveapp.mapper.*;
-import com.example.automotiveapp.repository.*;
+import com.example.automotiveapp.dto.ArticleDto;
+import com.example.automotiveapp.dto.EventDto;
+import com.example.automotiveapp.dto.ForumDto;
+import com.example.automotiveapp.dto.PostDto;
+import com.example.automotiveapp.dto.SearchResultsDto;
+import com.example.automotiveapp.dto.UserDto;
+import com.example.automotiveapp.mapper.ArticleDtoMapper;
+import com.example.automotiveapp.mapper.EventDtoMapper;
+import com.example.automotiveapp.mapper.ForumDtoMapper;
+import com.example.automotiveapp.mapper.PostDtoMapper;
+import com.example.automotiveapp.mapper.UserDtoMapper;
+import com.example.automotiveapp.repository.ArticleRepository;
+import com.example.automotiveapp.repository.EventRepository;
+import com.example.automotiveapp.repository.ForumRepository;
+import com.example.automotiveapp.repository.PostRepository;
+import com.example.automotiveapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
 @Service
 @RequiredArgsConstructor
-public class SearchService {
+public class SearchServiceImpl implements SearchService {
     private final UserRepository userRepository;
     private final ForumRepository forumRepository;
     private final ArticleRepository articleRepository;

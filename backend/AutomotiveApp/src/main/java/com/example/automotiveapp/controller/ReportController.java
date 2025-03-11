@@ -1,7 +1,7 @@
 package com.example.automotiveapp.controller;
 
 import com.example.automotiveapp.dto.ReportDto;
-import com.example.automotiveapp.service.ReportService;
+import com.example.automotiveapp.service.report.ReportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
