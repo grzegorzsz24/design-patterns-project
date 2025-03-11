@@ -48,19 +48,22 @@ public class FileStorageService {
     }
 
     private List<String> saveFile(List<MultipartFile> files, String storageLocation) {
-        List<Path> filepaths = createFilePath(files, storageLocation);
-        List<String> paths = new ArrayList<>();
-        int index = 0;
+        List<String> savedPaths = new ArrayList<>();
         for (MultipartFile file : files) {
-            try {
-                Files.copy(file.getInputStream(), filepaths.get(index), StandardCopyOption.REPLACE_EXISTING);
-                paths.add(filepaths.get(index).getFileName().toString());
-            } catch (IOException e) {
-                throw new UncheckedIOException(e);
-            }
-            index++;
+            String originalFileName = file.getOriginalFilename();
+            String fileExtension = FilenameUtils.getExtension(originalFileName);
+            String uniqueFileName = generateUniqueFileName(fileExtension, originalFileName);
+            Path targetPath = Paths.get(storageLocation, uniqueFileName);
+
+            FileHandler prototypeHandler = new FileHandler(targetPath, file);
+
+            FileHandler fileHandler = prototypeHandler.clone();
+
+            fileHandler.save();
+
+            savedPaths.add(targetPath.getFileName().toString());
         }
-        return paths;
+        return savedPaths;
     }
 
     private List<Path> createFilePath(List<MultipartFile> files, String storageLocation) {
