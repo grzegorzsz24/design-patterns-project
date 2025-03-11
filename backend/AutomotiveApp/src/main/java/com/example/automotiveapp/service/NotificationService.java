@@ -9,6 +9,7 @@ import com.example.automotiveapp.service.utils.SecurityUtils;
 
 import java.util.List;
 
+// L1 Singleton - third impl
 public enum NotificationService {
 
     INSTANCE;

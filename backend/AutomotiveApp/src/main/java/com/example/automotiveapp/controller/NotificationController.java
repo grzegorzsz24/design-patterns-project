@@ -27,6 +27,7 @@ public class NotificationController {
     private final NotificationRepository notificationRepository;
     private final NotificationDtoMapper notificationDtoMapper;
 
+    // start L1 Singleton - third usage
     @PostConstruct
     public void init() {
         NotificationService.INSTANCE.init(notificationRepository, notificationDtoMapper);

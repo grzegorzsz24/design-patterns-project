@@ -7,6 +7,7 @@ import com.example.automotiveapp.repository.MessageRepository;
 
 import java.util.List;
 
+// L1 Singleton - second impl
 public class MessageService {
 
     private static volatile MessageService instance;

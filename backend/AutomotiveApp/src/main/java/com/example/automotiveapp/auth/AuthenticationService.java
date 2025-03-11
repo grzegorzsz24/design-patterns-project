@@ -34,10 +34,12 @@ public class AuthenticationService {
         File file = new File();
         file.setFileUrl("default_profile_picture.jpg");
         Role userRole = roleRepository.findByName("USER").orElseGet(() -> {
+            // start L1 Prototype - third usage
             Role newUserRole = new Role(RoleName.USER_ROLE.clone());
             return roleRepository.save(newUserRole);
         });
 
+        // start L1 Builder - first usage
         var user = new UserBuilder()
                 .firstName(registerRequest.getFirstName())
                 .lastName(registerRequest.getLastName())

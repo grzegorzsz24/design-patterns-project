@@ -41,6 +41,7 @@ public class ArticleService {
         User user = userRepository.findByEmail(SecurityUtils.getCurrentUserEmail())
                 .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono użytkownika"));
 
+        // start L1 Factory - first usage
         Article article = articleFactoryProvider.provide(false).create(
                 null,
                 articleDto.getTitle(),

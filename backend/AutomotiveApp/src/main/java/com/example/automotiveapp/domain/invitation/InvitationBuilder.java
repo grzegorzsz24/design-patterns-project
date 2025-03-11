@@ -3,6 +3,7 @@ package com.example.automotiveapp.domain.invitation;
 import com.example.automotiveapp.domain.InvitationStatus;
 import com.example.automotiveapp.domain.User.User;
 
+// L1 Builder - second impl
 public class InvitationBuilder {
     private Long id;
     private User sender;

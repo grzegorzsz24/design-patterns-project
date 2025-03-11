@@ -11,6 +11,7 @@ public class ArticleFactoryProvider {
     private final PendingArticleFactory pendingArticleFactory;
 
     public ArticleFactory provide(boolean approved) {
+        // start L1 Prototype - first usage
         return approved ? approvedArticleFactory.clone() : pendingArticleFactory.clone();
     }
 }

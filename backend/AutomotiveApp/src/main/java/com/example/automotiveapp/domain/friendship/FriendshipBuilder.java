@@ -2,6 +2,7 @@ package com.example.automotiveapp.domain.friendship;
 
 import com.example.automotiveapp.domain.User.User;
 
+// L1 Builder - third impl
 public class FriendshipBuilder {
     private Long id;
     private User user1;

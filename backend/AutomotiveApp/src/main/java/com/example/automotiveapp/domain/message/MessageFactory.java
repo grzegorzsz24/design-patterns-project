@@ -5,6 +5,7 @@ import com.example.automotiveapp.domain.User.User;
 
 import java.time.LocalDateTime;
 
+// L1 Factory - second impl
 public abstract class MessageFactory {
 
     public Message create(Channel channel, User sender, String content,

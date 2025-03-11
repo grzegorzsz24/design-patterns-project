@@ -45,6 +45,8 @@ public class InvitationService {
         if (sender.isEmpty() || receiver.isEmpty()) {
             throw new ResourceNotFoundException("Nie znaleziono użytkownika");
         }
+
+        // start L1 Builder - second usage
         Invitation invitation = new InvitationBuilder()
                 .sender(sender.get())
                 .receiver(receiver.get())
@@ -60,6 +62,8 @@ public class InvitationService {
 
         invitation.setStatus(InvitationStatus.ACCEPTED);
         invitationRepository.save(invitation);
+
+        // start L1 Builder - third usage
         Friendship friendship = new FriendshipBuilder()
                 .user1(invitation.getSender())
                 .user2(invitation.getReceiver())

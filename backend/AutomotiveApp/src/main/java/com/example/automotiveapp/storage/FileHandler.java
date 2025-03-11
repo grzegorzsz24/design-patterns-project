@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
+// L1 Prototype - second impl
 public class FileHandler implements Cloneable {
 
     private final Path targetPath;

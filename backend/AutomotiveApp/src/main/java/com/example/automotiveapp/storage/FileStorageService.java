@@ -55,6 +55,7 @@ public class FileStorageService {
             String uniqueFileName = generateUniqueFileName(fileExtension, originalFileName);
             Path targetPath = Paths.get(storageLocation, uniqueFileName);
 
+            // start L1 Prototype - second usage
             FileHandler prototypeHandler = new FileHandler(targetPath, file);
 
             FileHandler fileHandler = prototypeHandler.clone();

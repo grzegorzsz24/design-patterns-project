@@ -40,6 +40,8 @@ public class MessageDtoMapper {
                 .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono użytkownika"));
 
         Long channelId = channelService.getChannelId(sender.getId(), receiver.getId());
+
+        // start L1 Factory - second usage
         return (ConcreteMessage) messageFactory.create(channelRepository.findById(channelId).get(), sender,
                 messageDto.getMessage(), receiver, LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
     }

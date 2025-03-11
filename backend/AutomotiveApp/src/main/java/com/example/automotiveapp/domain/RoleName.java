@@ -5,6 +5,7 @@ import lombok.Getter;
 
 import java.util.Objects;
 
+// L1 Prototype - third impl
 @Getter
 @Embeddable
 public class RoleName {

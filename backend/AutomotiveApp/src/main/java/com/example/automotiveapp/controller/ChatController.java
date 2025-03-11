@@ -27,6 +27,7 @@ public class ChatController {
     private final MessageDtoMapper messageDtoMapper;
     private final MessageRepository messageRepository;
 
+    // start L1 Singleton - second usage
     private MessageService messageService;
 
     @PostConstruct

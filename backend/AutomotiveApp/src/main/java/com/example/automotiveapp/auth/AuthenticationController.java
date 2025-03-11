@@ -27,6 +27,7 @@ public class AuthenticationController {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    // start L1 Singleton - first usage
     ValidationService validationService = ValidationService.getInstance();
 
     @PostMapping("/register")

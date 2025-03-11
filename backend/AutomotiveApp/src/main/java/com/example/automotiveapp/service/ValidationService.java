@@ -8,6 +8,7 @@ import org.springframework.validation.FieldError;
 import java.util.HashMap;
 import java.util.Map;
 
+// L1 Singleton - first impl
 public class ValidationService {
 
     private ValidationService() {

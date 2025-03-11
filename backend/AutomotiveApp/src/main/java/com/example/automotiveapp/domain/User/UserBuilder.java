@@ -6,6 +6,7 @@ import com.example.automotiveapp.domain.article.Article;
 import java.util.Date;
 import java.util.Set;
 
+// L1 Builder - first impl
 public class UserBuilder {
     private Long id;
     private String firstName;

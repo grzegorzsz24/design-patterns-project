@@ -4,6 +4,7 @@ import com.example.automotiveapp.domain.User.User;
 
 import java.time.LocalDateTime;
 
+// L1 Factory - first impl
 public abstract class ArticleFactory {
 
     public Article create(
@@ -32,6 +33,7 @@ public abstract class ArticleFactory {
             boolean approved
     );
 
+    // L1 Prototype - first impl
     public abstract ArticleFactory clone();
 
 }

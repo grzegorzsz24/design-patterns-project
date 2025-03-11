@@ -36,6 +36,7 @@ public class NotificationDtoMapper {
         Long entityId = notificationDto.getEntityId();
         String content = notificationDto.getContent();
 
+        // start L1 Factory - third usage
         return (ConcreteNotification) notificationFactory.create(notificationType, userTriggered, receiver, entityId, content);
     }
 }

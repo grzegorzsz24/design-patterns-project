@@ -2,6 +2,7 @@ package com.example.automotiveapp.domain.notification;
 
 import com.example.automotiveapp.domain.User.User;
 
+// L1 Factory - third impl
 public abstract class NotificationFactory {
 
     public Notification create(NotificationType type, User userTriggered, User receiver, Long entityId, String content) {
