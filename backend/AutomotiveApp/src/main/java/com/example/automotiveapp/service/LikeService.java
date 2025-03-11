@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+// L2 Facade - third implementation
 @Service
 @RequiredArgsConstructor
 public class LikeService {

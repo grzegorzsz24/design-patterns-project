@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 
+// L2 Facade - first implementation
 @Service
 @RequiredArgsConstructor
 public class SearchServiceImpl implements SearchService {

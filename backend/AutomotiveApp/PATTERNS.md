@@ -30,7 +30,10 @@ Brigde:
     - ReportService/ReportRepository
     - SearchService/*Repository
 Decorator
-Facade
+Facade:
+    - SearchServiceImpl
+    - FriendshipService
+    - LikeService
 Proxy
 Flyweight
 

@@ -22,9 +22,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+// L2 Facade - second implementation
 @Service
 @RequiredArgsConstructor
-public class FriendshipService {
+public class    FriendshipService {
     private final FriendshipRepository friendshipRepository;
     private final UserRepository userRepository;
     private final InvitationRepository invitationRepository;
