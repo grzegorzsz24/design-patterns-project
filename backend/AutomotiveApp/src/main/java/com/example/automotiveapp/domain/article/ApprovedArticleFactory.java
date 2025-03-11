@@ -12,4 +12,9 @@ public class ApprovedArticleFactory extends ArticleFactory {
     public Article createArticle(Long id, String title, String content, LocalDateTime publishedAt, boolean isLiked, int likesNumber, User user, boolean approved) {
         return new ApprovedArticle(id, title, content, publishedAt, isLiked, likesNumber, user);
     }
+
+    @Override
+    public ArticleFactory clone() {
+        return new ApprovedArticleFactory();
+    }
 }

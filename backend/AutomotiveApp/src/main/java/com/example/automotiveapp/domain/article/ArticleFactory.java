@@ -31,4 +31,7 @@ public abstract class ArticleFactory {
             User user,
             boolean approved
     );
+
+    public abstract ArticleFactory clone();
+
 }

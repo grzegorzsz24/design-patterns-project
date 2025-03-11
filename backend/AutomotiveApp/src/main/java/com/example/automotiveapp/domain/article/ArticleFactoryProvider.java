@@ -11,6 +11,6 @@ public class ArticleFactoryProvider {
     private final PendingArticleFactory pendingArticleFactory;
 
     public ArticleFactory provide(boolean approved) {
-        return approved ? approvedArticleFactory : pendingArticleFactory;
+        return approved ? approvedArticleFactory.clone() : pendingArticleFactory.clone();
     }
 }
