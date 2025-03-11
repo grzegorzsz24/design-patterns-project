@@ -35,7 +35,10 @@ Facade:
     - FriendshipService
     - LikeService
 Proxy
-Flyweight
+Flyweight:
+    - ReportType
+    - RoleName
+    - UserFriendshipStatus
 
 ## Behavioral
 Command

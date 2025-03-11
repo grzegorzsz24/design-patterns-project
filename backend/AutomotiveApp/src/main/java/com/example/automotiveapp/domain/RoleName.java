@@ -6,6 +6,7 @@ import lombok.Getter;
 import java.util.Objects;
 
 // L1 Prototype - third impl
+// L2 Flyweight - second impl
 @Getter
 @Embeddable
 public class RoleName {
@@ -19,7 +20,7 @@ public class RoleName {
 
     protected RoleName() {}
 
-    public RoleName(String name, String description) {
+    private RoleName(String name, String description) {
         this.name = name;
         this.description = description;
     }
