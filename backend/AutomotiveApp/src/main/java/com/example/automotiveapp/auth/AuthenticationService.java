@@ -3,7 +3,7 @@ package com.example.automotiveapp.auth;
 import com.example.automotiveapp.config.jwt.JwtService;
 import com.example.automotiveapp.domain.File;
 import com.example.automotiveapp.domain.Role;
-import com.example.automotiveapp.domain.User.User;
+import com.example.automotiveapp.domain.RoleName;
 import com.example.automotiveapp.domain.User.UserBuilder;
 import com.example.automotiveapp.repository.FileRepository;
 import com.example.automotiveapp.repository.RoleRepository;
@@ -34,7 +34,7 @@ public class AuthenticationService {
         File file = new File();
         file.setFileUrl("default_profile_picture.jpg");
         Role userRole = roleRepository.findByName("USER").orElseGet(() -> {
-            Role newUserRole = new Role("USER");
+            Role newUserRole = new Role(RoleName.USER_ROLE.clone());
             return roleRepository.save(newUserRole);
         });
 
@@ -89,7 +89,7 @@ public class AuthenticationService {
                 .cookieExpirationDate(expirationDate.toString())
                 .userId(userId)
                 .publicProfile(user.isPublicProfile())
-                .role(user.getRoles().stream().findFirst().get().getName())
+                .role(user.getRoles().stream().findFirst().get().getRoleName().getName())
                 .build();
     }
 }
