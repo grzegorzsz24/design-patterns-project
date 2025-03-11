@@ -13,7 +13,11 @@ Builder:
     - FriendshipBuilder
     - InvitationBuilder
     - UserBuilder
-Prototype
+Prototype:
+    - ApprovedArticleFactory
+    - PendingArticleFactory
+    - FileHandler
+    - RoleName
 
 ## Structural Patterns
 Adapter
@@ -34,5 +38,4 @@ Observer
 State
 Strategy
 Template
-    - NotificationFactory
 Visitor
