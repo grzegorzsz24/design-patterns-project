@@ -31,7 +31,7 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class PostService {
+public class PostService implements PostServiceInterface {
     private final PostRepository postRepository;
     private final PostDtoMapper postDtoMapper;
     private final FileStorageService fileStorageService;

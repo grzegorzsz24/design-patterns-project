@@ -31,7 +31,8 @@ Bridge:
     - CarService/CarRepository
     - ReportService/ReportRepository
     - SearchService/*Repository
-Decorator
+Decorator:
+    - AuthorizationPostServiceDecorator
 Facade:
     - SearchServiceImpl
     - FriendshipService
