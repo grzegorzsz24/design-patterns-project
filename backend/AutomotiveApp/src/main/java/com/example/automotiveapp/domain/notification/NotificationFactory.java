@@ -13,5 +13,6 @@ public abstract class NotificationFactory {
 
     protected abstract Notification createNotification(NotificationType type, User userTriggered, User receiver, Long entityId, String content);
 
+    // L3 Template - second impl
     protected abstract String getDefaultContentForType(NotificationType type);
 }

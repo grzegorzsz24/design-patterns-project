@@ -22,3 +22,15 @@ spring:
 app:
   storage:
     location: ./uploads/
+logger:
+  handlers:
+  - name: FILE
+    level: ERROR
+    format: TEXT
+    fileName: logs.txt
+  - name: CONSOLE
+    level: LOG
+    format: ESCAPED_JSON
+  - name: CONSOLE
+    level: LOG
+    format: XML

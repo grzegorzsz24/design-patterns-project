@@ -2,6 +2,8 @@ package com.example.automotiveapp.service.car;
 
 import com.example.automotiveapp.dto.CarDto;
 import com.example.automotiveapp.exception.ResourceNotFoundException;
+import com.example.automotiveapp.logging.Logger;
+import com.example.automotiveapp.logging.LoggerFactory;
 import com.example.automotiveapp.mapper.CarDtoMapper;
 import com.example.automotiveapp.repository.car.CarRepository;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,8 @@ import java.util.TreeMap;
 
 @Service
 public class CarServiceImpl extends CarService {
+
+    private final static Logger logger = LoggerFactory.getInstance();
 
     public CarServiceImpl(CarRepository carRepository) {
         super(carRepository);
@@ -33,6 +37,7 @@ public class CarServiceImpl extends CarService {
 
     @Override
     public List<String> getCarModels(String carBrand) {
+        logger.log("Fetching Car Models");
         carRepository.findByBrand(carBrand)
                 .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono samochodu"));
         return carRepository.findBrandsByModelOrderedAlphabetically(carBrand);
@@ -40,6 +45,7 @@ public class CarServiceImpl extends CarService {
 
     @Override
     public Map<String, List<String>> getBrandsWithModels() {
+        logger.log("Fetching Brands with Models");
         List<String> brands = carRepository.findDistinctBrandsOrderedAlphabetically();
         Map<String, List<String>> brandsWithModels = new HashMap<>();
 

@@ -27,6 +27,7 @@ Adapter:
 Composite:
     - MediaComponent
     - ContentComponent
+    - BaseLogHandler
 Bridge:
     - CarService/CarRepository
     - ReportService/ReportRepository
@@ -34,6 +35,8 @@ Bridge:
 Decorator:
     - AuthorizationPostServiceDecorator
     - FallbackArticleServiceDecorator
+    - LogFilterDecorator
+    - LogFormatterDecorator
 Facade:
     - SearchServiceImpl
     - FriendshipService
@@ -53,8 +56,14 @@ Interpreter
 Iterator
 Mediator
 Memento
-Observer
+Observer:
+    - Logger/LogHandler
 State
-Strategy
-Template
+Strategy:
+    - LogFilter/LogLogFilter,WarnLogFilter,ErrorLogFilter
+    - LogFormatter/TextLogFormatter,JsonLogFormatter,XmlLogFormatter
+    - LogHandler/ConsoleLogHandler,FileLogHandler,CompositeLogHandler
+Template:
+    - BaseLogHandler
+    - NotificationFactory
 Visitor

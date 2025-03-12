@@ -8,6 +8,8 @@ import com.example.automotiveapp.dto.EventDto;
 import com.example.automotiveapp.dto.ReportDto;
 import com.example.automotiveapp.exception.BadRequestException;
 import com.example.automotiveapp.exception.ResourceNotFoundException;
+import com.example.automotiveapp.logging.Logger;
+import com.example.automotiveapp.logging.LoggerFactory;
 import com.example.automotiveapp.mapper.EventDtoMapper;
 import com.example.automotiveapp.mapper.ReportDtoMapper;
 import com.example.automotiveapp.reponse.EventResponse;
@@ -29,6 +31,8 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 public class EventService {
+    private final static Logger logger = LoggerFactory.getInstance();
+
     private final EventRepository eventRepository;
     private final EventDtoMapper eventDtoMapper;
     private final FileStorageService fileStorageService;
@@ -57,7 +61,10 @@ public class EventService {
                 files.add(file);
             }
             event.setImage(files.stream().findFirst()
-                    .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono zdjęcia")));
+                    .orElseThrow(() -> {
+                        logger.error("Image not found");
+                        return new ResourceNotFoundException("Nie znaleziono zdjęcia");
+                    }));
         }
         Event savedEvent = eventRepository.save(event);
         fileRepository.saveAll(files);
@@ -67,12 +74,14 @@ public class EventService {
     public Optional<EventDto> getEventById(Long id) {
         Optional<EventDto> event = eventRepository.findById(id).map(EventDtoMapper::map);
         if (event.isEmpty()) {
+            logger.error("Event not found");
             throw new ResourceNotFoundException("Nie znaleziono wydarzenia");
         }
         return event;
     }
 
     public void deleteEvent(Long id) {
+        logger.log("Deleting event: " + id);
         EventDto eventDto = EventDtoMapper.map(eventRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("NIe znaleziono wydarzenia")));
 
@@ -83,12 +92,15 @@ public class EventService {
     }
 
     public ReportDto reportEvent(ReportDto reportDto) {
+        logger.log("Reporting event: " + reportDto.getId());
         if (eventRepository.findById(reportDto.getReportTypeId()).isEmpty()) {
+            logger.error("Report type not found");
             throw new ResourceNotFoundException("Nie znaleziono wydarzenia");
         }
         Optional<Report> report = reportRepository
                 .findByReportTypeIdAndReportType(reportDto.getReportTypeId(), ReportType.EVENT_REPORT);
         if (report.isPresent()) {
+            logger.log("Report found");
             throw new BadRequestException("Wydarzenie już zostało zgłoszone");
         }
 
