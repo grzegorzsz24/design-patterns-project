@@ -11,6 +11,9 @@ import com.example.automotiveapp.mapper.PostDtoMapper;
 import com.example.automotiveapp.mapper.ReportDtoMapper;
 import com.example.automotiveapp.reponse.PostResponse;
 import com.example.automotiveapp.repository.*;
+import com.example.automotiveapp.service.media.MediaAlbum;
+import com.example.automotiveapp.service.media.MediaComponent;
+import com.example.automotiveapp.service.media.MediaFileAdapter;
 import com.example.automotiveapp.service.utils.SecurityUtils;
 import com.example.automotiveapp.storage.FileStorageService;
 import jakarta.transaction.Transactional;
@@ -48,20 +51,25 @@ public class PostService {
         post.setLiked(false);
         post.setLikesNumber(0);
         post.setCommentsNumber(0);
-        Set<File> files = new HashSet<>();
+
+        // L2 Composite - first usage
         if (postToSave.getFiles() != null) {
+            MediaAlbum album = new MediaAlbum();
             List<String> savedImageNames = fileStorageService.saveImage(postToSave.getFiles());
             for (String imageName : savedImageNames) {
-                log.info(imageName);
                 File file = new File();
                 file.setFileUrl(imageName);
                 file.setPost(post);
-                files.add(file);
+
+                post.getFiles().add(file);
+
+                MediaComponent mediaFile = new MediaFileAdapter(file);
+                album.add(mediaFile);
             }
-            post.setFiles(files);
+
         }
         Post savedPost = postRepository.save(post);
-        fileRepository.saveAll(files);
+        fileRepository.saveAll(post.getFiles());
         return PostDtoMapper.map(savedPost);
     }
 
@@ -92,29 +100,45 @@ public class PostService {
         postRepository.save(post);
     }
 
+    // L2 Composite - second usage
     public PostResponse getFriendsPosts(Pageable pageable) {
-        List<User> friends = userRepository.findUserFriends(SecurityUtils.getCurrentUserEmail());
-        List<PostDto> friendsPosts = new ArrayList<>();
+        ContentFeed compositeFeed = new ContentFeed();
 
+        List<User> friends = userRepository.findUserFriends(SecurityUtils.getCurrentUserEmail());
         for (User friend : friends) {
             List<Post> friendPosts = postRepository.findByUserOrderByPostedAtDesc(friend);
-            setPostLikes(friendPosts, friendsPosts);
+            for (Post p : friendPosts) {
+                compositeFeed.add(new PostContent(p));
+            }
         }
 
         List<User> publicProfiles = userRepository.findPublicProfiles();
         for (User publicProfile : publicProfiles) {
             if (!friends.contains(publicProfile)) {
                 List<Post> publicProfilePosts = postRepository.findByUserOrderByPostedAtDesc(publicProfile);
-                setPostLikes(publicProfilePosts, friendsPosts);
+                for (Post p : publicProfilePosts) {
+                    compositeFeed.add(new PostContent(p));
+                }
             }
         }
-        Comparator<PostDto> postDateComparator = Comparator.comparing(PostDto::getPostedAt).reversed();
-        friendsPosts.sort(postDateComparator);
 
-        Page<PostDto> paginatedPosts = getPostDtos(pageable, friendsPosts);
-        long totalPosts = friendsPosts.size();
+        List<ContentComponent> components = compositeFeed.getItems();
+        List<PostDto> postDtos = new ArrayList<>();
+        for (ContentComponent component : components) {
+            if (component instanceof PostContent) {
+                PostContent pc = (PostContent) component;
+                postDtos.add(PostDtoMapper.map(pc.getPost()));
+            }
+        }
 
-        return new PostResponse(paginatedPosts.getContent(), totalPosts);
+        postDtos.sort(Comparator.comparing(PostDto::getPostedAt).reversed());
+
+        int start = (int) pageable.getOffset();
+        int end = Math.min(start + pageable.getPageSize(), postDtos.size());
+        List<PostDto> paginatedPosts = postDtos.subList(start, end);
+        long totalPosts = postDtos.size();
+
+        return new PostResponse(paginatedPosts, totalPosts);
     }
 
     public PostResponse getUserPosts(Long userId, Pageable pageable) {

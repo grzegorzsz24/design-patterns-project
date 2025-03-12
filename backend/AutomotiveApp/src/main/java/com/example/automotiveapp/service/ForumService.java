@@ -54,10 +54,26 @@ public class ForumService {
         Pageable pageable = PageRequest.of(page - 1, size);
         Long totalResults = forumRepository.countByTitleAndCarBrandAndCarModel(title, carBrand, carModel);
         List<Forum> forumList = forumRepository.findAllByTitleAndCarBrandAndCarModelOrderByCreatedAtDesc(title, carBrand, carModel, pageable);
+
+        ContentFeed compositeFeed = new ContentFeed();
+        for (Forum forum : forumList) {
+            compositeFeed.add(new ForumContent(forum));
+        }
+
         List<ForumDto> forumDtos = new ArrayList<>();
-        setForumSavedStatus(forumList, forumDtos);
+        for (ContentComponent component : compositeFeed.getItems()) {
+            Forum forum = ((ForumContent) component).getForum();
+            ForumDto forumDto = ForumDtoMapper.map(forum);
+            forumDto.setSaved(
+                    savedForumRepository.findByUserEmailAndForum_Id(SecurityUtils.getCurrentUserEmail(), forum.getId())
+                            .isPresent()
+            );
+            forumDtos.add(0, forumDto);
+        }
+
         return new ForumResponse(forumDtos, totalResults);
     }
+
 
     public ForumDto findForumById(Long forumId) {
         Forum forum = forumRepository.findById(forumId)
