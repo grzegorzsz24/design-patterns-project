@@ -24,8 +24,10 @@ Adapter:
     - LikeRequestAdapter
     - MessageRequestAdapter
     - NotificationRequestAdapter
-Composite
-Brigde:
+Composite:
+    - MediaComponent
+    - ContentComponent
+Bridge:
     - CarService/CarRepository
     - ReportService/ReportRepository
     - SearchService/*Repository
