@@ -1,6 +1,9 @@
 package com.example.automotiveapp.domain;
 
+import jakarta.persistence.Embeddable;
+
 // L2 Flyweight - first impl
+@Embeddable
 public record ReportType(String type) {
 
     public static final ReportType POST_REPORT = new ReportType("POST_REPORT");

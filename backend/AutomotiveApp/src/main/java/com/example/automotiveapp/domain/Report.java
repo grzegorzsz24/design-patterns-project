@@ -13,7 +13,7 @@ public class Report {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long reportTypeId;
-    @Enumerated(EnumType.STRING)
+    @Embedded
     private ReportType reportType;
     @ManyToOne
     @JoinColumn(name = "user_id")
