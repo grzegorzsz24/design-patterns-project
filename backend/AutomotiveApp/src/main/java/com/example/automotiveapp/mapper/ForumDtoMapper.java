@@ -4,7 +4,7 @@ import com.example.automotiveapp.domain.Forum;
 import com.example.automotiveapp.domain.User.User;
 import com.example.automotiveapp.dto.ForumDto;
 import com.example.automotiveapp.exception.ResourceNotFoundException;
-import com.example.automotiveapp.repository.CarRepository;
+import com.example.automotiveapp.repository.car.CarRepository;
 import com.example.automotiveapp.repository.UserRepository;
 import com.example.automotiveapp.service.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;

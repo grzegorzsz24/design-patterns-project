@@ -34,7 +34,10 @@ Facade:
     - SearchServiceImpl
     - FriendshipService
     - LikeService
-Proxy
+Proxy:
+    - CarCacheProxy
+    - MessageCacheProxy
+    - NotificationCacheProxy
 Flyweight:
     - ReportType
     - RoleName

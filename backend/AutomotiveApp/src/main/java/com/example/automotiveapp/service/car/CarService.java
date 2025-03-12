@@ -1,7 +1,7 @@
 package com.example.automotiveapp.service.car;
 
 import com.example.automotiveapp.dto.CarDto;
-import com.example.automotiveapp.repository.CarRepository;
+import com.example.automotiveapp.repository.car.CarRepository;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;

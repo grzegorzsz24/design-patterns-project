@@ -4,7 +4,7 @@ import com.example.automotiveapp.domain.message.ConcreteMessage;
 import com.example.automotiveapp.dto.ChannelDto;
 import com.example.automotiveapp.dto.MessageDto;
 import com.example.automotiveapp.mapper.MessageDtoMapper;
-import com.example.automotiveapp.repository.MessageRepository;
+import com.example.automotiveapp.repository.message.MessageRepository;
 import com.example.automotiveapp.request.MessageRequest;
 import com.example.automotiveapp.request.adapter.MessageRequestAdapter;
 import com.example.automotiveapp.service.ChannelService;

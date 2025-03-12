@@ -4,7 +4,7 @@ import com.example.automotiveapp.domain.notification.ConcreteNotification;
 import com.example.automotiveapp.dto.NotificationDto;
 import com.example.automotiveapp.exception.ResourceNotFoundException;
 import com.example.automotiveapp.mapper.NotificationDtoMapper;
-import com.example.automotiveapp.repository.NotificationRepository;
+import com.example.automotiveapp.repository.notification.NotificationRepository;
 import com.example.automotiveapp.service.utils.SecurityUtils;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.example.automotiveapp.repository;
+package com.example.automotiveapp.repository.car;
 
 import com.example.automotiveapp.domain.Car;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface CarRepository extends JpaRepository<Car, Long> {
+public interface CarJpaRepository extends JpaRepository<Car, Long> {
     Optional<Car> findByModelAndBrand(String model, String brand);
 
     @Query("SELECT DISTINCT c.brand FROM Car c ORDER BY c.brand")

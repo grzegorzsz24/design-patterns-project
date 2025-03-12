@@ -3,7 +3,7 @@ package com.example.automotiveapp.service.car;
 import com.example.automotiveapp.dto.CarDto;
 import com.example.automotiveapp.exception.ResourceNotFoundException;
 import com.example.automotiveapp.mapper.CarDtoMapper;
-import com.example.automotiveapp.repository.CarRepository;
+import com.example.automotiveapp.repository.car.CarRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;

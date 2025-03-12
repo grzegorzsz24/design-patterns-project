@@ -3,7 +3,7 @@ package com.example.automotiveapp.controller;
 import com.example.automotiveapp.dto.NotificationDto;
 import com.example.automotiveapp.dto.UserDto;
 import com.example.automotiveapp.mapper.NotificationDtoMapper;
-import com.example.automotiveapp.repository.NotificationRepository;
+import com.example.automotiveapp.repository.notification.NotificationRepository;
 import com.example.automotiveapp.request.NotificationRequest;
 import com.example.automotiveapp.request.adapter.NotificationRequestAdapter;
 import com.example.automotiveapp.service.NotificationService;
