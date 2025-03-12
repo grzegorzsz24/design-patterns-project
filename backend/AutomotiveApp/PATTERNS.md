@@ -33,6 +33,7 @@ Bridge:
     - SearchService/*Repository
 Decorator:
     - AuthorizationPostServiceDecorator
+    - FallbackArticleServiceDecorator
 Facade:
     - SearchServiceImpl
     - FriendshipService

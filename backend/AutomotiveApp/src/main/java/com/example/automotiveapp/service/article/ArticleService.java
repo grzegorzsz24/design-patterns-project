@@ -1,4 +1,4 @@
-package com.example.automotiveapp.service;
+package com.example.automotiveapp.service.article;
 
 import com.example.automotiveapp.domain.article.Article;
 import com.example.automotiveapp.domain.User.User;

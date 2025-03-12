@@ -1,6 +1,7 @@
-package com.example.automotiveapp.service;
+package com.example.automotiveapp.service.post;
 
 import com.example.automotiveapp.domain.Post;
+import com.example.automotiveapp.service.ContentComponent;
 
 public class PostContent implements ContentComponent {
 

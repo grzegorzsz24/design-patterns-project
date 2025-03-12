@@ -1,7 +1,7 @@
 package com.example.automotiveapp.controller;
 
 import com.example.automotiveapp.reponse.ArticleResponse;
-import com.example.automotiveapp.service.ArticleService;
+import com.example.automotiveapp.service.article.ArticleServiceInterface;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/admin/articles/pending")
 @RequiredArgsConstructor
 public class ArticleController {
-    private final ArticleService articleService;
+    // L2 Decorator - second usage
+    private final ArticleServiceInterface articleService;
 
     @GetMapping
     public ResponseEntity<ArticleResponse> getNotApprovedArticles(@RequestParam(defaultValue = "1") int page,

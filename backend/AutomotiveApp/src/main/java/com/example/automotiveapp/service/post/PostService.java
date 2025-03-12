@@ -1,4 +1,4 @@
-package com.example.automotiveapp.service;
+package com.example.automotiveapp.service.post;
 
 import com.example.automotiveapp.domain.*;
 import com.example.automotiveapp.domain.User.User;
@@ -11,6 +11,8 @@ import com.example.automotiveapp.mapper.PostDtoMapper;
 import com.example.automotiveapp.mapper.ReportDtoMapper;
 import com.example.automotiveapp.reponse.PostResponse;
 import com.example.automotiveapp.repository.*;
+import com.example.automotiveapp.service.ContentComponent;
+import com.example.automotiveapp.service.ContentFeed;
 import com.example.automotiveapp.service.media.MediaAlbum;
 import com.example.automotiveapp.service.media.MediaComponent;
 import com.example.automotiveapp.service.media.MediaFileAdapter;

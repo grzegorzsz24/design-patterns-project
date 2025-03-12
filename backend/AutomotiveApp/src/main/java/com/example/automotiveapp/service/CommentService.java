@@ -8,6 +8,7 @@ import com.example.automotiveapp.exception.ResourceNotFoundException;
 import com.example.automotiveapp.mapper.CommentDtoMapper;
 import com.example.automotiveapp.repository.CommentRepository;
 import com.example.automotiveapp.repository.ForumRepository;
+import com.example.automotiveapp.service.post.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

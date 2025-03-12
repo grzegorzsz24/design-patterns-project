@@ -10,7 +10,7 @@ import com.example.automotiveapp.exception.ResourceNotFoundException;
 import com.example.automotiveapp.mapper.ReportDtoMapper;
 import com.example.automotiveapp.reponse.PostResponse;
 import com.example.automotiveapp.repository.*;
-import com.example.automotiveapp.service.PostService;
+import com.example.automotiveapp.service.post.PostService;
 import com.example.automotiveapp.service.utils.SecurityUtils;
 import com.example.automotiveapp.storage.FileStorageService;
 import org.junit.jupiter.api.AfterEach;

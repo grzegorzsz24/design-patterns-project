@@ -13,6 +13,8 @@ import com.example.automotiveapp.mapper.UserDtoMapper;
 import com.example.automotiveapp.repository.ArticleRepository;
 import com.example.automotiveapp.repository.LikeRepository;
 import com.example.automotiveapp.repository.PostRepository;
+import com.example.automotiveapp.service.article.ArticleService;
+import com.example.automotiveapp.service.post.PostService;
 import com.example.automotiveapp.service.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
