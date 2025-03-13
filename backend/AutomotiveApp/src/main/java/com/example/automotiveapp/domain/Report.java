@@ -14,6 +14,7 @@ public class Report {
     private Long id;
     private Long reportTypeId;
     @Embedded
+    @AttributeOverride(name = "type", column = @Column(name = "report_type", nullable = false))
     private ReportType reportType;
     @ManyToOne
     @JoinColumn(name = "user_id")
