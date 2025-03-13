@@ -89,4 +89,5 @@ Streams:
     - PostService
     - ChannelService
 AspectJ
-
+Bad practices:
+    - TheMostEfficientAndTotallyNotBloatedLoggingSystemEverDesigned
