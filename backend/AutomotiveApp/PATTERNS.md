@@ -52,12 +52,13 @@ Flyweight:
 
 ## Behavioral
 Command
-Interpreter
+Interpreter:
+    - Interpreter
 Iterator
 Mediator
 Memento
 Observer:
-    - Logger/LogHandler
+    - Logger/LogHandler,ConsoleLogHandler,FileLogHandler,CompositeLogHandler
 State
 Strategy:
     - LogFilter/LogLogFilter,WarnLogFilter,ErrorLogFilter
@@ -66,4 +67,5 @@ Strategy:
 Template:
     - BaseLogHandler
     - NotificationFactory
-Visitor
+Visitor:
+    - Visitor

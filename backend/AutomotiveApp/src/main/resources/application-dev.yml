@@ -24,13 +24,10 @@ app:
     location: ./uploads/
 logger:
   handlers:
-  - name: FILE
-    level: ERROR
-    format: TEXT
-    fileName: logs.txt
   - name: CONSOLE
     level: LOG
     format: ESCAPED_JSON
   - name: CONSOLE
     level: LOG
     format: XML
+  dsl: "handler: CONSOLE, format: TEXT, level: LOG; handler: CONSOLE, format: JSON, level: LOG;"

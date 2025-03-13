@@ -1,5 +1,6 @@
 package com.example.automotiveapp.logging;
 
+import com.example.automotiveapp.logging.dsl.Interpreter;
 import com.example.automotiveapp.logging.filter.LogFilter;
 import com.example.automotiveapp.logging.filter.LogLogFilter;
 import com.example.automotiveapp.logging.filter.NegateFilterDecorator;
@@ -14,6 +15,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 @Setter
@@ -21,6 +23,7 @@ import java.util.List;
 @ConfigurationProperties("logger")
 public class LoggerConfiguration {
     private List<Handler> handlers;
+    private String dsl;
 
     @Getter
     @Setter
@@ -32,6 +35,14 @@ public class LoggerConfiguration {
     }
 
     public List<LogHandler> getLogHandlers() {
+        if (handlers == null && dsl == null) {
+            return new ArrayList<>();
+        }
+
+        if (handlers == null) {
+            return Interpreter.interpret(dsl);
+        }
+
         return handlers.stream().map(handler -> {
             List<LogFilter> logFilters = getLogFilters(handler.level);
             LogFormatter logFormatter = getLogFormatter(handler.format);
