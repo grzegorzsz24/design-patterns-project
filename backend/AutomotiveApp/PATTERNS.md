@@ -69,3 +69,24 @@ Template:
     - NotificationFactory
 Visitor:
     - Visitor
+
+## Solid
+
+Single responsibility
+Open–closed
+Liskov substitution
+Interface segregation
+Dependency inversion
+
+## Other
+Linter
+Functional interfaces:
+    - LogFilter
+    - LogFormatter
+    - LogHandler
+Streams:
+    - Interpreter
+    - PostService
+    - ChannelService
+AspectJ
+

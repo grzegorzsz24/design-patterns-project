@@ -9,6 +9,7 @@ import com.example.automotiveapp.logging.formatter.*;
 import com.example.automotiveapp.logging.handler.ConsoleLogHandler;
 import com.example.automotiveapp.logging.handler.FileLogHandler;
 import com.example.automotiveapp.logging.handler.LogHandler;
+import com.example.automotiveapp.logging.log.LogLevel;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -46,21 +47,29 @@ public class LoggerConfiguration {
         return handlers.stream().map(handler -> {
             List<LogFilter> logFilters = getLogFilters(handler.level);
             LogFormatter logFormatter = getLogFormatter(handler.format);
-            return (LogHandler) switch (handler.name) {
-                case "FILE" -> new FileLogHandler(logFormatter, logFilters, new File(handler.fileName));
-                case "CONSOLE" -> new ConsoleLogHandler(logFormatter, logFilters);
-                default -> throw new IllegalStateException("Unexpected value: " + handler.name);
-            };
+            return getLogHandler(handler.name, handler.fileName, logFormatter, logFilters);
 
         }).toList();
     }
 
+    private LogHandler getLogHandler(String handler, String fileName, LogFormatter logFormatter, List<LogFilter> logFilters) {
+        return switch (handler) {
+            case "FILE" -> new FileLogHandler(logFormatter, logFilters, new File(fileName));
+            case "CONSOLE" -> new ConsoleLogHandler(logFormatter, logFilters);
+            // L7 Functional interface - third usage
+            default -> log -> System.out.println(log.level().name() + ": " + log.message());
+        };
+    }
+
+
     private List<LogFilter> getLogFilters(String level) {
         return switch (level) {
+            case "TRACE" -> List.of();
             case "LOG" -> List.of();
             case "WARN" -> List.of(new NegateFilterDecorator(new LogLogFilter()));
             case "ERROR" -> List.of(new LogLogFilter(), new WarnLogFilter());
-            default -> throw new IllegalStateException("Unexpected value: " + level);
+            // L7 Functional interface - first usage
+            default -> List.of(log -> log.level() != LogLevel.TRACE);
         };
     }
 
@@ -71,7 +80,8 @@ public class LoggerConfiguration {
             case "ESCAPED_JSON" -> new EscapedSpecialCharactersDecorator(new JsonLogFormatter());
             case "XML" -> new XmlLogFormatter();
             case "JSON" -> new JsonLogFormatter();
-            default -> new TextLogFormatter();
+            // L7 Functional interface - second usage
+            default -> log -> log.level().name() + ", " + log.message();
         };
     }
 }

@@ -1,8 +1,10 @@
 package com.example.automotiveapp.service.post;
 
-import com.example.automotiveapp.domain.*;
+import com.example.automotiveapp.domain.File;
+import com.example.automotiveapp.domain.Post;
+import com.example.automotiveapp.domain.Report;
+import com.example.automotiveapp.domain.ReportType;
 import com.example.automotiveapp.domain.User.User;
-import com.example.automotiveapp.request.PostSaveRequest;
 import com.example.automotiveapp.dto.PostDto;
 import com.example.automotiveapp.dto.ReportDto;
 import com.example.automotiveapp.exception.BadRequestException;
@@ -11,7 +13,7 @@ import com.example.automotiveapp.mapper.PostDtoMapper;
 import com.example.automotiveapp.mapper.ReportDtoMapper;
 import com.example.automotiveapp.reponse.PostResponse;
 import com.example.automotiveapp.repository.*;
-import com.example.automotiveapp.service.ContentComponent;
+import com.example.automotiveapp.request.PostSaveRequest;
 import com.example.automotiveapp.service.ContentFeed;
 import com.example.automotiveapp.service.media.MediaAlbum;
 import com.example.automotiveapp.service.media.MediaComponent;
@@ -104,7 +106,7 @@ public class PostService implements PostServiceInterface {
 
     // L2 Composite - second usage
     public PostResponse getFriendsPosts(Pageable pageable) {
-        ContentFeed compositeFeed = new ContentFeed();
+        final ContentFeed compositeFeed = new ContentFeed();
 
         List<User> friends = userRepository.findUserFriends(SecurityUtils.getCurrentUserEmail());
         for (User friend : friends) {
@@ -124,16 +126,25 @@ public class PostService implements PostServiceInterface {
             }
         }
 
-        List<ContentComponent> components = compositeFeed.getItems();
-        List<PostDto> postDtos = new ArrayList<>();
-        for (ContentComponent component : components) {
-            if (component instanceof PostContent) {
-                PostContent pc = (PostContent) component;
-                postDtos.add(PostDtoMapper.map(pc.getPost()));
-            }
-        }
+        // L7 Stream - second usage
+        friends.stream()
+                .map(postRepository::findByUserOrderByPostedAtDesc)
+                .flatMap(Collection::stream)
+                .forEach(p -> compositeFeed.add(new PostContent(p)));
 
-        postDtos.sort(Comparator.comparing(PostDto::getPostedAt).reversed());
+        userRepository.findPublicProfiles().stream()
+                .filter(publicProfile -> !friends.contains(publicProfile))
+                .map(postRepository::findByUserOrderByPostedAtDesc)
+                .flatMap(Collection::stream)
+                .forEach(p -> compositeFeed.add(new PostContent(p)));
+
+        // L7 Stream - third usage
+        List<PostDto> postDtos = compositeFeed.getItems().stream()
+                .filter(component -> component instanceof PostContent)
+                .map(component -> (PostContent) component)
+                .map(component -> PostDtoMapper.map(component.getPost()))
+                .sorted(Comparator.comparing(PostDto::getPostedAt).reversed())
+                .toList();
 
         int start = (int) pageable.getOffset();
         int end = Math.min(start + pageable.getPageSize(), postDtos.size());

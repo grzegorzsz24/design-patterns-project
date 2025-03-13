@@ -30,14 +30,4 @@ public abstract class BaseLogHandler implements LogHandler {
     public LogFormatter getFormatter() {
         return formatter == null ? new TextLogFormatter() : formatter;
     }
-
-    @Override
-    public void setFormatter(LogFormatter formatter) {
-        this.formatter = formatter;
-    }
-
-    @Override
-    public void setFilters(List<LogFilter> filters) {
-        this.filters = filters;
-    }
 }
