@@ -1,5 +1,6 @@
 package com.example.automotiveapp.service;
 
+import com.example.automotiveapp.aspect.Retry;
 import com.example.automotiveapp.domain.notification.ConcreteNotification;
 import com.example.automotiveapp.dto.NotificationDto;
 import com.example.automotiveapp.exception.ResourceNotFoundException;
@@ -26,6 +27,7 @@ public enum NotificationService {
         }
     }
 
+    @Retry
     public NotificationDto saveNotification(NotificationDto notificationDto) {
         ConcreteNotification notification = notificationRepository.save(notificationDtoMapper.map(notificationDto));
         return NotificationDtoMapper.map(notification);

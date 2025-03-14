@@ -1,5 +1,6 @@
 package com.example.automotiveapp.service.search;
 
+import com.example.automotiveapp.aspect.RateLimit;
 import com.example.automotiveapp.dto.ArticleDto;
 import com.example.automotiveapp.dto.EventDto;
 import com.example.automotiveapp.dto.ForumDto;
@@ -32,6 +33,7 @@ public class SearchServiceImpl implements SearchService {
     private final PostRepository postRepository;
     private final EventRepository eventRepository;
 
+    @RateLimit(calls = 100, duration = 60000)
     public SearchResultsDto search(String keyword) {
         SearchResultsDto searchResultsDto = new SearchResultsDto();
         List<UserDto> users = userRepository.searchUsers(keyword).stream()
