@@ -45,8 +45,14 @@ public class LoggerConfiguration {
         }
 
         return handlers.stream().map(handler -> {
+            // L5 Liskov Substitution - second usage
+            // L5 Dependency Inversion - first usage
             List<LogFilter> logFilters = getLogFilters(handler.level);
+
+            // L5 Dependency Inversion - second usage
             LogFormatter logFormatter = getLogFormatter(handler.format);
+
+            // L5 Dependency Inversion - third usage
             return getLogHandler(handler.name, handler.fileName, logFormatter, logFilters);
 
         }).toList();
@@ -67,6 +73,7 @@ public class LoggerConfiguration {
             case "TRACE" -> List.of();
             case "LOG" -> List.of();
             case "WARN" -> List.of(new NegateFilterDecorator(new LogLogFilter()));
+            // L5 Liskov Substitution - third usage
             case "ERROR" -> List.of(new LogLogFilter(), new WarnLogFilter());
             // L7 Functional interface - first usage
             default -> List.of(log -> log.level() != LogLevel.TRACE);

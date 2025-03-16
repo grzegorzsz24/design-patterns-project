@@ -1,4 +1,4 @@
-package com.example.automotiveapp.service;
+package com.example.automotiveapp.service.comment;
 
 import com.example.automotiveapp.domain.Comment;
 import com.example.automotiveapp.domain.Forum;
@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class CommentService {
+public class CommentServiceImpl extends CommentService{
     private final CommentRepository commentRepository;
     private final CommentDtoMapper commentDtoMapper;
     private final PostService postService;

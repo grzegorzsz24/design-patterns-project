@@ -15,6 +15,7 @@ import java.util.Map;
 @RequestMapping("/cars")
 @RequiredArgsConstructor
 public class CarController {
+    // L5 Dependency Inversion - fifth usage
     private final CarService carService;
 
     @GetMapping

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 // L2 Bridge - first implementation
+// L5 Dependency Inversion - fifth impl
 @RequiredArgsConstructor
 public abstract class CarService {
     protected final CarRepository carRepository;
