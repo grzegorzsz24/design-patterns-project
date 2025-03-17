@@ -1,6 +1,8 @@
 package com.example.automotiveapp.service.car;
 
 import com.example.automotiveapp.dto.CarDto;
+import com.example.automotiveapp.events.Event;
+import com.example.automotiveapp.events.EventBus;
 import com.example.automotiveapp.exception.ResourceNotFoundException;
 import com.example.automotiveapp.logging.Logger;
 import com.example.automotiveapp.logging.LoggerFactory;
@@ -19,8 +21,11 @@ public class CarServiceImpl extends CarService {
 
     private final static Logger logger = LoggerFactory.getInstance();
 
-    public CarServiceImpl(CarRepository carRepository) {
+    private final EventBus eventBus;
+
+    public CarServiceImpl(CarRepository carRepository, EventBus eventBus) {
         super(carRepository);
+        this.eventBus = eventBus;
     }
 
     @Override
@@ -38,6 +43,7 @@ public class CarServiceImpl extends CarService {
     @Override
     public List<String> getCarModels(String carBrand) {
         logger.log("Fetching Car Models");
+        eventBus.emit(new Event("CarService", "Fetching Car Models"));
         carRepository.findByBrand(carBrand)
                 .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono samochodu"));
         return carRepository.findBrandsByModelOrderedAlphabetically(carBrand);
@@ -46,6 +52,7 @@ public class CarServiceImpl extends CarService {
     @Override
     public Map<String, List<String>> getBrandsWithModels() {
         logger.log("Fetching Brands with Models");
+        eventBus.emit(new Event("CarService", "Fetching Brands with Models"));
         List<String> brands = carRepository.findDistinctBrandsOrderedAlphabetically();
         Map<String, List<String>> brandsWithModels = new HashMap<>();
 
