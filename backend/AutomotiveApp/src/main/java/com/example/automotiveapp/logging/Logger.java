@@ -8,11 +8,17 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
+// L3 Mediator - first impl
+// L3 Observer - first impl
 @Getter
 @Setter
 @AllArgsConstructor
 public class Logger {
     private final CompositeHandler handler = new CompositeHandler();
+    private final List<LogRecord> logs = new ArrayList<>();
 
     public void subscribe(LogHandler handler) {
         this.handler.add(handler);
@@ -23,6 +29,7 @@ public class Logger {
     }
 
     public void notify(LogRecord log) {
+        logs.add(log);
         handler.handle(log);
     }
 
@@ -32,6 +39,10 @@ public class Logger {
 
     public void log(String message) {
         notify(new LogRecord(LogLevel.LOG, message));
+    }
+
+    public void trace(String message) {
+        notify(new LogRecord(LogLevel.TRACE, message));
     }
 
     public void warn(String message) {

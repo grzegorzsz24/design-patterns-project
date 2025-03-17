@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+// L3 Mediator - second impl
+// L3 Observer - second impl
 @Getter
 @Setter
 @AllArgsConstructor

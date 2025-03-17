@@ -55,10 +55,13 @@ Command
 Interpreter:
     - Interpreter
 Iterator
-Mediator
+Mediator:
+    - Logger
+    - EventBus
 Memento
 Observer:
     - Logger/LogHandler,ConsoleLogHandler,FileLogHandler,CompositeLogHandler
+    - EventBus/EventHandler
 State
 Strategy:
     - LogFilter/LogLogFilter,WarnLogFilter,ErrorLogFilter
