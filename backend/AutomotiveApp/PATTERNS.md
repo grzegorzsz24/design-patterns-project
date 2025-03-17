@@ -74,9 +74,21 @@ Visitor:
 
 Single responsibility
 Open–closed
-Liskov substitution
-Interface segregation
+Liskov substitution:
+    - ArticleFactory
+    - LogHandler
+    - LogFilter
+Interface segregation:
+    - ArticlePersistenceService
+    - CommentPersistenceService
+    - PostPersistenceService
 Dependency inversion
+    - LogFilter
+    - LogFormatter
+    - LogHandler
+    - ReportService
+    - CarService
+    - ChannelService
 
 ## Other
 Linter
@@ -88,6 +100,9 @@ Streams:
     - Interpreter
     - PostService
     - ChannelService
-AspectJ
+AspectJ:
+    - AuditAspect
+    - RateLimitingAspect
+    - RetryAspect
 Bad practices:
     - TheMostEfficientAndTotallyNotBloatedLoggingSystemEverDesigned

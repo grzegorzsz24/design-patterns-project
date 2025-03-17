@@ -11,55 +11,57 @@ import org.springframework.data.domain.Pageable;
 import java.util.Objects;
 
 // L2 Decorator - first implementation
-public class AuthorizationPostServiceDecorator implements PostServiceInterface {
+public class AuthorizationPostServiceDecorator implements PostSearchService, PostPersistenceService {
 
-    private final PostServiceInterface delegate;
+    private final PostSearchService searchDelegate;
+    private final PostPersistenceService persistenceDelegate;
 
-    public AuthorizationPostServiceDecorator(PostServiceInterface delegate) {
-        this.delegate = delegate;
+    public AuthorizationPostServiceDecorator(PostSearchService searchDelegate, PostPersistenceService persistenceDelegate) {
+        this.searchDelegate = searchDelegate;
+        this.persistenceDelegate = persistenceDelegate;
     }
 
     @Override
     public void deletePost(Long id) {
-        PostDto post = delegate.findPostById(id);
+        PostDto post = searchDelegate.findPostById(id);
         System.out.println(SecurityUtils.getCurrentUserEmail() + post.getUser());
         if (!Objects.equals(SecurityUtils.getCurrentUserEmail(), post.getUser())) {
             throw new UnauthorizedAccessException("No delete permission : " + id);
         }
-        delegate.deletePost(id);
+        persistenceDelegate.deletePost(id);
     }
 
     @Override
     public void updatePost(PostDto postToUpdate) {
-        PostDto post = delegate.findPostById(postToUpdate.getId());
+        PostDto post = searchDelegate.findPostById(postToUpdate.getId());
         if (!Objects.equals(SecurityUtils.getCurrentUserEmail(), post.getUser())) {
             throw new UnauthorizedAccessException("No delete permission : " + postToUpdate.getId());
         }
-        delegate.updatePost(postToUpdate);
+        persistenceDelegate.updatePost(postToUpdate);
     }
 
     @Override
     public PostDto findPostById(long id) {
-        return delegate.findPostById(id);
+        return searchDelegate.findPostById(id);
     }
 
     @Override
     public PostDto savePost(PostSaveRequest postToSave) {
-        return delegate.savePost(postToSave);
+        return persistenceDelegate.savePost(postToSave);
     }
 
     @Override
     public PostResponse getUserPosts(Long userId, Pageable pageable) {
-        return delegate.getUserPosts(userId, pageable);
+        return searchDelegate.getUserPosts(userId, pageable);
     }
 
     @Override
     public ReportDto reportPost(ReportDto reportDto) {
-        return delegate.reportPost(reportDto);
+        return persistenceDelegate.reportPost(reportDto);
     }
 
     @Override
     public PostResponse getFriendsPosts(Pageable pageable) {
-        return delegate.getFriendsPosts(pageable);
+        return searchDelegate.getFriendsPosts(pageable);
     }
 }

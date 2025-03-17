@@ -5,7 +5,6 @@ import com.example.automotiveapp.dto.CommentDto;
 import java.util.List;
 import java.util.Optional;
 
-// L5 Dependency Inversion - sixth impl
 public abstract class CommentService {
 
     public abstract CommentDto saveComment(CommentDto commentDto);

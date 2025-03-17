@@ -3,6 +3,7 @@ package com.example.automotiveapp.controller;
 import com.example.automotiveapp.dto.ArticleDto;
 import com.example.automotiveapp.reponse.ArticleResponse;
 import com.example.automotiveapp.service.article.ArticleService;
+import com.example.automotiveapp.service.article.ArticleServiceInterface;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,7 @@ import java.net.URI;
 @RequestMapping("/user/articles")
 @RequiredArgsConstructor
 public class ApprovedArticleController {
-    private final ArticleService articleService;
+    private final ArticleServiceInterface articleService;
 
     @PostMapping
     public ResponseEntity<ArticleDto> addArticle(@RequestBody ArticleDto article) {

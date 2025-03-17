@@ -32,10 +32,11 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
+// L5 Interface Segregation - third usage
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class PostService implements PostServiceInterface {
+public class PostService implements PostSearchService, PostPersistenceService {
     private final PostRepository postRepository;
     private final PostDtoMapper postDtoMapper;
     private final FileStorageService fileStorageService;

@@ -7,8 +7,6 @@ public interface ArticleServiceInterface {
 
     ArticleDto saveArticle(ArticleDto articleDto);
 
-    void updateArticle(ArticleDto articleToUpdate);
-
     ArticleDto findArticleById(Long id);
 
     ArticleResponse findAllApprovedArticles(String title, int page, int size);

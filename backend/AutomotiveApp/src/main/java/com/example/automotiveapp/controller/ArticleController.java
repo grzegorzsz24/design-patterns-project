@@ -1,7 +1,7 @@
 package com.example.automotiveapp.controller;
 
 import com.example.automotiveapp.reponse.ArticleResponse;
-import com.example.automotiveapp.service.article.ArticleServiceInterface;
+import com.example.automotiveapp.service.article.ArticleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class ArticleController {
     // L2 Decorator - second usage
-    private final ArticleServiceInterface articleService;
+    private final ArticleService articleService;
 
     @GetMapping
     public ResponseEntity<ArticleResponse> getNotApprovedArticles(@RequestParam(defaultValue = "1") int page,

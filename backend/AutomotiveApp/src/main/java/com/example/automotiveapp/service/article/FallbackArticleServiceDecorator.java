@@ -25,12 +25,6 @@ public class FallbackArticleServiceDecorator implements ArticleServiceInterface 
     }
 
     @Override
-    public void updateArticle(ArticleDto articleToUpdate) {
-        delegate.updateArticle(articleToUpdate);
-        cache.put(articleToUpdate.getId(), articleToUpdate);
-    }
-
-    @Override
     public ArticleDto findArticleById(Long id) {
         try {
             ArticleDto article = delegate.findArticleById(id);
