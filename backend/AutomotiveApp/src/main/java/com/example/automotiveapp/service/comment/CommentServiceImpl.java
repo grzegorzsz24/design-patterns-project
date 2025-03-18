@@ -1,7 +1,8 @@
 package com.example.automotiveapp.service.comment;
 
 import com.example.automotiveapp.domain.Comment;
-import com.example.automotiveapp.domain.Forum;
+import com.example.automotiveapp.domain.comment.CommentCollection;
+import com.example.automotiveapp.domain.forum.Forum;
 import com.example.automotiveapp.domain.Post;
 import com.example.automotiveapp.dto.CommentDto;
 import com.example.automotiveapp.exception.ResourceNotFoundException;
@@ -14,8 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 // L5 Interface Segregation - second usage
 @Service
@@ -74,11 +74,22 @@ public class CommentServiceImpl implements CommentSearchService, CommentPersiste
                 .toList();
     }
 
+    // L3 Iterator - first usage
     public List<CommentDto> findCommentsByForumId(Long forumId) {
-        forumRepository.findById(forumId).orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono forum"));
+        Forum forum = forumRepository.findById(forumId)
+                .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono forum"));
 
-        return commentRepository.findAllByForum_Id(forumId).stream()
-                .map(CommentDtoMapper::map)
-                .toList();
+        Set<Comment> commentsSet = forum.getComments();
+
+        CommentCollection collection = new CommentCollection(commentsSet);
+        Iterator<Comment> iterator = collection.createIterator();
+
+        List<CommentDto> result = new ArrayList<>();
+        while (iterator.hasNext()) {
+            Comment comment = iterator.next();
+            result.add(CommentDtoMapper.map(comment));
+        }
+
+        return result;
     }
 }

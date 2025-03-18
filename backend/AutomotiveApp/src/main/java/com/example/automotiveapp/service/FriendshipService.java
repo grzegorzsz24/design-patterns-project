@@ -1,6 +1,7 @@
 package com.example.automotiveapp.service;
 
 import com.example.automotiveapp.domain.friendship.Friendship;
+import com.example.automotiveapp.domain.friendship.FriendshipCollection;
 import com.example.automotiveapp.domain.invitation.Invitation;
 import com.example.automotiveapp.domain.InvitationStatus;
 import com.example.automotiveapp.domain.User.User;
@@ -17,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -31,6 +33,7 @@ public class    FriendshipService {
     private final InvitationRepository invitationRepository;
     private final ChannelRepository channelRepository;
 
+    // L3 Iterator - third usage
     public List<UserDto> getUserFriends(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono użytkownika"));
@@ -41,9 +44,16 @@ public class    FriendshipService {
             User friend = friendship.getUser1().getId() == userId ? friendship.getUser2() : friendship.getUser1();
             friends.add(friend);
         }
-        return friends.stream()
-                .map(UserDtoMapper::map)
-                .toList();
+
+        FriendshipCollection collection = new FriendshipCollection(friends);
+        Iterator<User> friendIterator = collection.createIterator();
+
+        List<UserDto> result = new ArrayList<>();
+        while (friendIterator.hasNext()) {
+            result.add(UserDtoMapper.map(friendIterator.next()));
+        }
+
+        return result;
     }
 
     public void addFriend(Long user2Id) {

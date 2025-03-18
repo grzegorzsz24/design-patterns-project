@@ -1,7 +1,7 @@
 package com.example.automotiveapp.service;
 
-import com.example.automotiveapp.domain.Forum;
-import com.example.automotiveapp.domain.SavedForum;
+import com.example.automotiveapp.domain.forum.Forum;
+import com.example.automotiveapp.domain.forum.SavedForum;
 import com.example.automotiveapp.dto.ForumDto;
 import com.example.automotiveapp.exception.ResourceNotFoundException;
 import com.example.automotiveapp.mapper.ForumDtoMapper;

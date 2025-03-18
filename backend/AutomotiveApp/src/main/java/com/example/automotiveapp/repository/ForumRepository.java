@@ -1,6 +1,6 @@
 package com.example.automotiveapp.repository;
 
-import com.example.automotiveapp.domain.Forum;
+import com.example.automotiveapp.domain.forum.Forum;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

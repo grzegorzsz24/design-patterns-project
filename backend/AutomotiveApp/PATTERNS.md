@@ -57,7 +57,10 @@ Command:
     - RemoveFriendCommand
 Interpreter:
     - Interpreter
-Iterator
+Iterator:
+    - CommentIterator
+    - ForumIterator
+    - FriendshipIterator
 Mediator:
     - Logger
     - EventBus

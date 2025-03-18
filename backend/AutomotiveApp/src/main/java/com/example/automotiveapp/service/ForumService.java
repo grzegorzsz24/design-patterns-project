@@ -1,8 +1,9 @@
 package com.example.automotiveapp.service;
 
-import com.example.automotiveapp.domain.Forum;
+import com.example.automotiveapp.domain.forum.Forum;
 import com.example.automotiveapp.domain.Report;
 import com.example.automotiveapp.domain.ReportType;
+import com.example.automotiveapp.domain.forum.ForumCollection;
 import com.example.automotiveapp.dto.ForumDto;
 import com.example.automotiveapp.dto.ReportDto;
 import com.example.automotiveapp.exception.BadRequestException;
@@ -21,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,15 +42,27 @@ public class ForumService {
         return ForumDtoMapper.map(savedForum);
     }
 
+    // L3 Iterator - second usage
     public List<ForumDto> findForumsByUserNickname(String nickname) {
         userRepository.findByNicknameIgnoreCase(nickname)
                 .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono użytkownika"));
 
         List<Forum> forums = forumRepository.findAllByUser_NicknameIgnoreCaseOrderByCreatedAtDesc(nickname);
-        List<ForumDto> forumDtos = new ArrayList<>();
-        setForumSavedStatus(forums, forumDtos);
-        return forumDtos;
+        ForumCollection forumCollection = new ForumCollection(forums);
+        Iterator<Forum> forumIterator = forumCollection.createIterator();
+
+        List<ForumDto> result = new ArrayList<>();
+        while (forumIterator.hasNext()) {
+            Forum forum = forumIterator.next();
+            ForumDto forumDto = ForumDtoMapper.map(forum);
+            forumDto.setSaved(savedForumRepository
+                    .findByUserEmailAndForum_Id(SecurityUtils.getCurrentUserEmail(), forum.getId())
+                    .isPresent());
+            result.add(forumDto);
+        }
+        return result;
     }
+
 
     public ForumResponse findAllByFilters(String title, String carBrand, String carModel, int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
@@ -81,14 +95,6 @@ public class ForumService {
         ForumDto forumDto = ForumDtoMapper.map(forum);
         forumDto.setSaved(savedForumRepository.findByUserEmailAndForum_Id(SecurityUtils.getCurrentUserEmail(), forum.getId()).isPresent());
         return forumDto;
-    }
-
-    private void setForumSavedStatus(List<Forum> forums, List<ForumDto> forumDtos) {
-        for (Forum forum : forums) {
-            ForumDto forumDto = ForumDtoMapper.map(forum);
-            forumDto.setSaved(savedForumRepository.findByUserEmailAndForum_Id(SecurityUtils.getCurrentUserEmail(), forum.getId()).isPresent());
-            forumDtos.add(0, forumDto);
-        }
     }
 
     public ReportDto reportForum(ReportDto reportDto) {

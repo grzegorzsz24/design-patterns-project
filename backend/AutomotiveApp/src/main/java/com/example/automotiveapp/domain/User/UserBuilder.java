@@ -2,6 +2,7 @@ package com.example.automotiveapp.domain.User;
 
 import com.example.automotiveapp.domain.*;
 import com.example.automotiveapp.domain.article.Article;
+import com.example.automotiveapp.domain.forum.Forum;
 
 import java.util.Date;
 import java.util.Set;

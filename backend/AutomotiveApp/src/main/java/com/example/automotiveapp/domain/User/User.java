@@ -2,6 +2,7 @@ package com.example.automotiveapp.domain.User;
 
 import com.example.automotiveapp.domain.*;
 import com.example.automotiveapp.domain.article.Article;
+import com.example.automotiveapp.domain.forum.Forum;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;

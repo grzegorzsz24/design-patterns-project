@@ -1,6 +1,6 @@
 package com.example.automotiveapp.service;
 
-import com.example.automotiveapp.domain.Forum;
+import com.example.automotiveapp.domain.forum.Forum;
 import lombok.Getter;
 
 @Getter

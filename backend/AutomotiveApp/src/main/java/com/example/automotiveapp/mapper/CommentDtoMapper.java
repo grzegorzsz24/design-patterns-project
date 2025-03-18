@@ -1,7 +1,7 @@
 package com.example.automotiveapp.mapper;
 
 import com.example.automotiveapp.domain.Comment;
-import com.example.automotiveapp.domain.Forum;
+import com.example.automotiveapp.domain.forum.Forum;
 import com.example.automotiveapp.domain.Post;
 import com.example.automotiveapp.domain.User.User;
 import com.example.automotiveapp.dto.CommentDto;

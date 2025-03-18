@@ -1,6 +1,6 @@
 package com.example.automotiveapp;
 
-import com.example.automotiveapp.domain.Forum;
+import com.example.automotiveapp.domain.forum.Forum;
 import com.example.automotiveapp.repository.FileRepository;
 import com.example.automotiveapp.repository.ForumRepository;
 import com.example.automotiveapp.repository.UserRepository;

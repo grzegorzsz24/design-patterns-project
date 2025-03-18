@@ -1,5 +1,7 @@
-package com.example.automotiveapp.domain;
+package com.example.automotiveapp.domain.forum;
 
+import com.example.automotiveapp.domain.Car;
+import com.example.automotiveapp.domain.Comment;
 import com.example.automotiveapp.domain.User.User;
 import jakarta.persistence.*;
 import lombok.Getter;
