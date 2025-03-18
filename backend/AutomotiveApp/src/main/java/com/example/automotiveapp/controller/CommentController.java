@@ -1,7 +1,8 @@
 package com.example.automotiveapp.controller;
 
 import com.example.automotiveapp.dto.CommentDto;
-import com.example.automotiveapp.service.CommentService;
+import com.example.automotiveapp.service.comment.CommentService;
+import com.example.automotiveapp.service.comment.CommentServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,7 +21,7 @@ import java.util.NoSuchElementException;
 @RequestMapping("/user/comments")
 @RequiredArgsConstructor
 public class CommentController {
-    private final CommentService commentService;
+    private final CommentServiceImpl commentService;
     private final ObjectMapper objectMapper;
 
     @PostMapping

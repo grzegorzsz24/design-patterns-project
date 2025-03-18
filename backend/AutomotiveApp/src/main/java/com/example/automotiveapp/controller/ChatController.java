@@ -7,7 +7,7 @@ import com.example.automotiveapp.mapper.MessageDtoMapper;
 import com.example.automotiveapp.repository.message.MessageRepository;
 import com.example.automotiveapp.request.MessageRequest;
 import com.example.automotiveapp.request.adapter.MessageRequestAdapter;
-import com.example.automotiveapp.service.ChannelService;
+import com.example.automotiveapp.service.channel.ChannelService;
 import com.example.automotiveapp.service.MessageService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +24,7 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 public class ChatController {
+    // L5 Dependency Inversion - sixth usage
     private final ChannelService channelService;
     private final SimpMessagingTemplate messagingTemplate;
     private final MessageDtoMapper messageDtoMapper;
@@ -45,11 +46,6 @@ public class ChatController {
                 "/queue/messages", MessageDtoMapper.map(message)
         );
     }
-
-//    @GetMapping("/messages/{senderId}/{receiverId}")
-//    public ResponseEntity<?> getChatMessages(@PathVariable Long senderId, @PathVariable Long receiverId) {
-//        return ResponseEntity.ok(messageService.findMessages(senderId, receiverId));
-//    }
 
     @GetMapping("/user/chats")
     public ResponseEntity<List<ChannelDto>> getUserChats() {

@@ -1,4 +1,4 @@
-package com.example.automotiveapp.service;
+package com.example.automotiveapp.service.channel;
 
 import com.example.automotiveapp.domain.Channel;
 import com.example.automotiveapp.domain.User.User;
@@ -12,24 +12,21 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class ChannelService {
+public class ChannelServiceImpl implements ChannelService {
     private final ChannelRepository channelRepository;
     private final UserRepository userRepository;
 
+    @Override
     public Long getChannelId(Long senderId, Long receiverId) {
         return channelRepository.findBySenderIdAndReceiverIdOrReceiverIdAndSenderId(senderId, receiverId)
                 .map(Channel::getId)
                 .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono kanału"));
     }
 
-    public Optional<Channel> findChannelById(Long channelId) {
-        return channelRepository.findById(channelId);
-    }
-
+    @Override
     public List<ChannelDto> findUserChats() {
         User user = userRepository.findByEmail(SecurityUtils.getCurrentUserEmail())
                 .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono użytkownika"));

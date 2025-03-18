@@ -1,4 +1,4 @@
-package com.example.automotiveapp.service;
+package com.example.automotiveapp.service.comment;
 
 import com.example.automotiveapp.domain.Comment;
 import com.example.automotiveapp.domain.Forum;
@@ -17,9 +17,10 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
+// L5 Interface Segregation - second usage
 @Service
 @RequiredArgsConstructor
-public class CommentService {
+public class CommentServiceImpl implements CommentSearchService, CommentPersistenceService{
     private final CommentRepository commentRepository;
     private final CommentDtoMapper commentDtoMapper;
     private final PostService postService;

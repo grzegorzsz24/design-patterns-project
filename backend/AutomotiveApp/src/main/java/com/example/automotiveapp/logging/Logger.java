@@ -20,6 +20,7 @@ public class Logger {
     private final CompositeHandler handler = new CompositeHandler();
     private final List<LogRecord> logs = new ArrayList<>();
 
+    // start L5 Liskov Substitution - second usage
     public void subscribe(LogHandler handler) {
         this.handler.add(handler);
     }

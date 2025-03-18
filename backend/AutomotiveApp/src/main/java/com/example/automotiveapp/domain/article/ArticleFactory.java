@@ -5,6 +5,7 @@ import com.example.automotiveapp.domain.User.User;
 import java.time.LocalDateTime;
 
 // L1 Factory - first impl
+// L5 Liskov Substitution - first impl
 public abstract class ArticleFactory {
 
     public Article create(

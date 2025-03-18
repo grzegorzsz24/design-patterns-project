@@ -23,11 +23,11 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
+// L5 Interface Segregation - first usage
 @Service
 @RequiredArgsConstructor
-public class ArticleService {
+public class ArticleService implements ArticlePersistenceService, ArticleSearchService {
     private final ArticleRepository articleRepository;
-    private final ArticleDtoMapper articleDtoMapper;
     private final LikeRepository likeRepository;
     private final SavedArticleRepository savedArticleRepository;
     private final UserRepository userRepository;

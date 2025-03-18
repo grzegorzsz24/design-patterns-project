@@ -12,6 +12,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/admin/reports")
 public class ReportController {
+    // L5 Dependency Inversion - fourth usage
     private final ReportService reportService;
 
     @GetMapping

@@ -7,7 +7,7 @@ import com.example.automotiveapp.dto.MessageDto;
 import com.example.automotiveapp.exception.ResourceNotFoundException;
 import com.example.automotiveapp.repository.ChannelRepository;
 import com.example.automotiveapp.repository.UserRepository;
-import com.example.automotiveapp.service.ChannelService;
+import com.example.automotiveapp.service.channel.ChannelServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ import java.time.temporal.ChronoUnit;
 @RequiredArgsConstructor
 public class MessageDtoMapper {
     private final UserRepository userRepository;
-    private final ChannelService channelService;
+    private final ChannelServiceImpl channelServiceImpl;
     private final ChannelRepository channelRepository;
     private final MessageFactory messageFactory;
 
@@ -39,7 +39,7 @@ public class MessageDtoMapper {
         User receiver = userRepository.findById(messageDto.getReceiverId())
                 .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono użytkownika"));
 
-        Long channelId = channelService.getChannelId(sender.getId(), receiver.getId());
+        Long channelId = channelServiceImpl.getChannelId(sender.getId(), receiver.getId());
 
         // start L1 Factory - second usage
         return (ConcreteMessage) messageFactory.create(channelRepository.findById(channelId).get(), sender,

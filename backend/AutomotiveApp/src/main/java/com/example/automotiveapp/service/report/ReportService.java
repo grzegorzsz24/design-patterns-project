@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 // L2 Bridge - first implementation
+// L5 Dependency Inversion - fourth impl
 @RequiredArgsConstructor
 public abstract class ReportService {
     protected final ReportRepository reportRepository;

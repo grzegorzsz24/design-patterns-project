@@ -1,8 +1,6 @@
 package com.example.automotiveapp.config;
 
-import com.example.automotiveapp.service.post.AuthorizationPostServiceDecorator;
-import com.example.automotiveapp.service.post.PostService;
-import com.example.automotiveapp.service.post.PostServiceInterface;
+import com.example.automotiveapp.service.post.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -12,7 +10,7 @@ class PostServiceConfig {
 
     @Bean(name = "decoratedPostService")
     @Primary
-    public PostServiceInterface postService(PostService originalPostService) {
-        return new AuthorizationPostServiceDecorator(originalPostService);
+    public AuthorizationPostServiceDecorator postService(PostSearchService searchService, PostPersistenceService persistenceService) {
+        return new AuthorizationPostServiceDecorator(searchService, persistenceService);
     }
 }

@@ -4,7 +4,7 @@ import com.example.automotiveapp.request.PostSaveRequest;
 import com.example.automotiveapp.dto.PostDto;
 import com.example.automotiveapp.dto.ReportDto;
 import com.example.automotiveapp.reponse.PostResponse;
-import com.example.automotiveapp.service.post.PostServiceInterface;
+import com.example.automotiveapp.service.post.PostService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,7 +26,7 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class PostController {
     // L2 Decorator - first usage
-    private final PostServiceInterface postService;
+    private final PostService postService;
     private final ObjectMapper objectMapper;
 
     @PostMapping
