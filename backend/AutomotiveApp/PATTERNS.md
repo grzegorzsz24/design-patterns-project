@@ -76,6 +76,7 @@ Strategy:
 Template:
     - BaseLogHandler
     - NotificationFactory
+    - FileStorageService
 Visitor:
     - Visitor
 
