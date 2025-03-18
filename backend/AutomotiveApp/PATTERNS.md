@@ -75,8 +75,11 @@ Visitor:
 
 ## Solid
 
-Single responsibility
-Open–closed
+Single responsibility:
+    - LogFilter
+    - LogFormatter
+    - LogHandler
+Open–closed:
 Liskov substitution
 Interface segregation
 Dependency inversion
