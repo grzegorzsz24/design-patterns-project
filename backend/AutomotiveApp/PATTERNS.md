@@ -51,7 +51,10 @@ Flyweight:
     - UserFriendshipStatus
 
 ## Behavioral
-Command
+Command:
+    - SendInvitationCommand
+    - AcceptInvitationCommand
+    - RemoveFriendCommand
 Interpreter:
     - Interpreter
 Iterator

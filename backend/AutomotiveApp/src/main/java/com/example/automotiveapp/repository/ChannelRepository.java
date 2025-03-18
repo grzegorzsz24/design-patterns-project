@@ -20,6 +20,6 @@ public interface ChannelRepository extends JpaRepository<Channel, Long> {
 
     @Transactional
     @Modifying
-    @Query("DELETE FROM Channel c WHERE (c.sender = :id1 AND c.receiver = :id2) OR (c.sender = :id2 AND c.receiver = :id1)")
+    @Query("DELETE FROM Channel c WHERE (c.sender.id = :id1 AND c.receiver.id = :id2) OR (c.sender.id = :id2 AND c.receiver.id = :id1)")
     void deleteChannelBySenderAndReceiverIds(Long id1, Long id2);
 }

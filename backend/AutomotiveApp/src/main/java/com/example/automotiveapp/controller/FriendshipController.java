@@ -2,7 +2,7 @@ package com.example.automotiveapp.controller;
 
 import com.example.automotiveapp.dto.UserDto;
 import com.example.automotiveapp.reponse.ApiResponse;
-import com.example.automotiveapp.service.FriendshipService;
+import com.example.automotiveapp.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FriendshipController {
     private final FriendshipService friendshipService;
+    private final CommandInvoker invoker;
 
     @GetMapping("/list")
     public ResponseEntity<List<UserDto>> getUserFriends(@RequestParam Long userId) {
@@ -29,7 +30,10 @@ public class FriendshipController {
 
     @DeleteMapping("/remove")
     public ResponseEntity<ApiResponse> removeFriend(@RequestParam("friendId") Long friendId) {
-        friendshipService.removeFriend(friendId);
+        // L3 Command - third usage
+        Command command = new RemoveFriendCommand(friendshipService, friendId);
+        invoker.setCommand(command);
+        invoker.executeCommand();
         return ResponseEntity.ok(new ApiResponse("Użytkownik został usunięty z listy znajomych", HttpStatus.OK));
     }
 
