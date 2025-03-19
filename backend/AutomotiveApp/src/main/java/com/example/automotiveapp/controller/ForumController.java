@@ -4,7 +4,7 @@ import com.example.automotiveapp.dto.ForumDto;
 import com.example.automotiveapp.dto.ReportDto;
 import com.example.automotiveapp.exception.ResourceNotFoundException;
 import com.example.automotiveapp.reponse.ForumResponse;
-import com.example.automotiveapp.service.ForumService;
+import com.example.automotiveapp.service.forum.ForumService;
 import com.example.automotiveapp.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

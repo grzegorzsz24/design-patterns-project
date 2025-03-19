@@ -2,7 +2,10 @@ package com.example.automotiveapp.service.post;
 
 import com.example.automotiveapp.domain.Post;
 import com.example.automotiveapp.service.ContentComponent;
+import com.example.automotiveapp.service.ContentVisitor;
+import lombok.Getter;
 
+@Getter
 public class PostContent implements ContentComponent {
 
     private final Post post;
@@ -21,7 +24,8 @@ public class PostContent implements ContentComponent {
         return post.getContent();
     }
 
-    public Post getPost() {
-        return post;
+    @Override
+    public void accept(ContentVisitor visitor) {
+        visitor.visit(this);
     }
 }

@@ -1,9 +1,7 @@
-package com.example.automotiveapp.service;
+package com.example.automotiveapp.service.invitation;
 
 import com.example.automotiveapp.domain.*;
 import com.example.automotiveapp.domain.User.User;
-import com.example.automotiveapp.domain.friendship.Friendship;
-import com.example.automotiveapp.domain.friendship.FriendshipBuilder;
 import com.example.automotiveapp.domain.invitation.Invitation;
 import com.example.automotiveapp.domain.invitation.InvitationBuilder;
 import com.example.automotiveapp.dto.InvitationDto;
@@ -61,6 +59,10 @@ public class InvitationService {
                 .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono zaproszenia"));
 
         invitation.getState().accept(invitation, invitationRepository, friendshipRepository, channelRepository);
+
+        // L3 Visitor - third usage
+        InvitationStateVisitor visitor = new LoggingInvitationVisitor();
+        invitation.getState().acceptVisitor(visitor, invitation);
     }
 
     public void rejectInvitation(Long invitationId) {
@@ -68,6 +70,9 @@ public class InvitationService {
                 .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono zaproszenia"));
 
         invitation.getState().reject(invitation, invitationRepository);
+
+        InvitationStateVisitor visitor = new LoggingInvitationVisitor();
+        invitation.getState().acceptVisitor(visitor, invitation);
     }
 
     public List<InvitationDto> getSentInvitations() {

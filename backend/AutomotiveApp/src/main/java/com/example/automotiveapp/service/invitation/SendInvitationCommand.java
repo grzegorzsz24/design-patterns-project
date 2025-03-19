@@ -1,5 +1,6 @@
-package com.example.automotiveapp.service;
+package com.example.automotiveapp.service.invitation;
 
+import com.example.automotiveapp.service.Command;
 import lombok.RequiredArgsConstructor;
 
 // L3 Command - first impl

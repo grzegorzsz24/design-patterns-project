@@ -34,4 +34,12 @@ public class ContentFeed implements ContentComponent {
         }
         return summary.toString();
     }
+
+    @Override
+    public void accept(ContentVisitor visitor) {
+        for (ContentComponent component : items) {
+            component.accept(visitor);
+        }
+        visitor.visit(this);
+    }
 }

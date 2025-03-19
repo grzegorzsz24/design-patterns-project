@@ -1,6 +1,8 @@
-package com.example.automotiveapp.service;
+package com.example.automotiveapp.service.forum;
 
 import com.example.automotiveapp.domain.forum.Forum;
+import com.example.automotiveapp.service.ContentComponent;
+import com.example.automotiveapp.service.ContentVisitor;
 import lombok.Getter;
 
 @Getter
@@ -19,6 +21,11 @@ public class ForumContent implements ContentComponent {
     @Override
     public String getSummary() {
         return forum.getContent();
+    }
+
+    @Override
+    public void accept(ContentVisitor visitor) {
+        visitor.visit(this);
     }
 
 }

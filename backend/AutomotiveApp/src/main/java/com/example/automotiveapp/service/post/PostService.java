@@ -123,26 +123,13 @@ public class PostService implements PostSearchService, PostPersistenceService {
                 }
             }
         }
+        PostDtoCollectorVisitor visitor = new PostDtoCollectorVisitor(likeRepository);
 
-        // L7 Stream - second usage
-        friends.stream()
-                .map(postRepository::findByUserOrderByPostedAtDesc)
-                .flatMap(Collection::stream)
-                .forEach(p -> compositeFeed.add(new PostContent(p)));
+        compositeFeed.accept(visitor);
 
-        userRepository.findPublicProfiles().stream()
-                .filter(publicProfile -> !friends.contains(publicProfile))
-                .map(postRepository::findByUserOrderByPostedAtDesc)
-                .flatMap(Collection::stream)
-                .forEach(p -> compositeFeed.add(new PostContent(p)));
+        List<PostDto> postDtos = visitor.getCollectedPosts();
 
-        // L7 Stream - third usage
-        List<PostDto> postDtos = compositeFeed.getItems().stream()
-                .filter(component -> component instanceof PostContent)
-                .map(component -> (PostContent) component)
-                .map(component -> PostDtoMapper.map(component.getPost()))
-                .sorted(Comparator.comparing(PostDto::getPostedAt).reversed())
-                .toList();
+        postDtos.sort(Comparator.comparing(PostDto::getPostedAt).reversed());
 
         int start = (int) pageable.getOffset();
         int end = Math.min(start + pageable.getPageSize(), postDtos.size());

@@ -7,6 +7,7 @@ import com.example.automotiveapp.domain.friendship.FriendshipBuilder;
 import com.example.automotiveapp.repository.ChannelRepository;
 import com.example.automotiveapp.repository.FriendshipRepository;
 import com.example.automotiveapp.repository.InvitationRepository;
+import com.example.automotiveapp.service.invitation.InvitationStateVisitor;
 
 public class PendingInvitationState implements InvitationState{
 
@@ -34,5 +35,10 @@ public class PendingInvitationState implements InvitationState{
         invitation.setStatus(InvitationStatus.REJECTED);
         invitationRepository.save(invitation);
         invitation.setState(new RejectedInvitationState());
+    }
+
+    @Override
+    public void acceptVisitor(InvitationStateVisitor visitor, Invitation invitation) {
+        visitor.visit(this, invitation);
     }
 }

@@ -15,9 +15,9 @@ class AuditAspect {
     private static final Logger logger = LoggerFactory.getInstance();
 
     @After("execution(* com.example.automotiveapp.service.FriendshipService.addFriend(..)) || " +
-            "execution(* com.example.automotiveapp.service.InvitationService.sendInvitation(..)) || " +
-            "execution(* com.example.automotiveapp.service.InvitationService.acceptInvitation(..)) || " +
-            "execution(* com.example.automotiveapp.service.InvitationService.rejectInvitation(..)) || " +
+            "execution(* com.example.automotiveapp.service.invitation.InvitationService.sendInvitation(..)) || " +
+            "execution(* com.example.automotiveapp.service.invitation.InvitationService.acceptInvitation(..)) || " +
+            "execution(* com.example.automotiveapp.service.invitation.InvitationService.rejectInvitation(..)) || " +
             "execution(* com.example.automotiveapp.service.UserService.updateUser(..)) || " +
             "execution(* com.example.automotiveapp.service.UserService.deleteAccount(..))")
     public void auditUserActions(JoinPoint joinPoint) {

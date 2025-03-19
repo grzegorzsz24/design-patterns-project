@@ -5,4 +5,6 @@ public interface ContentComponent {
 
     String getTitle();
     String getSummary();
+
+    void accept(ContentVisitor visitor);
 }

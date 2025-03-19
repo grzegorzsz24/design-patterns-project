@@ -1,4 +1,4 @@
-package com.example.automotiveapp.service;
+package com.example.automotiveapp.service.forum;
 
 import com.example.automotiveapp.domain.forum.Forum;
 import com.example.automotiveapp.domain.forum.ForumCollection;
@@ -10,6 +10,7 @@ import com.example.automotiveapp.reponse.ForumResponse;
 import com.example.automotiveapp.repository.ForumRepository;
 import com.example.automotiveapp.repository.SavedForumRepository;
 import com.example.automotiveapp.repository.UserRepository;
+import com.example.automotiveapp.service.ContentFeed;
 import com.example.automotiveapp.service.report.ReportMediator;
 import com.example.automotiveapp.service.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
@@ -68,16 +69,12 @@ public class ForumService {
             compositeFeed.add(new ForumContent(forum));
         }
 
-        List<ForumDto> forumDtos = new ArrayList<>();
-        for (ContentComponent component : compositeFeed.getItems()) {
-            Forum forum = ((ForumContent) component).getForum();
-            ForumDto forumDto = ForumDtoMapper.map(forum);
-            forumDto.setSaved(
-                    savedForumRepository.findByUserEmailAndForum_Id(SecurityUtils.getCurrentUserEmail(), forum.getId())
-                            .isPresent()
-            );
-            forumDtos.add(0, forumDto);
-        }
+        // L3 Visitor - second usage
+        ForumDtoCollectorVisitor visitor = new ForumDtoCollectorVisitor(savedForumRepository);
+
+        compositeFeed.accept(visitor);
+
+        List<ForumDto> forumDtos = visitor.getForumDtos();
 
         return new ForumResponse(forumDtos, totalResults);
     }

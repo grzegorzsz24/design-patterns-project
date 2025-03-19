@@ -82,6 +82,9 @@ Template:
     - FileStorageService
 Visitor:
     - Visitor
+    - ForumDtoCollectorVisitor
+    - PostDtoCollectorVisitor
+    - InvitationStateVisitor
 
 ## Solid
 
