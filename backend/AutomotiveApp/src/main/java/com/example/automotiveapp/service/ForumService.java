@@ -1,20 +1,16 @@
 package com.example.automotiveapp.service;
 
 import com.example.automotiveapp.domain.forum.Forum;
-import com.example.automotiveapp.domain.report.Report;
-import com.example.automotiveapp.domain.ReportType;
 import com.example.automotiveapp.domain.forum.ForumCollection;
 import com.example.automotiveapp.dto.ForumDto;
 import com.example.automotiveapp.dto.ReportDto;
-import com.example.automotiveapp.exception.BadRequestException;
 import com.example.automotiveapp.exception.ResourceNotFoundException;
 import com.example.automotiveapp.mapper.ForumDtoMapper;
-import com.example.automotiveapp.mapper.ReportDtoMapper;
 import com.example.automotiveapp.reponse.ForumResponse;
 import com.example.automotiveapp.repository.ForumRepository;
-import com.example.automotiveapp.repository.ReportRepository;
 import com.example.automotiveapp.repository.SavedForumRepository;
 import com.example.automotiveapp.repository.UserRepository;
+import com.example.automotiveapp.service.report.ReportMediator;
 import com.example.automotiveapp.service.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -24,7 +20,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,8 +28,7 @@ public class ForumService {
     private final ForumDtoMapper forumDtoMapper;
     private final UserRepository userRepository;
     private final SavedForumRepository savedForumRepository;
-    private final ReportRepository reportRepository;
-    private final ReportDtoMapper reportDtoMapper;
+    private final ReportMediator reportMediator;
 
     public ForumDto saveForum(ForumDto forumDto) {
         Forum forum = forumDtoMapper.map(forumDto);
@@ -98,16 +92,7 @@ public class ForumService {
     }
 
     public ReportDto reportForum(ReportDto reportDto) {
-        if (forumRepository.findById(reportDto.getReportTypeId()).isEmpty()) {
-            throw new ResourceNotFoundException("Nie znaleziono forum");
-        }
-        Optional<Report> report = reportRepository
-                .findByReportTypeIdAndReportType(reportDto.getReportTypeId(), ReportType.FORUM_REPORT);
-        if (report.isPresent()) {
-            throw new BadRequestException("Forum już zostało zgłoszone");
-        }
-
-        return ReportDtoMapper.map(reportRepository.save(reportDtoMapper.map(reportDto)));
+        return reportMediator.reportForum(reportDto);
     }
 
     public void deleteForumById(Long forumId) {

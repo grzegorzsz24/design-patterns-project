@@ -2,15 +2,12 @@ package com.example.automotiveapp.service.post;
 
 import com.example.automotiveapp.domain.File;
 import com.example.automotiveapp.domain.Post;
-import com.example.automotiveapp.domain.report.Report;
-import com.example.automotiveapp.domain.ReportType;
 import com.example.automotiveapp.domain.User.User;
 import com.example.automotiveapp.dto.PostDto;
 import com.example.automotiveapp.dto.ReportDto;
 import com.example.automotiveapp.exception.BadRequestException;
 import com.example.automotiveapp.exception.ResourceNotFoundException;
 import com.example.automotiveapp.mapper.PostDtoMapper;
-import com.example.automotiveapp.mapper.ReportDtoMapper;
 import com.example.automotiveapp.reponse.PostResponse;
 import com.example.automotiveapp.repository.*;
 import com.example.automotiveapp.request.PostSaveRequest;
@@ -18,6 +15,7 @@ import com.example.automotiveapp.service.ContentFeed;
 import com.example.automotiveapp.service.media.MediaAlbum;
 import com.example.automotiveapp.service.media.MediaComponent;
 import com.example.automotiveapp.service.media.MediaFileAdapter;
+import com.example.automotiveapp.service.report.ReportMediator;
 import com.example.automotiveapp.service.utils.SecurityUtils;
 import com.example.automotiveapp.storage.FileStorageService;
 import jakarta.transaction.Transactional;
@@ -43,8 +41,7 @@ public class PostService implements PostSearchService, PostPersistenceService {
     private final FileRepository fileRepository;
     private final UserRepository userRepository;
     private final LikeRepository likeRepository;
-    private final ReportRepository reportRepository;
-    private final ReportDtoMapper reportDtoMapper;
+    private final ReportMediator reportMediator;
 
     @Transactional
     public PostDto savePost(PostSaveRequest postToSave) {
@@ -187,15 +184,6 @@ public class PostService implements PostSearchService, PostPersistenceService {
     }
 
     public ReportDto reportPost(ReportDto reportDto) {
-        if (postRepository.findById(reportDto.getReportTypeId()).isEmpty()) {
-            throw new ResourceNotFoundException("Nie znaleziono postu");
-        }
-        Optional<Report> report = reportRepository
-                .findByReportTypeIdAndReportType(reportDto.getReportTypeId(), ReportType.POST_REPORT);
-        if (report.isPresent()) {
-            throw new BadRequestException("Post już został zgłoszony");
-        }
-
-        return ReportDtoMapper.map(reportRepository.save(reportDtoMapper.map(reportDto)));
+        return reportMediator.reportPost(reportDto);
     }
 }

@@ -3,7 +3,7 @@ package com.example.automotiveapp.controller;
 import com.example.automotiveapp.dto.LikeDto;
 import com.example.automotiveapp.request.LikeRequest;
 import com.example.automotiveapp.request.adapter.LikeRequestAdapter;
-import com.example.automotiveapp.service.LikeService;
+import com.example.automotiveapp.service.like.LikeService;
 import com.example.automotiveapp.service.post.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

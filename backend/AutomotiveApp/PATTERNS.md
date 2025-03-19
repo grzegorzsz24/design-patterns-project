@@ -64,6 +64,8 @@ Iterator:
 Mediator:
     - Logger
     - EventBus
+    - ReportMediator
+    - LikeMediator
 Memento
 Observer:
     - Logger/LogHandler,ConsoleLogHandler,FileLogHandler,CompositeLogHandler
