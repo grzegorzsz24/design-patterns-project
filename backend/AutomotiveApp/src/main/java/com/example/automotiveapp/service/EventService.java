@@ -2,7 +2,7 @@ package com.example.automotiveapp.service;
 
 import com.example.automotiveapp.domain.Event;
 import com.example.automotiveapp.domain.File;
-import com.example.automotiveapp.domain.Report;
+import com.example.automotiveapp.domain.report.Report;
 import com.example.automotiveapp.domain.ReportType;
 import com.example.automotiveapp.dto.EventDto;
 import com.example.automotiveapp.dto.ReportDto;

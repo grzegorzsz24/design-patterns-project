@@ -1,5 +1,6 @@
-package com.example.automotiveapp.domain;
+package com.example.automotiveapp.domain.report;
 
+import com.example.automotiveapp.domain.ReportType;
 import com.example.automotiveapp.domain.User.User;
 import jakarta.persistence.*;
 import lombok.Getter;

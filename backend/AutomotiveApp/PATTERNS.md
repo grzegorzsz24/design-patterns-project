@@ -68,7 +68,8 @@ Memento
 Observer:
     - Logger/LogHandler,ConsoleLogHandler,FileLogHandler,CompositeLogHandler
     - EventBus/EventHandler
-State
+State:
+    - InvitationState
 Strategy:
     - LogFilter/LogLogFilter,WarnLogFilter,ErrorLogFilter
     - LogFormatter/TextLogFormatter,JsonLogFormatter,XmlLogFormatter

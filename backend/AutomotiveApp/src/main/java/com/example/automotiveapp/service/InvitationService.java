@@ -60,27 +60,14 @@ public class InvitationService {
         Invitation invitation = invitationRepository.findById(invitationId)
                 .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono zaproszenia"));
 
-        invitation.setStatus(InvitationStatus.ACCEPTED);
-        invitationRepository.save(invitation);
-
-        // start L1 Builder - third usage
-        Friendship friendship = new FriendshipBuilder()
-                .user1(invitation.getSender())
-                .user2(invitation.getReceiver())
-                .build();
-        friendshipRepository.save(friendship);
-        Channel channel = new Channel();
-        channel.setSender(invitation.getReceiver());
-        channel.setReceiver(invitation.getSender());
-        channelRepository.save(channel);
+        invitation.getState().accept(invitation, invitationRepository, friendshipRepository, channelRepository);
     }
 
     public void rejectInvitation(Long invitationId) {
         Invitation invitation = invitationRepository.findById(invitationId)
                 .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono zaproszenia"));
 
-        invitation.setStatus(InvitationStatus.REJECTED);
-        invitationRepository.save(invitation);
+        invitation.getState().reject(invitation, invitationRepository);
     }
 
     public List<InvitationDto> getSentInvitations() {

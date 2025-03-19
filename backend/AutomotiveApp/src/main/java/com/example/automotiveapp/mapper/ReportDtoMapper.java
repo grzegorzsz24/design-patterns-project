@@ -1,6 +1,6 @@
 package com.example.automotiveapp.mapper;
 
-import com.example.automotiveapp.domain.Report;
+import com.example.automotiveapp.domain.report.Report;
 import com.example.automotiveapp.domain.ReportType;
 import com.example.automotiveapp.dto.ReportDto;
 import com.example.automotiveapp.exception.ResourceNotFoundException;

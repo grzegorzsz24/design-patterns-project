@@ -2,7 +2,7 @@ package com.example.automotiveapp.service.post;
 
 import com.example.automotiveapp.domain.File;
 import com.example.automotiveapp.domain.Post;
-import com.example.automotiveapp.domain.Report;
+import com.example.automotiveapp.domain.report.Report;
 import com.example.automotiveapp.domain.ReportType;
 import com.example.automotiveapp.domain.User.User;
 import com.example.automotiveapp.dto.PostDto;

@@ -1,7 +1,7 @@
 package com.example.automotiveapp.service;
 
 import com.example.automotiveapp.domain.forum.Forum;
-import com.example.automotiveapp.domain.Report;
+import com.example.automotiveapp.domain.report.Report;
 import com.example.automotiveapp.domain.ReportType;
 import com.example.automotiveapp.domain.forum.ForumCollection;
 import com.example.automotiveapp.dto.ForumDto;

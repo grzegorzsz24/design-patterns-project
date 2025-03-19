@@ -21,4 +21,17 @@ public class Invitation {
     private User receiver;
     @Enumerated(EnumType.STRING)
     private InvitationStatus status;
+
+    @Transient
+    private InvitationState state;
+
+    public InvitationState getState() {
+        if (this.status == InvitationStatus.PENDING) {
+            return new PendingInvitationState();
+        } else if (this.status == InvitationStatus.ACCEPTED) {
+            return new AcceptedInvitationState();
+        } else {
+            return new RejectedInvitationState();
+        }
+    }
 }
