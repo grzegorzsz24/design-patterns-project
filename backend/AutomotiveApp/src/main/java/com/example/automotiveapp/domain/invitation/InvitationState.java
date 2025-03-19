@@ -1,16 +1,12 @@
 package com.example.automotiveapp.domain.invitation;
 
-import com.example.automotiveapp.repository.ChannelRepository;
-import com.example.automotiveapp.repository.FriendshipRepository;
+import com.example.automotiveapp.repository.InvitationRepositories;
 import com.example.automotiveapp.repository.InvitationRepository;
 import com.example.automotiveapp.service.invitation.InvitationStateVisitor;
 
 public interface InvitationState {
 
-    void accept(Invitation invitation,
-                InvitationRepository invitationRepository,
-                FriendshipRepository friendshipRepository,
-                ChannelRepository channelRepository);
+    void accept(Invitation invitation, InvitationRepositories invitationRepositories);
 
     void reject(Invitation invitation,
                 InvitationRepository invitationRepository);

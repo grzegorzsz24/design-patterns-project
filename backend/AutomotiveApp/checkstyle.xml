@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE module PUBLIC
+        "-//Puppy Crawl//DTD Check Configuration 1.3//EN"
+        "http://www.puppycrawl.com/dtds/configuration_1_3.dtd">
+
+<module name="Checker">
+    <!--    <module name="LineLength"/>-->
+    <!--    <module name="NewlineAtEndOfFile"/>-->
+
+    <module name="TreeWalker">
+        <!--1. znaczących (jasnych i zrozumiałych) nazw do klas, metod i zmiennych, znaczących w całym programie to samo (bez synonimów) - 2 pkt.-->
+        <module name="AbbreviationAsWordInName"/>
+
+        <!--2. dostosuj długości metod w programie, żeby nie miały więcej niż 20 linii - 3 pkt.-->
+        <module name="MethodLength">
+            <property name="countEmpty" value="false"/>
+            <property name="max" value="22"/>
+        </module>
+
+        <!--5. dostosuj funkcje tak, by przyjmowały maksymalnie 3 argumenty - 3 pkt.-->
+        <module name="ParameterNumber">
+            <property name="max" value="3"/>
+            <property name="tokens" value="METHOD_DEF"/>
+        </module>
+
+        <!--8. wyeliminuj magiczne liczby - 1 pkt.-->
+        <module name="MagicNumber"/>
+
+        <module name="AvoidStarImport">
+            <property name="severity" value="warning"/>
+        </module>
+    </module>
+    <module name="SuppressionFilter">
+        <property name="file" value="suppressions.xml"/>
+        <property name="optional" value="false"/>
+    </module>
+</module>

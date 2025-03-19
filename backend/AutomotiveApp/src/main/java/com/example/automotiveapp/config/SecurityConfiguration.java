@@ -8,11 +8,13 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -32,17 +34,10 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(requests -> {
                     requests
-                            .requestMatchers(antMatcher("/auth/**"),
-                                    antMatcher("/swagger-ui/**"),
-                                    antMatcher("/swagger-ui.html"),
-                                    antMatcher("/v3/**"),
-                                    antMatcher("/api/v1/auth/**"),
-                                    antMatcher("/ws/**"),
-                                    antMatcher("/ws"),
-                                    antMatcher("/chat"), antMatcher("/cars"))
+                            .requestMatchers(requestMatchers())
                             .permitAll();
                     requests.requestMatchers(new AntPathRequestMatcher("/user/**"), antMatcher("/uploads/**"))
                             .hasAnyAuthority("USER", "ADMIN")
@@ -57,6 +52,20 @@ public class SecurityConfiguration {
                 .cors(Customizer.withDefaults());
         http.headers(h -> h.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
         return http.build();
+    }
+
+    private RequestMatcher[] requestMatchers() {
+        return new RequestMatcher[] {
+                antMatcher("/auth/**"),
+                antMatcher("/swagger-ui/**"),
+                antMatcher("/swagger-ui.html"),
+                antMatcher("/v3/**"),
+                antMatcher("/api/v1/auth/**"),
+                antMatcher("/ws/**"),
+                antMatcher("/ws"),
+                antMatcher("/chat"),
+                antMatcher("/cars")
+        };
     }
 
 

@@ -40,23 +40,33 @@ public class TheMostEfficientAndTotallyNotBloatedLoggingSystemEverDesigned {
      * @param niceFormatting
      * @param newLine
      */
-    public void logToConsoleAsTextOrJsonWithOrWithoutSpecialCharacters(LoggingLevelForTheMostEfficientLoggingSystemEver level, String message, boolean j, boolean specialCharacters, boolean niceFormatting, boolean newLine) {
+    public void logToConsoleAsTextOrJsonWithOrWithoutSpecialCharacters(
+            LoggingLevelForTheMostEfficientLoggingSystemEver level,
+            String message, boolean j, boolean specialCharacters,
+            boolean niceFormatting, boolean newLine) {
         if (j) {
             if (specialCharacters) {
                 if (niceFormatting) {
                     // Prints the log message in a nice JSON format
-                    System.out.println("{\n  \"level\": \"" + level.name() + "\",\n  \"message\": \"" + message + "\"\n}");
+                    System.out.println("{\n  \"level\": \"" + level.name() +
+                            "\",\n  \"message\": \"" + message + "\"\n}");
                 } else {
                     // Prints the log message in a JSON format
-                    System.out.println("{\"level\":\"" + level.name() + "\",\"message\":\"" + message + "\"}");
+                    System.out.println("{\"level\":\"" + level.name() +
+                            "\",\"message\":\"" + message + "\"}");
                 }
             } else {
                 if (niceFormatting) {
                     // Prints the log message in a nice JSON format, removing special characters
-                    System.out.println("{\n  \"level\": \"" + level.name() + "\",\n  \"message\": \"" + message.replaceAll("[^a-zA-Z0-9]", "") + "\"\n}");
+                    System.out.println("{\n  \"level\": \"" + level.name() +
+                            "\",\n  \"message\": \"" +
+                            message.replaceAll("[^a-zA-Z0-9]", "") + "\"\n}");
                 } else {
                     // Prints the log message in a JSON format, removing special characters
-                    System.out.println("{\"level\":\"" + level + "\",\"message\":\"" + message.replaceAll("[^a-zA-Z0-9]", "") + "\"}");
+                    System.out.println(
+                            "{\"level\":\"" + level + "\",\"message\":\"" +
+                                    message.replaceAll("[^a-zA-Z0-9]", "") +
+                                    "\"}");
                 }
             }
         } else {
@@ -71,10 +81,12 @@ public class TheMostEfficientAndTotallyNotBloatedLoggingSystemEverDesigned {
             } else {
                 if (niceFormatting) {
                     // Prints the log message in a nice text format, removing special characters
-                    System.out.println(level.name() + ": " + message.replaceAll("[^a-zA-Z0-9]", ""));
+                    System.out.println(level.name() + ": " +
+                            message.replaceAll("[^a-zA-Z0-9]", ""));
                 } else {
                     // Prints the log message in a text format, removing special characters
-                    System.out.println(level.name() + ":" + message.replaceAll("[^a-zA-Z0-9]", ""));
+                    System.out.println(level.name() + ":" +
+                            message.replaceAll("[^a-zA-Z0-9]", ""));
                 }
             }
         }
@@ -100,7 +112,10 @@ public class TheMostEfficientAndTotallyNotBloatedLoggingSystemEverDesigned {
      * @param niceFormatting If the log should be formatted nicely
      * @param newLine If a new line should be added
      */
-    public void logToFileProbablyAsJson(LoggingLevelForTheMostEfficientLoggingSystemEver level, String message, String f, boolean j, boolean specialCharacters, boolean niceFormatting, boolean newLine) {
+    public void logToFileProbablyAsJson(
+            LoggingLevelForTheMostEfficientLoggingSystemEver level,
+            String message, String f, boolean j, boolean specialCharacters,
+            boolean niceFormatting, boolean newLine) {
         File file = new File(f);
         try {
             file.createNewFile();
@@ -109,36 +124,52 @@ public class TheMostEfficientAndTotallyNotBloatedLoggingSystemEverDesigned {
                 if (specialCharacters) {
                     if (niceFormatting) {
                         // Writes the log message to the file in a nice JSON format
-                        fw.append("{\n  \"level\": \"").append(String.valueOf(level)).append("\",\n  \"message\": \"").append(message).append("\"\n}");
+                        fw.append("{\n  \"level\": \"")
+                                .append(String.valueOf(level))
+                                .append("\",\n  \"message\": \"")
+                                .append(message).append("\"\n}");
                     } else {
                         // Writes the log message to the file in a JSON format
-                        fw.append("{\"level\":\"").append(String.valueOf(level)).append("\",\"message\":\"").append(message).append("\"}");
+                        fw.append("{\"level\":\"").append(String.valueOf(level))
+                                .append("\",\"message\":\"").append(message)
+                                .append("\"}");
                     }
                 } else {
                     if (niceFormatting) {
                         // Writes the log message to the file in a nice JSON format, removing special characters
-                        fw.append("{\n  \"level\": \"").append(String.valueOf(level)).append("\",\n  \"message\": \"").append(message.replaceAll("[^a-zA-Z0-9]", "")).append("\"\n}");
+                        fw.append("{\n  \"level\": \"")
+                                .append(String.valueOf(level))
+                                .append("\",\n  \"message\": \"")
+                                .append(message.replaceAll("[^a-zA-Z0-9]", ""))
+                                .append("\"\n}");
                     } else {
                         // Writes the log message to the file in a JSON format, removing special characters
-                        fw.append("{\"level\":\"").append(String.valueOf(level)).append("\",\"message\":\"").append(message.replaceAll("[^a-zA-Z0-9]", "")).append("\"}");
+                        fw.append("{\"level\":\"").append(String.valueOf(level))
+                                .append("\",\"message\":\"")
+                                .append(message.replaceAll("[^a-zA-Z0-9]", ""))
+                                .append("\"}");
                     }
                 }
             } else {
                 if (specialCharacters) {
                     if (niceFormatting) {
                         // Writes the log message to the file in a nice text format
-                        fw.append(String.valueOf(level)).append(": ").append(message);
+                        fw.append(String.valueOf(level)).append(": ")
+                                .append(message);
                     } else {
                         // Writes the log message to the file in a text format
-                        fw.append(String.valueOf(level)).append(":").append(message);
+                        fw.append(String.valueOf(level)).append(":")
+                                .append(message);
                     }
                 } else {
                     if (niceFormatting) {
                         // Writes the log message to the file in a nice text format, removing special characters
-                        fw.append(String.valueOf(level)).append(": ").append(message.replaceAll("[^a-zA-Z0-9]", ""));
+                        fw.append(String.valueOf(level)).append(": ")
+                                .append(message.replaceAll("[^a-zA-Z0-9]", ""));
                     } else {
                         // Writes the log message to the file in a text format, removing special characters
-                        fw.append(String.valueOf(level)).append(":").append(message.replaceAll("[^a-zA-Z0-9]", ""));
+                        fw.append(String.valueOf(level)).append(":")
+                                .append(message.replaceAll("[^a-zA-Z0-9]", ""));
                     }
                 }
             }
@@ -161,10 +192,16 @@ public class TheMostEfficientAndTotallyNotBloatedLoggingSystemEverDesigned {
      * @param niceFormatting
      * @param newLine
      */
-    public void logToFileAndConsole(LoggingLevelForTheMostEfficientLoggingSystemEver level, String message, String fileName, boolean asJson, boolean specialCharacters, boolean niceFormatting, boolean newLine) {
+    public void logToFileAndConsole(
+            LoggingLevelForTheMostEfficientLoggingSystemEver level,
+            String message, String fileName, boolean asJson,
+            boolean specialCharacters, boolean niceFormatting,
+            boolean newLine) {
         // Logs to console
-        logToConsoleAsTextOrJsonWithOrWithoutSpecialCharacters(level, message, asJson, specialCharacters, niceFormatting, newLine);
+        logToConsoleAsTextOrJsonWithOrWithoutSpecialCharacters(level, message,
+                asJson, specialCharacters, niceFormatting, newLine);
         // Logs to file
-        logToFileProbablyAsJson(level, message, fileName, asJson, specialCharacters, niceFormatting, newLine);
+        logToFileProbablyAsJson(level, message, fileName, asJson,
+                specialCharacters, niceFormatting, newLine);
     }
 }

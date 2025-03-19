@@ -1,12 +1,17 @@
 package com.example.automotiveapp.logging.dsl;
 
+import com.example.automotiveapp.logging.LogMapper;
+import com.example.automotiveapp.logging.filter.LogFilter;
+import com.example.automotiveapp.logging.formatter.LogFormatter;
 import com.example.automotiveapp.logging.handler.LogHandler;
+
+import java.util.List;
 
 public class HandlerExpression implements Expression<LogHandler> {
     private final String name;
     private String filename;
-    private final FormatterExpression formatter;
-    private final FiltersExpression filters;
+    private final Expression<LogFormatter> formatter;
+    private final Expression<List<LogFilter>> filters;
 
     public HandlerExpression(String name, String filename, FormatterExpression formatter, FiltersExpression filters) {
         this.name = name;
@@ -25,7 +30,7 @@ public class HandlerExpression implements Expression<LogHandler> {
     public LogHandler accept(Visitor visitor) {
         var formatter = this.formatter.accept(visitor);
         var filters = this.filters.accept(visitor);
-        return visitor.visitHandler(name, filename, formatter, filters);
+        return visitor.visitHandler(new LogMapper.LogHandlerConfig(name, filename), formatter, filters);
     }
 
 }

@@ -1,6 +1,10 @@
 package com.example.automotiveapp.domain.User;
 
-import com.example.automotiveapp.domain.*;
+import com.example.automotiveapp.domain.Comment;
+import com.example.automotiveapp.domain.File;
+import com.example.automotiveapp.domain.Like;
+import com.example.automotiveapp.domain.Post;
+import com.example.automotiveapp.domain.Role;
 import com.example.automotiveapp.domain.article.Article;
 import com.example.automotiveapp.domain.forum.Forum;
 

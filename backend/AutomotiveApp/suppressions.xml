@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE suppressions PUBLIC
+        "-//Checkstyle//DTD SuppressionFilter Configuration 1.2//EN"
+        "https://checkstyle.org/dtds/suppressions_1_2.dtd">
+
+<suppressions>
+    <suppress files="TheMostEfficientAndTotallyNotBloatedLoggingSystemEverDesigned.java" checks=".*"/>
+    <suppress files=".*Factory.java" checks=".*"/>
+    <suppress files=".*Controller.java" checks="ParameterNumber"/>
+    <suppress files=".*Repository.java" checks="ParameterNumber"/>
+    <suppress files="test[\\/]" checks=".*"/>
+</suppressions>

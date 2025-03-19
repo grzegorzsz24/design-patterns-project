@@ -1,6 +1,6 @@
 package com.example.automotiveapp.domain.message;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 

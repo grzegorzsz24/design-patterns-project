@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Service
 public class ConcreteMessageFactory extends MessageFactory {
 
+    @SuppressWarnings("checkstyle:ParameterNumber")
     @Override
     public Message createTextMessage(Channel channel, User sender, String content,
                                               User receiver, LocalDateTime createdAt) {

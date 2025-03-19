@@ -2,11 +2,18 @@ package com.example.automotiveapp.controller;
 
 import com.example.automotiveapp.dto.UserDto;
 import com.example.automotiveapp.reponse.ApiResponse;
-import com.example.automotiveapp.service.*;
+import com.example.automotiveapp.service.Command;
+import com.example.automotiveapp.service.CommandInvoker;
+import com.example.automotiveapp.service.FriendshipService;
+import com.example.automotiveapp.service.RemoveFriendCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 

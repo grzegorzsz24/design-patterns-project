@@ -9,7 +9,10 @@ import com.example.automotiveapp.exception.BadRequestException;
 import com.example.automotiveapp.exception.ResourceNotFoundException;
 import com.example.automotiveapp.mapper.PostDtoMapper;
 import com.example.automotiveapp.reponse.PostResponse;
-import com.example.automotiveapp.repository.*;
+import com.example.automotiveapp.repository.FileRepository;
+import com.example.automotiveapp.repository.LikeRepository;
+import com.example.automotiveapp.repository.PostRepository;
+import com.example.automotiveapp.repository.UserRepository;
 import com.example.automotiveapp.request.PostSaveRequest;
 import com.example.automotiveapp.service.ContentFeed;
 import com.example.automotiveapp.service.media.MediaAlbum;
@@ -28,7 +31,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 // L5 Interface Segregation - third usage
 @Service
@@ -45,14 +50,7 @@ public class PostService implements PostSearchService, PostPersistenceService {
 
     @Transactional
     public PostDto savePost(PostSaveRequest postToSave) {
-        Post post = new Post();
-        post.setContent(postToSave.getContent());
-        post.setUser(userRepository.findByEmail(SecurityUtils.getCurrentUserEmail())
-                .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono użytkownika")));
-        post.setPostedAt(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
-        post.setLiked(false);
-        post.setLikesNumber(0);
-        post.setCommentsNumber(0);
+        Post post = getPost(postToSave.getContent());
 
         // L2 Composite - first usage
         if (postToSave.getFiles() != null) {
@@ -73,6 +71,18 @@ public class PostService implements PostSearchService, PostPersistenceService {
         Post savedPost = postRepository.save(post);
         fileRepository.saveAll(post.getFiles());
         return PostDtoMapper.map(savedPost);
+    }
+
+    private Post getPost(String content) {
+        Post post = new Post();
+        post.setContent(content);
+        post.setUser(userRepository.findByEmail(SecurityUtils.getCurrentUserEmail())
+                .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono użytkownika")));
+        post.setPostedAt(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
+        post.setLiked(false);
+        post.setLikesNumber(0);
+        post.setCommentsNumber(0);
+        return post;
     }
 
     public void deletePost(Long id) {
@@ -124,19 +134,17 @@ public class PostService implements PostSearchService, PostPersistenceService {
             }
         }
         PostDtoCollectorVisitor visitor = new PostDtoCollectorVisitor(likeRepository);
-
         compositeFeed.accept(visitor);
 
-        List<PostDto> postDtos = visitor.getCollectedPosts();
+        return getPostResponse(pageable, visitor.getCollectedPosts());
+    }
 
+    private PostResponse getPostResponse(Pageable pageable, List<PostDto> postDtos) {
         postDtos.sort(Comparator.comparing(PostDto::getPostedAt).reversed());
-
         int start = (int) pageable.getOffset();
         int end = Math.min(start + pageable.getPageSize(), postDtos.size());
         List<PostDto> paginatedPosts = postDtos.subList(start, end);
-        long totalPosts = postDtos.size();
-
-        return new PostResponse(paginatedPosts, totalPosts);
+        return new PostResponse(paginatedPosts, postDtos.size());
     }
 
     public PostResponse getUserPosts(Long userId, Pageable pageable) {

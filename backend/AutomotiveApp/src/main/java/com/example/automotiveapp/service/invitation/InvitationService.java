@@ -1,14 +1,13 @@
 package com.example.automotiveapp.service.invitation;
 
-import com.example.automotiveapp.domain.*;
+import com.example.automotiveapp.domain.InvitationStatus;
 import com.example.automotiveapp.domain.User.User;
 import com.example.automotiveapp.domain.invitation.Invitation;
 import com.example.automotiveapp.domain.invitation.InvitationBuilder;
 import com.example.automotiveapp.dto.InvitationDto;
 import com.example.automotiveapp.exception.ResourceNotFoundException;
 import com.example.automotiveapp.mapper.InvitationDtoMapper;
-import com.example.automotiveapp.repository.ChannelRepository;
-import com.example.automotiveapp.repository.FriendshipRepository;
+import com.example.automotiveapp.repository.InvitationRepositories;
 import com.example.automotiveapp.repository.InvitationRepository;
 import com.example.automotiveapp.repository.UserRepository;
 import com.example.automotiveapp.service.utils.SecurityUtils;
@@ -24,8 +23,7 @@ import java.util.Optional;
 public class InvitationService {
     private final InvitationRepository invitationRepository;
     private final UserRepository userRepository;
-    private final FriendshipRepository friendshipRepository;
-    private final ChannelRepository channelRepository;
+    private final InvitationRepositories invitationRepositories;
 
     public List<InvitationDto> getPendingInvitations() {
         User receiver = userRepository.findByEmail(SecurityUtils.getCurrentUserEmail())
@@ -58,7 +56,7 @@ public class InvitationService {
         Invitation invitation = invitationRepository.findById(invitationId)
                 .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono zaproszenia"));
 
-        invitation.getState().accept(invitation, invitationRepository, friendshipRepository, channelRepository);
+        invitation.getState().accept(invitation, invitationRepositories);
 
         // L3 Visitor - third usage
         InvitationStateVisitor visitor = new LoggingInvitationVisitor();

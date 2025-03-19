@@ -1,8 +1,10 @@
 package com.example.automotiveapp.service;
 
 import com.example.automotiveapp.config.jwt.JwtService;
-import com.example.automotiveapp.domain.*;
+import com.example.automotiveapp.domain.File;
+import com.example.automotiveapp.domain.InvitationStatus;
 import com.example.automotiveapp.domain.User.User;
+import com.example.automotiveapp.domain.UserFriendshipStatus;
 import com.example.automotiveapp.domain.friendship.Friendship;
 import com.example.automotiveapp.domain.invitation.Invitation;
 import com.example.automotiveapp.dto.UserDto;
@@ -36,8 +38,9 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class
-UserService {
+public class UserService {
+    private static final int MAX_AGE = 7 * 24 * 60 * 60;
+
     private final UserRepository userRepository;
     private final FileStorageService fileStorageService;
     private final FileRepository fileRepository;
@@ -81,21 +84,11 @@ UserService {
                 .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono użytkownika"));
 
         if (fields.containsKey("email")) {
-            String email = (String) fields.get("email");
-            if (email.equals(user.getEmail())) {
-                throw new BadRequestException("Podałeś swój aktualny email");
-            } else if (userRepository.findByEmail(email).isPresent()) {
-                throw new BadRequestException("Użytkownik z podanym emailem już istnieje");
-            }
+            checkForEmail(user, (String) fields.get("email"));
         }
 
         if (fields.containsKey("nickname")) {
-            String nickname = (String) fields.get("nickname");
-            if (nickname.equals(user.getNickname())) {
-                throw new BadRequestException("Podałes swój aktualny nickname");
-            } else if (userRepository.findByNicknameIgnoreCase(nickname).isPresent()) {
-                throw new BadRequestException("Użytkownik z podanym nickname już istnieje");
-            }
+            checkForEmail(user, (String) fields.get("nickname"));
         }
 
         fields.forEach((key, value) -> {
@@ -107,6 +100,22 @@ UserService {
 
         userRepository.save(user);
         updateSecurityContext(response, user);
+    }
+
+    private void checkForEmail(User user, String email) {
+        if (email.equals(user.getEmail())) {
+            throw new BadRequestException("Podałeś swój aktualny email");
+        } else if (userRepository.findByEmail(email).isPresent()) {
+            throw new BadRequestException("Użytkownik z podanym emailem już istnieje");
+        }
+    }
+
+    private void checkForNickname(User user, String nickname) {
+        if (nickname.equals(user.getNickname())) {
+            throw new BadRequestException("Podałes swój aktualny nickname");
+        } else if (userRepository.findByNicknameIgnoreCase(nickname).isPresent()) {
+            throw new BadRequestException("Użytkownik z podanym nickname już istnieje");
+        }
     }
 
     private void updateSecurityContext(HttpServletResponse response, User user) {
@@ -124,7 +133,7 @@ UserService {
         var newJwt = jwtService.generateToken(user);
         Cookie jwtCookie = new Cookie("jwt", newJwt);
         jwtCookie.setPath("/");
-        jwtCookie.setMaxAge(7 * 24 * 60 * 60);
+        jwtCookie.setMaxAge(MAX_AGE);
         jwtCookie.setHttpOnly(true);
         response.addCookie(jwtCookie);
     }
@@ -153,16 +162,6 @@ UserService {
         userRepository.save(user);
     }
 
-//    public List<UserDto> searchUsers(String keyword, Pageable pageable) {
-//        List<UserDto> userlist = userRepository.searchUsers(keyword, pageable).stream()
-//                .map(UserDtoMapper::map)
-//                .toList();
-//        if (userlist.isEmpty()) {
-//            throw new ResourceNotFoundException("Nie znaleziono żadnego użytkownika");
-//        }
-//        return userlist;
-//    }
-
     public Optional<UserDto> findUserById(Long userId) {
         return userRepository.findById(userId).map(UserDtoMapper::map);
     }
@@ -175,10 +174,8 @@ UserService {
     }
 
     public Optional<UserProfileDto> findUserProfile(String nickname) {
-        User user = userRepository.findByNicknameIgnoreCase(nickname)
-                .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono użytkownika o podanym nickname"));
-        User loggedInUser = userRepository.findByEmail(SecurityUtils.getCurrentUserEmail())
-                .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono użytkownika o podanym emailu"));
+        User user = findByNickname(nickname);
+        User loggedInUser = findByEmail(SecurityUtils.getCurrentUserEmail());
         UserProfileDto userProfileDto = userRepository.findByNicknameIgnoreCase(nickname).map(UserProfileDtoMapper::map)
                 .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono użytkownika o podanym nickname"));
         Optional<Friendship> friendship1 = friendshipRepository.findByUser1AndUser2(user, loggedInUser);
@@ -198,5 +195,15 @@ UserService {
             userProfileDto.setStatus(UserFriendshipStatus.NOT_FRIENDS);
         }
         return Optional.of(userProfileDto);
+    }
+
+    private User findByNickname(String nickname) {
+        return userRepository.findByNicknameIgnoreCase(nickname)
+                .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono użytkownika o podanym nickname"));
+    }
+
+    private User findByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono użytkownika o podanym emailu"));
     }
 }

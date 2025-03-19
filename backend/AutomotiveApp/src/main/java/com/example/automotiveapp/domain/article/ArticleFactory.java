@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 // L5 Liskov Substitution - first impl
 public abstract class ArticleFactory {
 
+    @SuppressWarnings("checkstyle:ParameterNumber")
     public Article create(
             Long id,
             String title,
@@ -23,6 +24,7 @@ public abstract class ArticleFactory {
         return article;
     }
 
+    @SuppressWarnings("checkstyle:ParameterNumber")
     public abstract Article createArticle(
             Long id,
             String title,

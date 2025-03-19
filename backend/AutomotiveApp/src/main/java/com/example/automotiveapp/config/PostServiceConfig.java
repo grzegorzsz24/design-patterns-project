@@ -1,6 +1,8 @@
 package com.example.automotiveapp.config;
 
-import com.example.automotiveapp.service.post.*;
+import com.example.automotiveapp.service.post.AuthorizationPostServiceDecorator;
+import com.example.automotiveapp.service.post.PostPersistenceService;
+import com.example.automotiveapp.service.post.PostSearchService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;

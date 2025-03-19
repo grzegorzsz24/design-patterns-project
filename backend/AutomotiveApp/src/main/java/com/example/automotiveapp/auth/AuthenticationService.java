@@ -23,6 +23,9 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
+    private static final int MAX_AGE = 7 * 24 * 60 * 60;
+    private static final int EXPIRATION_DAYS = 7;
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
@@ -35,8 +38,7 @@ public class AuthenticationService {
         file.setFileUrl("default_profile_picture.jpg");
         Role userRole = roleRepository.findByName("USER").orElseGet(() -> {
             // start L1 Prototype - third usage
-            Role newUserRole = new Role(RoleName.USER_ROLE.clone());
-            return roleRepository.save(newUserRole);
+            return roleRepository.save(new Role(RoleName.USER_ROLE.clone()));
         });
 
         // start L1 Builder - first usage
@@ -58,29 +60,16 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest, HttpServletResponse response) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        authenticationRequest.getEmail(),
-                        authenticationRequest.getPassword()
-                )
-        );
-        var user = userRepository.findByEmail(authenticationRequest.getEmail())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        var authentication = new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getPassword());
+        authenticationManager.authenticate(authentication);
+
+        var user = userRepository.findByEmail(authenticationRequest.getEmail()).orElseThrow(() -> new RuntimeException("User not found"));
         var jwtToken = jwtService.generateToken(user);
-        Cookie cookie = new Cookie("jwt", jwtToken);
-        cookie.setMaxAge(7 * 24 * 60 * 60);
-        cookie.setSecure(false);
-        cookie.setHttpOnly(true);
-        cookie.setPath("/");
+        Cookie cookie = getCookie(jwtToken);
         response.addCookie(cookie);
-        String cookieValue = "jwt=" + jwtToken + "; Max-Age=" + (7 * 24 * 60 * 60) + "; Secure; HttpOnly; Path=/; SameSite=None";
-        response.addHeader("Set-Cookie", cookieValue);
-        response.setHeader("Access-Control-Allow-Headers", "Date, Content-Type, Accept, " +
-                "X-Requested-With, Authorization, From, X-Auth-Token, Request-Id");
-        response.setHeader("Access-Control-Expose-Headers", "Set-Cookie");
-        response.setHeader("Access-Control-Allow-Credentials", "true");
-        String userId = String.valueOf(user.getId());
-        LocalDateTime expirationDate = LocalDateTime.now().plusDays(7).truncatedTo(ChronoUnit.SECONDS);
+        setHeaders(response, "jwt=" + jwtToken + "; Max-Age=" + (MAX_AGE) + "; Secure; HttpOnly; Path=/; SameSite=None");
+
+        LocalDateTime expirationDate = LocalDateTime.now().plusDays(EXPIRATION_DAYS).truncatedTo(ChronoUnit.SECONDS);
         String resourceUrl = "http://localhost:8080/images/" + user.getFile().getFileUrl();
         return AuthenticationResponse.builder()
                 .firstName(user.getFirstName())
@@ -89,9 +78,25 @@ public class AuthenticationService {
                 .email(user.getEmail())
                 .imageUrl(resourceUrl)
                 .cookieExpirationDate(expirationDate.toString())
-                .userId(userId)
+                .userId(String.valueOf(user.getId()))
                 .publicProfile(user.isPublicProfile())
                 .role(user.getRoles().stream().findFirst().get().getRoleName().getName())
                 .build();
+    }
+
+    private Cookie getCookie(String jwtToken) {
+        Cookie cookie = new Cookie("jwt", jwtToken);
+        cookie.setMaxAge(MAX_AGE);
+        cookie.setSecure(false);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        return cookie;
+    }
+
+    private void setHeaders(HttpServletResponse response, String cookieValue) {
+        response.addHeader("Set-Cookie", cookieValue);
+        response.setHeader("Access-Control-Allow-Headers", "Date, Content-Type, Accept, X-Requested-With, Authorization, From, X-Auth-Token, Request-Id");
+        response.setHeader("Access-Control-Expose-Headers", "Set-Cookie");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
     }
 }

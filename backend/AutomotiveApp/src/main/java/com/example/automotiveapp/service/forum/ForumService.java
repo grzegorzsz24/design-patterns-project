@@ -2,6 +2,7 @@ package com.example.automotiveapp.service.forum;
 
 import com.example.automotiveapp.domain.forum.Forum;
 import com.example.automotiveapp.domain.forum.ForumCollection;
+import com.example.automotiveapp.dto.FiltersDto;
 import com.example.automotiveapp.dto.ForumDto;
 import com.example.automotiveapp.dto.ReportDto;
 import com.example.automotiveapp.exception.ResourceNotFoundException;
@@ -59,10 +60,10 @@ public class ForumService {
     }
 
 
-    public ForumResponse findAllByFilters(String title, String carBrand, String carModel, int page, int size) {
-        Pageable pageable = PageRequest.of(page - 1, size);
-        Long totalResults = forumRepository.countByTitleAndCarBrandAndCarModel(title, carBrand, carModel);
-        List<Forum> forumList = forumRepository.findAllByTitleAndCarBrandAndCarModelOrderByCreatedAtDesc(title, carBrand, carModel, pageable);
+    public ForumResponse findAllByFilters(FiltersDto filters) {
+        Pageable pageable = PageRequest.of(filters.page() - 1, filters.size());
+        Long totalResults = forumRepository.countByTitleAndCarBrandAndCarModel(filters.title(), filters.carBrand(), filters.carModel());
+        List<Forum> forumList = forumRepository.findAllByTitleAndCarBrandAndCarModelOrderByCreatedAtDesc(filters.title(), filters.carBrand(), filters.carModel(), pageable);
 
         ContentFeed compositeFeed = new ContentFeed();
         for (Forum forum : forumList) {

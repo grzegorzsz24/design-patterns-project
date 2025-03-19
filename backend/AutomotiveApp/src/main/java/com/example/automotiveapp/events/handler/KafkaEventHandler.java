@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 public class KafkaEventHandler implements EventHandler {
 
     private static final Logger logger = LoggerFactory.getInstance();
+    private static final int SLEEP = 1000;
 
     private final EventBus eventBus;
 
@@ -22,7 +23,7 @@ public class KafkaEventHandler implements EventHandler {
     @Override
     public void update(Event event) {
         try {
-            Thread.sleep(1000);
+            Thread.sleep(SLEEP);
             logger.log("Successfully sent event: " + event.toString());
         } catch (InterruptedException e) {
             eventBus.emit(new Event("KafkaService", "Failed to send" + event));

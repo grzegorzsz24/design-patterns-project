@@ -1,9 +1,9 @@
 package com.example.automotiveapp.service.comment;
 
 import com.example.automotiveapp.domain.Comment;
+import com.example.automotiveapp.domain.Post;
 import com.example.automotiveapp.domain.comment.CommentCollection;
 import com.example.automotiveapp.domain.forum.Forum;
-import com.example.automotiveapp.domain.Post;
 import com.example.automotiveapp.dto.CommentDto;
 import com.example.automotiveapp.exception.ResourceNotFoundException;
 import com.example.automotiveapp.mapper.CommentDtoMapper;
@@ -15,7 +15,11 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 // L5 Interface Segregation - second usage
 @Service

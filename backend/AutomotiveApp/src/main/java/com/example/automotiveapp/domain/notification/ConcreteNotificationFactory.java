@@ -11,6 +11,7 @@ public class ConcreteNotificationFactory extends NotificationFactory {
     private ConcreteNotificationFactory() {
     }
 
+    @SuppressWarnings("checkstyle:ParameterNumber")
     @Override
     protected Notification createNotification(NotificationType type, User userTriggered, User receiver, Long entityId, String content) {
         ConcreteNotification notification = new ConcreteNotification();

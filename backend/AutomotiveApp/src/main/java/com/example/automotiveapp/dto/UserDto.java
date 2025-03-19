@@ -16,20 +16,20 @@ import java.util.Date;
 public class UserDto {
     private Long id;
     @NotBlank
-    @Size(min = 2, max = 50)
+    @Size(min = 2, max = ValidationConstants.MAX_NAME_LENGTH)
     private String firstName;
     @NotBlank
-    @Size(min = 2, max = 50)
+    @Size(min = 2, max = ValidationConstants.MAX_SURNAME_LENGTH)
     private String lastName;
     @NotBlank
-    @Size(min = 2, max = 50)
+    @Size(min = 2, max = ValidationConstants.MAX_NICKNAME_LENGTH)
     private String nickname;
     @Email
     private String email;
     @NotNull
     private Date dateOfBirth;
     @NotBlank
-    @Size(min = 8)
+    @Size(min = ValidationConstants.MIN_PASSWORD_LENGTH)
     private String password;
     private boolean publicProfile;
     private String imageUrl;

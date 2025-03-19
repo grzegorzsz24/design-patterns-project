@@ -1,15 +1,14 @@
 package com.example.automotiveapp.domain.invitation;
 
 import com.example.automotiveapp.exception.BadRequestException;
-import com.example.automotiveapp.repository.ChannelRepository;
-import com.example.automotiveapp.repository.FriendshipRepository;
+import com.example.automotiveapp.repository.InvitationRepositories;
 import com.example.automotiveapp.repository.InvitationRepository;
 import com.example.automotiveapp.service.invitation.InvitationStateVisitor;
 
 public class RejectedInvitationState implements InvitationState {
 
     @Override
-    public void accept(Invitation invitation, InvitationRepository invitationRepository, FriendshipRepository friendshipRepository, ChannelRepository channelRepository) {
+    public void accept(Invitation invitation, InvitationRepositories invitationRepositories) {
         throw new BadRequestException("Zaproszenie jest odrzucone. Nie można go już zaakceptować.");
 
     }

@@ -4,28 +4,27 @@ import com.example.automotiveapp.domain.Channel;
 import com.example.automotiveapp.domain.InvitationStatus;
 import com.example.automotiveapp.domain.friendship.Friendship;
 import com.example.automotiveapp.domain.friendship.FriendshipBuilder;
-import com.example.automotiveapp.repository.ChannelRepository;
-import com.example.automotiveapp.repository.FriendshipRepository;
+import com.example.automotiveapp.repository.InvitationRepositories;
 import com.example.automotiveapp.repository.InvitationRepository;
 import com.example.automotiveapp.service.invitation.InvitationStateVisitor;
 
 public class PendingInvitationState implements InvitationState{
 
     @Override
-    public void accept(Invitation invitation, InvitationRepository invitationRepository, FriendshipRepository friendshipRepository, ChannelRepository channelRepository) {
+    public void accept(Invitation invitation, InvitationRepositories invitationRepositories) {
         invitation.setStatus(InvitationStatus.ACCEPTED);
-        invitationRepository.save(invitation);
+        invitationRepositories.getInvitationRepository().save(invitation);
 
         Friendship friendship = new FriendshipBuilder()
                 .user1(invitation.getSender())
                 .user2(invitation.getReceiver())
                 .build();
-        friendshipRepository.save(friendship);
+        invitationRepositories.getFriendshipRepository().save(friendship);
 
         Channel channel = new Channel();
         channel.setSender(invitation.getReceiver());
         channel.setReceiver(invitation.getSender());
-        channelRepository.save(channel);
+        invitationRepositories.getChannelRepository().save(channel);
 
         invitation.setState(new AcceptedInvitationState());
     }

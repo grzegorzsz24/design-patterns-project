@@ -1,5 +1,6 @@
 package com.example.automotiveapp.auth;
 
+import com.example.automotiveapp.dto.ValidationConstants;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -16,6 +17,6 @@ public class AuthenticationRequest {
     @Email
     private String email;
     @NotBlank
-    @Size(min = 8)
+    @Size(min = ValidationConstants.MIN_PASSWORD_LENGTH)
     private String password;
 }

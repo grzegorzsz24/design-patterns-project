@@ -2,7 +2,15 @@ package com.example.automotiveapp.domain.invitation;
 
 import com.example.automotiveapp.domain.InvitationStatus;
 import com.example.automotiveapp.domain.User.User;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Transient;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,12 +34,10 @@ public class Invitation {
     private InvitationState state;
 
     public InvitationState getState() {
-        if (this.status == InvitationStatus.PENDING) {
-            return new PendingInvitationState();
-        } else if (this.status == InvitationStatus.ACCEPTED) {
-            return new AcceptedInvitationState();
-        } else {
-            return new RejectedInvitationState();
-        }
+        return switch (status) {
+            case PENDING -> new PendingInvitationState();
+            case ACCEPTED -> new AcceptedInvitationState();
+            case REJECTED -> new RejectedInvitationState();
+        };
     }
 }

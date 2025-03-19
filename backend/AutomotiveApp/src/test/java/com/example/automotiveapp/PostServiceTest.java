@@ -3,13 +3,17 @@ package com.example.automotiveapp;
 import com.example.automotiveapp.domain.File;
 import com.example.automotiveapp.domain.Post;
 import com.example.automotiveapp.domain.User.User;
-import com.example.automotiveapp.request.PostSaveRequest;
 import com.example.automotiveapp.dto.PostDto;
 import com.example.automotiveapp.exception.BadRequestException;
 import com.example.automotiveapp.exception.ResourceNotFoundException;
 import com.example.automotiveapp.mapper.ReportDtoMapper;
 import com.example.automotiveapp.reponse.PostResponse;
-import com.example.automotiveapp.repository.*;
+import com.example.automotiveapp.repository.FileRepository;
+import com.example.automotiveapp.repository.LikeRepository;
+import com.example.automotiveapp.repository.PostRepository;
+import com.example.automotiveapp.repository.ReportRepository;
+import com.example.automotiveapp.repository.UserRepository;
+import com.example.automotiveapp.request.PostSaveRequest;
 import com.example.automotiveapp.service.post.PostService;
 import com.example.automotiveapp.service.utils.SecurityUtils;
 import com.example.automotiveapp.storage.FileStorageService;
@@ -28,13 +32,27 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyLong;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.when;
 
 @ActiveProfiles(profiles = "dev")
 public class PostServiceTest {
+    private static final int PAGE_SIZE = 10;
+
     @Mock
     private PostRepository postRepository;
     @Mock
@@ -75,7 +93,7 @@ public class PostServiceTest {
         publicUser.setNickname("nick1");
         publicUser.setFile(new File());
 
-        Pageable pageable = PageRequest.of(0, 10);
+        Pageable pageable = PageRequest.of(0, PAGE_SIZE);
 
         List<Post> publicUserPosts = new ArrayList<>();
         Post post1 = new Post();
@@ -108,7 +126,7 @@ public class PostServiceTest {
         privateUser.setId(1L);
         privateUser.setPublicProfile(false);
 
-        Pageable pageable = PageRequest.of(0, 10);
+        Pageable pageable = PageRequest.of(0, PAGE_SIZE);
         when(userRepository.findById(1L)).thenReturn(Optional.of(privateUser));
 
         assertThrows(BadRequestException.class, () -> postService.getUserPosts(1L, pageable));
