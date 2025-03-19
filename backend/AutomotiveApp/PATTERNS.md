@@ -107,7 +107,15 @@ Dependency inversion
     - ChannelService
 
 ## Other
-Linter
+Refactoring:
+    - clear naming scheme (checkstyle)
+    - method length (checkstyle)
+    - one responsibility functions (manual)
+    - abstraction level
+    - max 3 parameters (checkstyle)
+    - exceptions instead of error codes (manual)
+    - no duplicate code (ide)
+    - no magic numbers (checkstyle)
 Functional interfaces:
     - LogFilter
     - LogFormatter
