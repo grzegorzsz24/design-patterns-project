@@ -26,7 +26,7 @@ public class SavedArticleService {
     private final SavedArticleRepository savedArticleRepository;
     private final ArticleRepository articleRepository;
     private final UserRepository userRepository;
-    private final LikeRepository likeRepository;
+    //private final LikeRepository likeRepository;
 
     @Transactional
     public void saveArticle(Long articleId) {
@@ -44,24 +44,24 @@ public class SavedArticleService {
         }
     }
 
-    public List<ArticleDto> findSavedArticles(int page, int size) {
-        Long userId = userRepository.findByEmail(SecurityUtils.getCurrentUserEmail())
-                .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono użytkownika")).getId();
-        Pageable pageable = PageRequest.of(page - 1, size);
-        List<SavedArticle> savedArticles = savedArticleRepository.findAllByUserId(userId, pageable);
-        List<Article> articles = new ArrayList<>();
-        List<ArticleDto> articleDtos = new ArrayList<>();
-        savedArticles.forEach(val -> articles.add(val.getArticle()));
-        setArticlesLikesAndSavedStatus(articles, articleDtos);
-        return articleDtos;
-    }
-
-    private void setArticlesLikesAndSavedStatus(List<Article> articles, List<ArticleDto> articleDtos) {
-        for (Article article : articles) {
-            ArticleDto articleDto = ArticleDtoMapper.map(article);
-            articleDto.setLiked(likeRepository.getLikeByUser_EmailAndArticleId(SecurityUtils.getCurrentUserEmail(), article.getId()).isPresent());
-            articleDto.setSaved(savedArticleRepository.findByUserEmailAndArticle_Id(SecurityUtils.getCurrentUserEmail(), article.getId()).isPresent());
-            articleDtos.add(articleDto);
-        }
-    }
+//    public List<ArticleDto> findSavedArticles(int page, int size) {
+//        Long userId = userRepository.findByEmail(SecurityUtils.getCurrentUserEmail())
+//                .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono użytkownika")).getId();
+//        Pageable pageable = PageRequest.of(page - 1, size);
+//        List<SavedArticle> savedArticles = savedArticleRepository.findAllByUserId(userId, pageable);
+//        List<Article> articles = new ArrayList<>();
+//        List<ArticleDto> articleDtos = new ArrayList<>();
+//        savedArticles.forEach(val -> articles.add(val.getArticle()));
+//        setArticlesLikesAndSavedStatus(articles, articleDtos);
+//        return articleDtos;
+//    }
+//
+//    private void setArticlesLikesAndSavedStatus(List<Article> articles, List<ArticleDto> articleDtos) {
+//        for (Article article : articles) {
+//            ArticleDto articleDto = ArticleDtoMapper.map(article);
+//            articleDto.setLiked(likeRepository.getLikeByUser_EmailAndArticleId(SecurityUtils.getCurrentUserEmail(), article.getId()).isPresent());
+//            articleDto.setSaved(savedArticleRepository.findByUserEmailAndArticle_Id(SecurityUtils.getCurrentUserEmail(), article.getId()).isPresent());
+//            articleDtos.add(articleDto);
+//        }
+//    }
 }

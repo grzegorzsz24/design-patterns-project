@@ -88,8 +88,15 @@ Visitor:
 
 ## Solid
 
-Single responsibility
-Open–closed
+Single responsibility:
+    - FindSavedArticleService
+    - FindSavedForumService
+    - SearchCommentServiceImpl
+Open–closed:
+    - SavedArticleController
+    - PersistenceCommentServiceImpl
+    - ArticleService
+    - LikeMediatorImpl
 Liskov substitution:
     - ArticleFactory
     - LogHandler

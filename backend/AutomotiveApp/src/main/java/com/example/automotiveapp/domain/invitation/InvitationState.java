@@ -6,6 +6,13 @@ import com.example.automotiveapp.service.invitation.InvitationStateVisitor;
 
 public interface InvitationState {
 
+    // L6 3 parameters - after
+    // void accept(Invitation invitation,
+    //        InvitationRepository invitationRepository,
+    //        FriendshipRepository friendshipRepository,
+    //        ChannelRepository channelRepository);
+
+    // L6 3 parameters - after
     void accept(Invitation invitation, InvitationRepositories invitationRepositories);
 
     void reject(Invitation invitation,

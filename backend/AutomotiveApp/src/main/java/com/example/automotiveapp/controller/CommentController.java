@@ -1,7 +1,8 @@
 package com.example.automotiveapp.controller;
 
 import com.example.automotiveapp.dto.CommentDto;
-import com.example.automotiveapp.service.comment.CommentServiceImpl;
+import com.example.automotiveapp.service.comment.PersistenceCommentServiceImpl;
+import com.example.automotiveapp.service.comment.SearchCommentServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,12 +29,13 @@ import java.util.NoSuchElementException;
 @RequestMapping("/user/comments")
 @RequiredArgsConstructor
 public class CommentController {
-    private final CommentServiceImpl commentService;
+    private final PersistenceCommentServiceImpl persistenceCommentService;
+    private final SearchCommentServiceImpl searchCommentService;
     private final ObjectMapper objectMapper;
 
     @PostMapping
     public ResponseEntity<CommentDto> addComment(@RequestBody CommentDto comment) {
-        CommentDto savedComment = commentService.saveComment(comment);
+        CommentDto savedComment = persistenceCommentService.saveComment(comment);
         URI savedCommentURI = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(savedComment.getId())
@@ -44,9 +46,9 @@ public class CommentController {
     @PatchMapping("/{id}")
     public ResponseEntity<?> updateComment(@PathVariable Long id, @RequestBody JsonMergePatch patch) {
         try {
-            CommentDto commentDto = commentService.findCommentById(id).orElseThrow();
+            CommentDto commentDto = searchCommentService.findCommentById(id).orElseThrow();
             CommentDto commentPatched = applyPatch(commentDto, patch);
-            commentService.updateComment(commentPatched);
+            persistenceCommentService.updateComment(commentPatched);
 
         } catch (JsonPatchException | JsonProcessingException e) {
             return ResponseEntity.internalServerError().build();
@@ -58,13 +60,13 @@ public class CommentController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteComment(@PathVariable Long id) {
-        commentService.deleteComment(id);
+        persistenceCommentService.deleteComment(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/post")
     public ResponseEntity<List<CommentDto>> getPostComments(@RequestParam Long postId) {
-        return ResponseEntity.ok(commentService.findCommentsByPostId(postId));
+        return ResponseEntity.ok(searchCommentService.findCommentsByPostId(postId));
     }
 
     private CommentDto applyPatch(CommentDto commentDto, JsonMergePatch patch) throws JsonPatchException, JsonProcessingException {
@@ -75,6 +77,6 @@ public class CommentController {
 
     @GetMapping("/forum/{forumId}")
     public ResponseEntity<List<CommentDto>> getForumComments(@PathVariable Long forumId) {
-        return ResponseEntity.ok(commentService.findCommentsByForumId(forumId));
+        return ResponseEntity.ok(searchCommentService.findCommentsByForumId(forumId));
     }
 }

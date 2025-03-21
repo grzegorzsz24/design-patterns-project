@@ -37,6 +37,7 @@ public class LikeMediatorImpl implements LikeMediator {
     private final UserDtoMapper userDtoMapper;
     private final LikeDtoMapper likeDtoMapper;
 
+    // L4 Open - Closed - fourth impl
     @Override
     public LikeDto processLike(LikeDto likeDto) {
         if (likeDto.getPost() == null && likeDto.getArticle() == null) {

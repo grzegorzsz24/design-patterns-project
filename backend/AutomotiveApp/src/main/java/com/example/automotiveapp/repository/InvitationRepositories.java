@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.stereotype.Component;
 
+// L6 3 parameters - dto
 @Component
 @Getter
 @AllArgsConstructor

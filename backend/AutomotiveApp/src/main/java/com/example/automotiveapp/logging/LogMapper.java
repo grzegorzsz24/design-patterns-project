@@ -19,6 +19,10 @@ import java.util.List;
 
 public class LogMapper {
 
+    // L6 3 parameters - before
+    //public static LogHandler getLogHandler(String name, String filename, LogFormatter logFormatter, List<LogFilter> logFilters) {
+
+    // L6 3 parameters - after
     public static LogHandler getLogHandler(LogHandlerConfig config, LogFormatter logFormatter, List<LogFilter> logFilters) {
         return switch (config.name()) {
             case "FILE" -> new FileLogHandler(logFormatter, logFilters, new File(config.filename()));
@@ -51,6 +55,7 @@ public class LogMapper {
         };
     }
 
+    // L6 3 parameters - dto
     public record LogHandlerConfig(String name, String filename) {
     }
 }

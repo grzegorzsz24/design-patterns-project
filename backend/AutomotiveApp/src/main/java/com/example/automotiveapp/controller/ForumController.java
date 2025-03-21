@@ -55,7 +55,12 @@ public class ForumController {
             @RequestParam(required = false) String carBrand,
             @RequestParam(required = false) String carModel
     ) {
-        return ResponseEntity.ok(forumService.findAllByFilters(new FiltersDto(title, carBrand, carModel, page, size)));
+        // L6 3 parameters - before
+        // return ResponseEntity.ok(forumService.findAllByFilters(title, carBrand, carModel, page, size));
+
+        // L6 3 parameters - after
+        FiltersDto filters = new FiltersDto(title, carBrand, carModel, page, size);
+        return ResponseEntity.ok(forumService.findAllByFilters(filters));
     }
 
     @GetMapping("/{forumId}")

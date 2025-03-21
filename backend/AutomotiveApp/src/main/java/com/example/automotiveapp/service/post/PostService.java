@@ -117,27 +117,26 @@ public class PostService implements PostSearchService, PostPersistenceService {
         final ContentFeed compositeFeed = new ContentFeed();
 
         List<User> friends = userRepository.findUserFriends(SecurityUtils.getCurrentUserEmail());
-        for (User friend : friends) {
-            List<Post> friendPosts = postRepository.findByUserOrderByPostedAtDesc(friend);
-            for (Post p : friendPosts) {
-                compositeFeed.add(new PostContent(p));
-            }
-        }
 
-        List<User> publicProfiles = userRepository.findPublicProfiles();
-        for (User publicProfile : publicProfiles) {
-            if (!friends.contains(publicProfile)) {
-                List<Post> publicProfilePosts = postRepository.findByUserOrderByPostedAtDesc(publicProfile);
-                for (Post p : publicProfilePosts) {
-                    compositeFeed.add(new PostContent(p));
-                }
-            }
-        }
+        // L7 Stream - second usage
+        friends.stream()
+                .flatMap(friend -> postRepository.findByUserOrderByPostedAtDesc(friend).stream())
+                .map(PostContent::new)
+                .forEach(compositeFeed::add);
+
+        // L7 Stream - third usage
+        userRepository.findPublicProfiles().stream()
+                .filter(publicProfile -> !friends.contains(publicProfile))
+                .flatMap(publicProfile -> postRepository.findByUserOrderByPostedAtDesc(publicProfile).stream())
+                .map(PostContent::new)
+                .forEach(compositeFeed::add);
+
         PostDtoCollectorVisitor visitor = new PostDtoCollectorVisitor(likeRepository);
         compositeFeed.accept(visitor);
 
         return getPostResponse(pageable, visitor.getCollectedPosts());
     }
+
 
     private PostResponse getPostResponse(Pageable pageable, List<PostDto> postDtos) {
         postDtos.sort(Comparator.comparing(PostDto::getPostedAt).reversed());

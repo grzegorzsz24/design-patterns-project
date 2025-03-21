@@ -33,6 +33,7 @@ public class ArticleService implements ArticlePersistenceService, ArticleSearchS
     private final UserRepository userRepository;
     private final ArticleFactoryProvider articleFactoryProvider;
 
+    // L4 Open - Closed - third impl
     public ArticleDto saveArticle(ArticleDto articleDto) {
         if (articleRepository.findByTitle(articleDto.getTitle()).isPresent()) {
             throw new BadRequestException("Artykuł o podanym tytule już istnieje!");

@@ -41,21 +41,21 @@ public class SavedForumService {
         }
     }
 
-    public List<ForumDto> findSavedForums(int page, int size) {
-        Long userId = userRepository.findByEmail(SecurityUtils.getCurrentUserEmail())
-                .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono użytkownika")).getId();
-
-        Pageable pageable = PageRequest.of(page - 1, size);
-        List<SavedForum> savedForums = savedForumRepository.findAllByUserId(userId, pageable);
-        List<Forum> forums = new ArrayList<>();
-        List<ForumDto> forumDtos = new ArrayList<>();
-        savedForums.forEach(val -> forums.add(val.getForum()));
-        for (Forum forum : forums) {
-            ForumDto forumDto = ForumDtoMapper.map(forum);
-            forumDto.setSaved(savedForumRepository.findByUserEmailAndForum_Id(SecurityUtils.getCurrentUserEmail(), forum.getId()).isPresent());
-            forumDtos.add(forumDto);
-        }
-        return forumDtos;
-    }
+//    public List<ForumDto> findSavedForums(int page, int size) {
+//        Long userId = userRepository.findByEmail(SecurityUtils.getCurrentUserEmail())
+//                .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono użytkownika")).getId();
+//
+//        Pageable pageable = PageRequest.of(page - 1, size);
+//        List<SavedForum> savedForums = savedForumRepository.findAllByUserId(userId, pageable);
+//        List<Forum> forums = new ArrayList<>();
+//        List<ForumDto> forumDtos = new ArrayList<>();
+//        savedForums.forEach(val -> forums.add(val.getForum()));
+//        for (Forum forum : forums) {
+//            ForumDto forumDto = ForumDtoMapper.map(forum);
+//            forumDto.setSaved(savedForumRepository.findByUserEmailAndForum_Id(SecurityUtils.getCurrentUserEmail(), forum.getId()).isPresent());
+//            forumDtos.add(forumDto);
+//        }
+//        return forumDtos;
+//    }
 
 }
